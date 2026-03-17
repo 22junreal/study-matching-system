@@ -55,7 +55,6 @@ Source Repository
 |------|------|-------------|
 | id | INTEGER | 사용자 고유 ID |
 | username | TEXT | 사용자 이름 |
-| password | TEXT | 사용자 비밀번호 |
 | password_hash | TEXT | 암호화된 사용자 비밀번호 |
 | created_at | DATETIME | 가입 시간 |
 
