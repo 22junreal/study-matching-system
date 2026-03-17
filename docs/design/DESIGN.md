@@ -149,6 +149,7 @@ Response
 {
   "message": "Profile saved"
 }
+
 ---
 
 ### 스터디 생성
