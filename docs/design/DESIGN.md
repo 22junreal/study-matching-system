@@ -42,6 +42,9 @@ Database
 - SQLite
 
 Deployment
+- Local environment
+
+Source Repository
 - GitHub
 
 ## 데이터베이스 설계 (ERD)
@@ -53,6 +56,7 @@ Deployment
 | id | INTEGER | 사용자 고유 ID |
 | username | TEXT | 사용자 이름 |
 | password | TEXT | 사용자 비밀번호 |
+| password_hash | TEXT | 암호화된 사용자 비밀번호 |
 | created_at | DATETIME | 가입 시간 |
 
 ---
@@ -83,15 +87,27 @@ Deployment
 | max_members | INTEGER | 모집 인원 |
 | study_day | TEXT | 모집 요일 |
 | study_time | TEXT | 모집 시간 |
-| status | TEXT | 모집 상태 |
+| status | TEXT | 모집 상태 (recruiting / closed) |
 | created_at | DATETIME | 생성 시간 |
+
+### study_members
+
+| column | type | description |
+|------|------|-------------|
+| id | INTEGER | 참여 ID |
+| study_id | INTEGER | 스터디 ID (studies.id 참조) |
+| user_id | INTEGER | 참여 사용자 ID (users.id 참조) |
+| joined_at | DATETIME | 참여 신청 시간 |
+| status | TEXT | 참여 상태 (pending / approved / rejected) |
 
 ---
 
 ### 테이블 관계
 
 users (1) —— (1) profiles  
-users (1) —— (N) studies
+users (1) —— (N) studies  
+users (1) —— (N) study_members  
+studies (1) —— (N) study_members
 
 ## API 설계
 
@@ -125,10 +141,16 @@ Request
   "password": "1234"
 }
 
-Response
+Success Response (200)
 
 {
   "message": "Login success"
+}
+
+Fail Response (401)
+
+{
+  "message": "Invalid username or password"
 }
 
 ---
@@ -176,6 +198,7 @@ Response
 {
   "message": "Study created"
 }
+
 ---
 
 ### 스터디 목록 조회
@@ -197,12 +220,86 @@ Response
   }
 ]
 
+---
+
+### 스터디 참여 신청
+
+POST /api/studies/:studyId/join
+
+Request
+
+{
+  "user_id": 2
+}
+
+Success Response (201)
+
+{
+  "message": "Join request created"
+}
+
+Fail Response (400)
+
+{
+  "message": "Invalid request"
+}
+
+Fail Response (409)
+
+{
+  "message": "Already joined or pending"
+}
+
+---
+
+### 스터디 참여자 조회
+
+GET /api/studies/:studyId/members
+
+Success Response (200)
+
+[
+  {
+    "user_id": 2,
+    "username": "user2",
+    "status": "approved"
+  }
+]
+
+---
+
+### 스터디 참여 상태 변경
+
+PATCH /api/studies/:studyId/members/:userId
+
+Request
+
+{
+  "status": "approved"
+}
+
+Success Response (200)
+
+{
+  "message": "Member status updated"
+}
+
+Fail Response (404)
+
+{
+  "message": "Join request not found"
+}
+
+---
+
 ## 사용자 흐름
 
 1. 사용자는 회원가입을 한다.
 2. 사용자는 로그인한다.
 3. 로그인 후 사용자 프로필을 입력한다.
-4. 사용자는 스터디 제목, 설명, 모집 인원, 모집 요일, 모집 시간대를 입력하여 스터디를 생성한다.
+4. 사용자는 스터디 제목, 분야, 수준, 설명, 모집 인원, 모집 요일, 모집 시간대를 입력하여 스터디를 생성한다.
 5. 생성된 스터디는 스터디 목록에 표시된다.
-6. 다른 사용자는 스터디 목록을 조회하고 조건에 맞는 스터디를 확인할 수 있다.
-7. 사용자는 모집 상태를 확인하며 스터디 참여를 진행할 수 있다.
+6. 다른 사용자는 스터디 목록을 조회하고 조건에 맞는 스터디를 확인한다.
+7. 사용자는 원하는 스터디에 참여 신청을 할 수 있다.
+8. 스터디 생성자는 참여 신청 목록을 확인하고 승인 또는 거절할 수 있다.
+9. 승인된 사용자는 해당 스터디의 참여자로 등록된다.
