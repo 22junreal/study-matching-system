@@ -65,7 +65,9 @@ Deployment
 | user_id | INTEGER | 사용자 ID (users.id 참조) |
 | interest | TEXT | 관심 분야 |
 | goal | TEXT | 학습 목표 |
-| study_time | TEXT | 원하는 공부 시간 |
+| level | TEXT | 학습 수준 |
+| study_day | TEXT | 공부 요일 |
+| study_time | TEXT | 공부 시간 |
 
 ---
 
@@ -135,8 +137,10 @@ POST /api/profile
 Request
 
 {
-  "interest": "AI",
-  "goal": "Machine Learning Study",
+  "interest": "TOEIC",
+  "goal": "800점 목표",
+  "level": "Intermediate",
+  "study_day": "Mon, Wed",
   "study_time": "Evening"
 }
 
@@ -145,7 +149,6 @@ Response
 {
   "message": "Profile saved"
 }
-
 ---
 
 ### 스터디 생성
