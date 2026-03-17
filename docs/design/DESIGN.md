@@ -72,14 +72,17 @@ Deployment
 ---
 
 ### studies
-
 | column | type | description |
 |------|------|-------------|
 | id | INTEGER | 스터디 ID |
 | user_id | INTEGER | 생성한 사용자 ID |
 | title | TEXT | 스터디 제목 |
+| category | TEXT | 스터디 분야 |
+| level | TEXT | 모집 대상 수준 |
 | description | TEXT | 스터디 설명 |
 | max_members | INTEGER | 모집 인원 |
+| study_day | TEXT | 모집 요일 |
+| study_time | TEXT | 모집 시간 |
 | status | TEXT | 모집 상태 |
 | created_at | DATETIME | 생성 시간 |
 
@@ -159,9 +162,13 @@ POST /api/studies
 Request
 
 {
-  "title": "AI Study",
-  "description": "Machine Learning basic",
-  "max_members": 4
+  "title": "TOEIC 800 목표 스터디",
+  "category": "TOEIC",
+  "level": "Intermediate",
+  "description": "토익 800점 목표 스터디",
+  "max_members": 4,
+  "study_day": "Mon, Wed",
+  "study_time": "Evening"
 }
 
 Response
@@ -169,7 +176,6 @@ Response
 {
   "message": "Study created"
 }
-
 ---
 
 ### 스터디 목록 조회
@@ -181,8 +187,12 @@ Response
 [
   {
     "id": 1,
-    "title": "AI Study",
+    "title": "TOEIC 800 목표 스터디",
+    "category": "TOEIC",
+    "level": "Intermediate",
     "max_members": 4,
+    "study_day": "Mon, Wed",
+    "study_time": "Evening",
     "status": "recruiting"
   }
 ]
@@ -192,6 +202,7 @@ Response
 1. 사용자는 회원가입을 한다.
 2. 사용자는 로그인한다.
 3. 로그인 후 사용자 프로필을 입력한다.
-4. 사용자는 스터디를 생성할 수 있다.
+4. 사용자는 스터디 제목, 설명, 모집 인원, 모집 요일, 모집 시간대를 입력하여 스터디를 생성한다.
 5. 생성된 스터디는 스터디 목록에 표시된다.
-6. 다른 사용자는 스터디 목록을 조회하고 참여할 수 있다.
+6. 다른 사용자는 스터디 목록을 조회하고 조건에 맞는 스터디를 확인할 수 있다.
+7. 사용자는 모집 상태를 확인하며 스터디 참여를 진행할 수 있다.
