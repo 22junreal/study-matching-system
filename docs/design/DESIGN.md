@@ -101,18 +101,38 @@ Source Repository
 
 ---
 
-### 테이블 관계
+## ERD 설명
 
-users (1) —— (1) profiles  
-users (1) —— (N) studies  
-users (1) —— (N) study_members  
-studies (1) —— (N) study_members
+본 시스템은 `users`, `profiles`, `studies`, `study_members` 4개의 주요 테이블로 구성된다.
+
+- `users`는 사용자 계정 정보를 저장한다.
+- `profiles`는 사용자의 관심 분야, 학습 목표, 수준, 공부 요일, 공부 시간을 저장한다.
+- `studies`는 사용자가 생성한 스터디 정보를 저장한다.
+- `study_members`는 사용자와 스터디 간 참여 관계를 저장한다.
+
+테이블 관계는 다음과 같다.
+
+- 한 명의 사용자(`users`)는 하나의 프로필(`profiles`)을 가진다.
+- 한 명의 사용자(`users`)는 여러 개의 스터디(`studies`)를 생성할 수 있다.
+- 한 명의 사용자(`users`)는 여러 개의 스터디 참여 정보(`study_members`)를 가질 수 있다.
+- 하나의 스터디(`studies`)는 여러 명의 참여자(`study_members`)를 가질 수 있다.
+
+## ERD 이미지
+
+아래는 본 시스템의 데이터베이스 관계를 나타낸 ERD이다.
+
+![ERD](./db/ERD.png)
 
 ## API 설계
 
 ### 회원가입
 
 POST /api/register
+
+Description
+
+- 새로운 사용자를 등록한다.
+- 동일한 username이 이미 존재할 경우 회원가입을 허용하지 않는다.
 
 Request
 
@@ -121,10 +141,22 @@ Request
   "password": "1234"
 }
 
-Response
+Success Response (201)
 
 {
   "message": "User created successfully"
+}
+
+Fail Response (400)
+
+{
+  "message": "Username and password are required"
+}
+
+Fail Response (409)
+
+{
+  "message": "Username already exists"
 }
 
 ---
@@ -158,6 +190,11 @@ Fail Response (401)
 
 POST /api/profile
 
+Description
+
+- 로그인한 사용자의 프로필 정보를 저장한다.
+- 인증되지 않은 사용자는 프로필을 저장할 수 없다.
+
 Request
 
 {
@@ -168,10 +205,22 @@ Request
   "study_time": "Evening"
 }
 
-Response
+Success Response (200)
 
 {
   "message": "Profile saved"
+}
+
+Fail Response (401)
+
+{
+  "message": "Authentication required"
+}
+
+Fail Response (400)
+
+{
+  "message": "Required profile fields are missing"
 }
 
 ---
@@ -179,6 +228,11 @@ Response
 ### 스터디 생성
 
 POST /api/studies
+
+Description
+
+- 로그인한 사용자가 새로운 스터디를 생성한다.
+- 제목, 분야, 수준, 설명, 모집 인원, 모집 요일, 모집 시간대는 필수 입력값이다.
 
 Request
 
@@ -192,10 +246,22 @@ Request
   "study_time": "Evening"
 }
 
-Response
+Success Response (201)
 
 {
   "message": "Study created"
+}
+
+Fail Response (401)
+
+{
+  "message": "Authentication required"
+}
+
+Fail Response (400)
+
+{
+  "message": "Required study fields are missing"
 }
 
 ---
@@ -225,11 +291,14 @@ Response
 
 POST /api/studies/:studyId/join
 
+Description
+
+- 로그인한 사용자가 특정 스터디에 참여 신청을 한다.
+- 사용자 식별은 인증 정보 기반으로 처리한다.
+
 Request
 
-{
-  "user_id": 2
-}
+{}
 
 Success Response (201)
 
@@ -237,10 +306,22 @@ Success Response (201)
   "message": "Join request created"
 }
 
-Fail Response (400)
+Fail Response (401)
 
 {
-  "message": "Invalid request"
+  "message": "Authentication required"
+}
+
+Fail Response (404)
+
+{
+  "message": "Study not found"
+}
+
+Fail Response (409)
+
+{
+  "message": "Study is closed"
 }
 
 Fail Response (409)
@@ -271,6 +352,13 @@ Success Response (200)
 
 PATCH /api/studies/:studyId/members/:userId
 
+Description
+
+- 해당 스터디를 생성한 사용자만 참여 신청 상태를 변경할 수 있다.
+- 참여 상태는 `approved` 또는 `rejected`로 변경할 수 있다.
+- 모집 상태가 `closed`인 경우 승인 처리를 할 수 없다.
+- 모집 인원이 가득 찬 경우 추가 승인 처리를 할 수 없다.
+
 Request
 
 {
@@ -283,13 +371,56 @@ Success Response (200)
   "message": "Member status updated"
 }
 
+Fail Response (403)
+
+{
+  "message": "Only the study owner can update member status"
+}
+
 Fail Response (404)
 
 {
   "message": "Join request not found"
 }
 
+Fail Response (409)
+
+{
+  "message": "Cannot approve request because study is closed or full"
+}
+
 ---
+
+## API 권한 및 제약 조건
+
+본 시스템의 스터디 참여 관리 API는 다음과 같은 권한 및 제약 조건을 따른다.
+
+### 참여 상태 변경 권한
+
+- `PATCH /api/studies/:studyId/members/:userId` API는 해당 스터디를 생성한 사용자만 호출할 수 있다.
+- 일반 참여자는 다른 사용자의 참여 상태를 변경할 수 없다.
+- 스터디 생성자는 본인이 생성한 스터디의 참여 신청만 승인 또는 거절할 수 있다.
+
+### 참여 승인 및 거절 제약 조건
+
+- 스터디 생성자는 본인이 생성한 스터디에 참여 신청할 수 없다.
+- 모집 상태가 `closed`인 스터디는 참여 승인 처리를 할 수 없다.
+- 모집 인원이 이미 가득 찬 경우 추가 참여 승인은 불가능하다.
+- 동일한 사용자는 같은 스터디에 중복으로 참여 신청할 수 없다.
+- 이미 `approved` 또는 `pending` 상태인 사용자는 다시 참여 신청할 수 없다.
+
+### 입력 검증 및 예외 처리 규칙
+
+본 시스템은 데이터 무결성과 올바른 사용자 흐름을 보장하기 위해 다음과 같은 검증 규칙을 적용한다.
+
+- 회원가입 시 `username`과 `password`는 필수 입력값이다.
+- 회원가입 시 동일한 `username`이 이미 존재하면 `409 Conflict`를 반환한다.
+- 프로필 저장은 인증된 사용자만 가능하며, 인증되지 않은 경우 `401 Unauthorized`를 반환한다.
+- 스터디 생성 시 `title`, `category`, `level`, `description`, `max_members`, `study_day`, `study_time`는 필수 입력값이다.
+- 필수 입력값이 누락된 경우 `400 Bad Request`를 반환한다.
+- 스터디 참여 신청은 인증된 사용자만 가능하다.
+- 모집 상태가 `closed`인 스터디에는 참여 신청할 수 없으며 `409 Conflict`를 반환한다.
+- 동일한 사용자가 같은 스터디에 중복 신청할 경우 `409 Conflict`를 반환한다.
 
 ## 사용자 흐름
 
@@ -302,3 +433,4 @@ Fail Response (404)
 7. 사용자는 원하는 스터디에 참여 신청을 할 수 있다.
 8. 스터디 생성자는 참여 신청 목록을 확인하고 승인 또는 거절할 수 있다.
 9. 승인된 사용자는 해당 스터디의 참여자로 등록된다.
+10. 스터디 참여 신청 이후 승인 및 거절 권한은 스터디 생성자에게만 부여된다.
