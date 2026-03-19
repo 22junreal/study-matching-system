@@ -170,6 +170,19 @@ erDiagram
 
 ## API 설계
 
+### 인증 적용 기준
+
+- `POST /api/register` : 인증 불필요
+- `POST /api/login` : 인증 불필요
+- `POST /api/profile` : 인증 필요
+- `POST /api/studies` : 인증 필요
+- `GET /api/studies` : 인증 불필요
+- `POST /api/studies/:studyId/join` : 인증 필요
+- `GET /api/studies/:studyId/members` : 인증 필요
+- `PATCH /api/studies/:studyId/members/:userId` : 인증 필요
+
+인증이 필요한 API에 인증되지 않은 사용자가 요청할 경우 `401 Unauthorized`를 반환한다.
+
 ### 회원가입
 
 POST /api/register
@@ -315,7 +328,25 @@ Fail Response (400)
 
 GET /api/studies
 
-Response
+Description
+
+- 사용자는 조건에 맞는 스터디 목록을 조회할 수 있다.
+- 스터디 목록 조회는 인증 없이 사용할 수 있다.
+- `category`, `level`, `study_day`, `study_time`, `status` 값을 기준으로 필터링할 수 있다.
+
+Query Parameters
+
+- `category` : 스터디 분야
+- `level` : 모집 대상 수준
+- `study_day` : 모집 요일
+- `study_time` : 모집 시간대
+- `status` : 모집 상태 (`recruiting` / `closed`)
+
+Example Request
+
+GET /api/studies?category=TOEIC&level=Intermediate&study_day=Mon,Wed&study_time=Evening&status=recruiting
+
+Success Response (200)
 
 [
   {
@@ -329,6 +360,12 @@ Response
     "status": "recruiting"
   }
 ]
+
+Fail Response (400)
+
+{
+  "message": "Invalid query parameter"
+}
 
 ---
 
@@ -381,6 +418,11 @@ Fail Response (409)
 
 GET /api/studies/:studyId/members
 
+Description
+
+- 인증된 사용자만 참여자 목록을 조회할 수 있다.
+- 해당 스터디를 생성한 사용자만 참여자 목록을 조회할 수 있다.
+
 Success Response (200)
 
 [
@@ -390,6 +432,24 @@ Success Response (200)
     "status": "approved"
   }
 ]
+
+Fail Response (401)
+
+{
+  "message": "Authentication required"
+}
+
+Fail Response (403)
+
+{
+  "message": "Only the study owner can view member list"
+}
+
+Fail Response (404)
+
+{
+  "message": "Study not found"
+}
 
 ---
 
@@ -439,6 +499,11 @@ Fail Response (409)
 ## API 권한 및 제약 조건
 
 본 시스템의 스터디 참여 관리 API는 다음과 같은 권한 및 제약 조건을 따른다.
+
+### 조회 권한 규칙
+
+- 스터디 목록 조회 API는 공개 API이며 인증 없이 사용할 수 있다.
+- 스터디 참여자 조회 API는 인증된 사용자만 사용할 수 있으며, 해당 스터디 생성자만 접근할 수 있다.
 
 ### 참여 상태 변경 권한
 
