@@ -121,7 +121,47 @@ Source Repository
 
 아래는 본 시스템의 데이터베이스 관계를 나타낸 ERD이다.
 
-![ERD](../docs/db/ERD.png)
+ '''mermaid
+ erDiagram
+    USERS ||--|| PROFILES : has
+    USERS ||--o{ STUDIES : creates
+    USERS ||--o{ STUDY_MEMBERS : joins
+    STUDIES ||--o{ STUDY_MEMBERS : contains
+    USERS {
+        INTEGER id PK
+        TEXT username
+        TEXT password_hash
+        DATETIME created_at
+    }
+    PROFILES {
+        INTEGER id PK
+        INTEGER user_id FK
+        TEXT interest
+        TEXT goal
+        TEXT level
+        TEXT study_day
+        TEXT study_time
+    }
+    STUDIES {
+        INTEGER id PK
+        INTEGER user_id FK
+        TEXT title
+        TEXT category
+        TEXT level
+        TEXT description
+        INTEGER max_members
+        TEXT study_day
+        TEXT study_time
+        TEXT status
+        DATETIME created_at
+    }
+    STUDY_MEMBERS {
+        INTEGER id PK
+        INTEGER study_id FK
+        INTEGER user_id FK
+        DATETIME joined_at
+        TEXT status
+    }
 
 ## API 설계
 
