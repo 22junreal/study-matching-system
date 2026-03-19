@@ -121,18 +121,20 @@ Source Repository
 
 아래는 본 시스템의 데이터베이스 관계를 나타낸 ERD이다.
 
- '''mermaid
- erDiagram
+ ```mermaid
+erDiagram
     USERS ||--|| PROFILES : has
     USERS ||--o{ STUDIES : creates
     USERS ||--o{ STUDY_MEMBERS : joins
     STUDIES ||--o{ STUDY_MEMBERS : contains
+
     USERS {
         INTEGER id PK
         TEXT username
         TEXT password_hash
         DATETIME created_at
     }
+
     PROFILES {
         INTEGER id PK
         INTEGER user_id FK
@@ -142,6 +144,7 @@ Source Repository
         TEXT study_day
         TEXT study_time
     }
+
     STUDIES {
         INTEGER id PK
         INTEGER user_id FK
@@ -155,6 +158,7 @@ Source Repository
         TEXT status
         DATETIME created_at
     }
+
     STUDY_MEMBERS {
         INTEGER id PK
         INTEGER study_id FK
