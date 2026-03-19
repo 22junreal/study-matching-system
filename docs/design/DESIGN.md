@@ -86,7 +86,7 @@ Source Repository
 | max_members | INTEGER | 모집 인원 |
 | study_day | TEXT | 모집 요일 |
 | study_time | TEXT | 모집 시간 |
-| status | TEXT | 모집 상태 (recruiting / closed) |
+| status | TEXT | 모집 상태 (`recruiting`, `closed`) |
 | created_at | DATETIME | 생성 시간 |
 
 ### study_members
@@ -97,7 +97,7 @@ Source Repository
 | study_id | INTEGER | 스터디 ID (studies.id 참조) |
 | user_id | INTEGER | 참여 사용자 ID (users.id 참조) |
 | joined_at | DATETIME | 참여 신청 시간 |
-| status | TEXT | 참여 상태 (pending / approved / rejected) |
+| status | TEXT | 참여 상태 (`pending`, `approved`, `rejected`) |
 
 ---
 
@@ -167,6 +167,20 @@ erDiagram
         TEXT status
     }
 ```
+
+## 데이터 무결성 제약 조건
+
+본 시스템은 데이터의 일관성과 중복 방지를 위해 다음과 같은 제약 조건을 가진다.
+
+- `users.username`은 UNIQUE 제약 조건을 가지며, 동일한 username은 중복 저장할 수 없다.
+- `profiles.user_id`는 `users.id`를 참조하는 외래 키(Foreign Key)이며, 한 명의 사용자에 대해 하나의 프로필만 저장할 수 있다.
+- `studies.user_id`는 `users.id`를 참조하는 외래 키(Foreign Key)이다.
+- `study_members.study_id`는 `studies.id`를 참조하는 외래 키(Foreign Key)이다.
+- `study_members.user_id`는 `users.id`를 참조하는 외래 키(Foreign Key)이다.
+- `study_members` 테이블은 `(study_id, user_id)` 조합에 대해 UNIQUE 제약 조건을 가지며, 동일한 사용자의 중복 참여 신청을 방지한다.
+- `studies.max_members`는 1 이상의 값만 허용한다.
+- `studies.status`는 `recruiting` 또는 `closed` 값만 허용한다.
+- `study_members.status`는 `pending`, `approved`, `rejected` 값만 허용한다.
 
 ## API 설계
 
@@ -518,6 +532,24 @@ Fail Response (409)
 - 모집 인원이 이미 가득 찬 경우 추가 참여 승인은 불가능하다.
 - 동일한 사용자는 같은 스터디에 중복으로 참여 신청할 수 없다.
 - 이미 `approved` 또는 `pending` 상태인 사용자는 다시 참여 신청할 수 없다.
+
+### study_members 상태 전이 규칙
+
+`study_members.status`는 스터디 참여 신청의 현재 상태를 나타내며, 다음 3가지 값을 가진다.
+
+- `pending` : 참여 신청이 접수되었으나 아직 승인 또는 거절되지 않은 상태
+- `approved` : 스터디 생성자가 참여 신청을 승인한 상태
+- `rejected` : 스터디 생성자가 참여 신청을 거절한 상태
+
+상태 전이 규칙은 다음과 같다.
+
+- 참여 신청이 생성되면 초기 상태는 `pending`이다.
+- `pending` 상태의 신청은 스터디 생성자에 의해 `approved` 또는 `rejected`로 변경될 수 있다.
+- `approved` 상태가 된 신청은 다시 `pending`으로 변경할 수 없다.
+- `rejected` 상태가 된 신청은 다시 `pending`으로 변경할 수 없다.
+- 동일한 사용자는 같은 스터디에 대해 `pending` 또는 `approved` 상태의 신청을 중복 생성할 수 없다.
+- 모집 상태가 `closed`인 스터디에 대해서는 `pending` 상태의 신청을 `approved`로 변경할 수 없다.
+- 승인된 참여자 수가 스터디의 `max_members`에 도달한 경우 추가 `approved` 처리는 불가능하다.
 
 ### 입력 검증 및 예외 처리 규칙
 
