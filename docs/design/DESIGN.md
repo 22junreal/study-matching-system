@@ -168,6 +168,7 @@ erDiagram
         TEXT status
     }
 '''
+---
 
 ## API 설계
 
