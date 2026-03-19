@@ -122,7 +122,7 @@ Source Repository
 
 아래는 본 시스템의 데이터베이스 관계를 나타낸 ERD이다.
 
- ```mermaid
+```mermaid
 erDiagram
     USERS ||--|| PROFILES : has
     USERS ||--o{ STUDIES : creates
@@ -167,6 +167,7 @@ erDiagram
         DATETIME joined_at
         TEXT status
     }
+'''
 
 ## API 설계
 
