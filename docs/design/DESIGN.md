@@ -166,6 +166,7 @@ erDiagram
         DATETIME joined_at
         TEXT status
     }
+'''
 
 ## API 설계
 
