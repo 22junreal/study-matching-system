@@ -117,7 +117,6 @@ Source Repository
 - 한 명의 사용자(`users`)는 여러 개의 스터디 참여 정보(`study_members`)를 가질 수 있다.
 - 하나의 스터디(`studies`)는 여러 명의 참여자(`study_members`)를 가질 수 있다.
 
-```markdown
 ## ERD 이미지
 
 아래는 본 시스템의 데이터베이스 관계를 나타낸 ERD이다.
