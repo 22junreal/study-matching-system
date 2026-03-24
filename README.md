@@ -238,7 +238,7 @@ erDiagram
 
 사용자가 로그인하면 인증 정보를 확인하고 성공 시 JWT 토큰을 발급한다.
 
-POST `/api/login`
+POST `/api/auth/login`
 
 ##### Request
 ```json
@@ -247,13 +247,13 @@ POST `/api/login`
   "password": "1234"
 }
 ```
-Success Response (200)
+#####Success Response (200)
 ```json
 {
   "token": "JWT_TOKEN"
 }
 ```
-Fail Response (401)
+#####Fail Response (401)
 ```json
 {
   "message": "Invalid username or password"
@@ -261,8 +261,41 @@ Fail Response (401)
 ```
 
 
-#### 2. 스터디 참여 신청
-...
+### 2. 스터디 참여 신청
+
+로그인한 사용자가 특정 스터디에 참여 신청을 보낸다.
+사용자 식별은 JWT 토큰 기반으로 처리된다.
+
+POST `/api/studies/:studyId/join`
+
+###### Header
+Authorization: Bearer {token}
+###### Request
+{}
+###### Success Response (201)
+```json
+{
+  "message": "Join request created"
+}
+```
+###### Fail Response (401)
+```json
+{
+  "message": "Authentication required"
+}
+```
+###### Fail Response (404)
+```json
+{
+  "message": "Study not found"
+}
+```
+###### Fail Response (409)
+```json
+{
+  "message": "Already joined or pending"
+}
+```
 
 #### 3. 참여 상태 변경
 ...
