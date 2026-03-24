@@ -236,7 +236,7 @@ erDiagram
 
 사용자가 로그인하면 인증 정보를 확인하고 성공 시 JWT 토큰을 발급한다.
 
-POST `/api/auth/login`
+**POST** `/api/auth/login`
 
 ##### Request
 ```json
@@ -266,10 +266,10 @@ POST `/api/auth/login`
 로그인한 사용자가 특정 스터디에 참여 신청을 보낸다.
 사용자 식별은 JWT 토큰 기반으로 처리된다.
 
-POST `/api/studies/:studyId/join`
+**POST** `/api/studies/:studyId/join`
 
 ##### Header
-```json
+```http
 Authorization: Bearer {token}
 ```
 ##### Request
@@ -308,10 +308,10 @@ Authorization: Bearer {token}
 스터디 생성자가 참여 신청을 승인 또는 거절한다.
 해당 API는 스터디 생성자만 사용할 수 있다.
 
-PATCH `/api/studies/:studyId/members/:userId`
+**PATCH** `/api/studies/:studyId/members/:userId`
 
 ##### Header
-```json
+```http
 Authorization: Bearer {token}
 ```
 ##### Request
