@@ -121,7 +121,8 @@ SQLite Database
 - 하나의 스터디는 여러 명의 참여자를 가질 수 있다
 
 ### ERD
-```marmaid
+
+```mermaid
 erDiagram
     USERS ||--|| PROFILES : has
     USERS ||--o{ STUDIES : creates
