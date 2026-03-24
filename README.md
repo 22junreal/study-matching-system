@@ -246,11 +246,15 @@ POST `/api/login`
   "username": "user1",
   "password": "1234"
 }
+```
 Success Response (200)
+```json
 {
   "token": "JWT_TOKEN"
 }
+```
 Fail Response (401)
+```json
 {
   "message": "Invalid username or password"
 }
