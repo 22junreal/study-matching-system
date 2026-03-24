@@ -269,9 +269,13 @@ POST `/api/auth/login`
 POST `/api/studies/:studyId/join`
 
 ##### Header
+```json
 Authorization: Bearer {token}
+```
 ##### Request
+```json
 {}
+```
 ##### Success Response (201)
 ```json
 {
@@ -307,7 +311,9 @@ Authorization: Bearer {token}
 PATCH `/api/studies/:studyId/members/:userId`
 
 ##### Header
+```json
 Authorization: Bearer {token}
+```
 ##### Request
 ```json
 {
