@@ -260,6 +260,8 @@ POST `/api/auth/login`
 }
 ```
 
+---
+
 
 ### 2. 스터디 참여 신청
 
@@ -297,10 +299,47 @@ Authorization: Bearer {token}
 }
 ```
 
-#### 3. 참여 상태 변경
-...
-
 ---
+
+### 3. 스터디 참여 상태 변경 (승인 / 거절)
+
+스터디 생성자가 참여 신청을 승인 또는 거절한다.
+해당 API는 스터디 생성자만 사용할 수 있다.
+
+PATCH `/api/studies/:studyId/members/:userId`
+
+##### Header
+Authorization: Bearer {token}
+##### Request
+```json
+{
+  "status": "approved"
+}
+```
+##### Success Response (200)
+```json
+{
+  "message": "Member status updated"
+}
+```
+##### Fail Response (403)
+```json
+{
+  "message": "Only the study owner can update member status"
+}
+```
+##### Fail Response (404)
+```json
+{
+  "message": "Join request not found"
+}
+```
+##### Fail Response (409)
+```json
+{
+  "message": "Cannot approve request because study is closed or full"
+}
+```
 
 ## 실행 방법
 
