@@ -219,8 +219,6 @@ erDiagram
 
 ### 인증 적용 기준
 
-- REST API 기반 설계
-
 - `POST /api/register` : 인증 불필요
 - `POST /api/login` : 인증 불필요
 - `POST /api/profile` : 인증 필요
