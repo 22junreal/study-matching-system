@@ -247,13 +247,13 @@ POST `/api/auth/login`
   "password": "1234"
 }
 ```
-#####Success Response (200)
+##### Success Response (200)
 ```json
 {
   "token": "JWT_TOKEN"
 }
 ```
-#####Fail Response (401)
+##### Fail Response (401)
 ```json
 {
   "message": "Invalid username or password"
@@ -268,29 +268,29 @@ POST `/api/auth/login`
 
 POST `/api/studies/:studyId/join`
 
-###### Header
+##### Header
 Authorization: Bearer {token}
-###### Request
+##### Request
 {}
-###### Success Response (201)
+##### Success Response (201)
 ```json
 {
   "message": "Join request created"
 }
 ```
-###### Fail Response (401)
+##### Fail Response (401)
 ```json
 {
   "message": "Authentication required"
 }
 ```
-###### Fail Response (404)
+##### Fail Response (404)
 ```json
 {
   "message": "Study not found"
 }
 ```
-###### Fail Response (409)
+##### Fail Response (409)
 ```json
 {
   "message": "Already joined or pending"
