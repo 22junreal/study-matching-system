@@ -301,9 +301,9 @@ erDiagram
 
 ### 인증 적용 기준
 
-- `POST /api/register` : 인증 불필요
-- `POST /api/login` : 인증 불필요
-- `POST /api/profile` : 인증 필요
+- `POST /api/auth/register` : 인증 불필요
+- `POST /api/auth/login` : 인증 불필요
+- `POST /api/auth/profile` : 인증 필요
 - `POST /api/studies` : 인증 필요
 - `GET /api/studies` : 인증 불필요
 - `POST /api/studies/:studyId/join` : 인증 필요
@@ -316,7 +316,7 @@ erDiagram
 
 ### 회원가입
 
-POST /api/register
+POST /api/auth/register
 
 Description
 
@@ -352,7 +352,7 @@ Fail Response (409)
 
 ### 로그인
 
-POST /api/login
+POST /api/auth/login
 
 Request
 
@@ -377,7 +377,7 @@ Fail Response (401)
 
 ### 프로필 저장
 
-POST /api/profile
+POST /api/auth/profile
 
 Description
 
