@@ -184,8 +184,6 @@ erDiagram
     }
 ```
 
----
-
 ## 데이터 무결성 및 제약 조건
 
 - 동일한 username은 중복 저장할 수 없다
@@ -197,23 +195,21 @@ erDiagram
 - 모집 상태가 `closed`인 스터디에는 참여 신청 및 승인 처리를 할 수 없다
 - 승인 인원은 모집 인원(`max_members`)을 초과할 수 없다
 
----
+## 인증 흐름
+
+로그인 → JWT 발급 → Authorization Header 포함 → 인증 필요 API 호출
 
 ## 구현 특징
 
-- JWT 기반 인증 구현
-- 동일 사용자 중복 신청 방지 (UNIQUE + 로직)
-- 상태 전이 제한 (pending만 변경 가능)
-- 정원 초과 방지 로직
-
----
+- JWT 기반 인증을 적용하여 인증이 필요한 API 접근을 제어
+- study_members (study_id, user_id) UNIQUE 제약 + 서버 검증으로 중복 신청 방지
+- 상태 전이 제한을 통해 pending → approved/rejected 흐름 강제
+- 승인 인원 max_members 초과 방지 로직 구현
 
 ## 문제 해결
 
 - 스터디 중복 신청 문제 → DB UNIQUE + 서버 검증으로 해결
 - 권한 문제 → Owner만 승인 가능하도록 설계
-
----
 
 ## API 개요 및 예시
 
