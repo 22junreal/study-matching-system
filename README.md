@@ -226,18 +226,3 @@ erDiagram
   "username": "user1",
   "password": "1234"
 }
-
----
-
-## 실행 방법
-
-### 사전 요구
-- Node.js: LTS
-- SQLite는 `sqlite3` 라이브러리로 파일 DB를 사용하므로 별도 서버 설치 없이 동작합니다.
-- `backend/database/schema.sql`이 존재해야 합니다. (서버 시작 시 schema를 읽어 DB 초기화)
-
-### 설치/실행
-```bash
-cd backend
-npm install
-node src/server.js
