@@ -184,6 +184,22 @@ erDiagram
 
 ---
 
+## 구현 특징
+
+- JWT 기반 인증 구현
+- 동일 사용자 중복 신청 방지 (UNIQUE + 로직)
+- 상태 전이 제한 (pending만 변경 가능)
+- 정원 초과 방지 로직
+
+---
+
+## 문제 해결
+
+- 스터디 중복 신청 문제 → DB UNIQUE + 서버 검증으로 해결
+- 권한 문제 → Owner만 승인 가능하도록 설계
+
+---
+
 ## API 설계
 
 ### 인증 적용 기준
@@ -210,3 +226,18 @@ erDiagram
   "username": "user1",
   "password": "1234"
 }
+
+---
+
+## 실행 방법
+
+### 사전 요구
+- Node.js: LTS
+- SQLite는 `sqlite3` 라이브러리로 파일 DB를 사용하므로 별도 서버 설치 없이 동작합니다.
+- `backend/database/schema.sql`이 존재해야 합니다. (서버 시작 시 schema를 읽어 DB 초기화)
+
+### 설치/실행
+```bash
+cd backend
+npm install
+node src/server.js
