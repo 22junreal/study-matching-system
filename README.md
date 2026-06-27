@@ -31,19 +31,19 @@
 
 ### Login
 
-![Login](docs/images/Login.png)
+![login](docs/images/login.png)
 
 사용자 로그인 화면 입니다.
 
 ### Study Detail
 
-![Study Detail](docs/images/Study Detail.png)
+![Study Detail](docs/images/study_detail.png)
 
 스터디 관심 분야 및 학습목표 입력 화면 입니다.
 
 ### Study Creat
 
-![Study Creat](docs/images/Study Creat.png)
+![Study Creat](docs/images/study_creat.png)
 
 스터디 생성 완료 화면입나다.
 
