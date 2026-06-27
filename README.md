@@ -146,15 +146,12 @@
 
 ### Architecture Diagram
 
-```Mermaid
+```mermaid
 
-User Browser  
-↓  
-Frontend (HTML / CSS / JS)  
-↓ REST API  
-Backend Server (Node.js / Express)  
-↓  
-SQLite Database
+graph TD
+    A[User Browser] --> B[Frontend<br/>HTML / CSS / JavaScript]
+    B -->|REST API| C[Backend Server<br/>Node.js / Express]
+    C --> D[SQLite Database]
 
 ```
 
