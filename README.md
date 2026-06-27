@@ -1,4 +1,4 @@
-# Study Matching System (Backend)
+# Study Matching System
 
 대학생 스터디 모집 과정에서 발생하는 목표 불일치와 모집 비효율 문제를 해결하기 위한  
 **웹 기반 스터디 매칭 시스템 MVP 백엔드**입니다.
