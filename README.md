@@ -41,9 +41,9 @@
 
 스터디 관심 분야 및 학습목표 입력 화면 입니다.
 
-### Study Creat
+### Study Create
 
-![Study Creat](docs/images/study_creat.png)
+![Study Create](docs/images/study_create.png)
 
 스터디 생성 완료 화면입나다.
 
