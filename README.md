@@ -9,13 +9,6 @@
 
 ---
 
-## Documents
-
-- 📄 SRS : [SRS.md](docs/SRS.md)
-- 📄 Design : [DESIGN.md](docs/DESIGN.md)
-
----
-
 ## 프로젝트 개요
 
 기존의 스터디 모집은 커뮤니티 게시글, 단체 채팅방, 지인 추천 등에 의존하는 경우가 많아  
@@ -80,6 +73,12 @@
 
 ---
 
+## Documents
+
+- 📄 SRS : [SRS.md](docs/SRS.md)
+- 📄 Design : [DESIGN.md](docs/DESIGN.md)
+
+---
 
 ## 주요 기능
 
