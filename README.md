@@ -154,23 +154,27 @@ erDiagram
     PROFILES {
         INTEGER id PK
         INTEGER user_id FK
-        TEXT interest
-        TEXT goal
-        TEXT level
-        TEXT study_day
-        TEXT study_time
+        INTEGER age
+        TEXT gender
+        TEXT department
+        TEXT student_id
+        TEXT preferred_category
+        TEXT preferred_day
+        TEXT preferred_time
+        TEXT mbti
+        DATETIME created_at
     }
 
     STUDIES {
         INTEGER id PK
-        INTEGER user_id FK
+        INTEGER owner_id FK
         TEXT title
         TEXT category
-        TEXT level
         TEXT description
-        INTEGER max_members
         TEXT study_day
         TEXT study_time
+        TEXT level
+        INTEGER max_members
         TEXT status
         DATETIME created_at
     }
@@ -352,4 +356,5 @@ Authorization: Bearer {token}
 ```bash
 cd backend
 npm install
-node src/server.js
+npm run dev
+```
