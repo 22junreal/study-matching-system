@@ -147,6 +147,7 @@
 ### Architecture Diagram
 
 ```Mermaid
+
 User Browser  
 ↓  
 Frontend (HTML / CSS / JS)  
@@ -154,6 +155,7 @@ Frontend (HTML / CSS / JS)
 Backend Server (Node.js / Express)  
 ↓  
 SQLite Database
+
 ```
 
 ## 기술 스택
