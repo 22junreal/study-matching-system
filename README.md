@@ -414,6 +414,14 @@ Authorization: Bearer {token}
 - 참여 신청 및 승인 기능 구현
 - SQLite 기반 DB 설계 완료
 
+## Future Work
+
+- 사용자 프로필 기반 자동 추천
+- AI 기반 스터디 매칭
+- 스터디 일정 관리
+- 채팅 기능
+- 알림 기능
+
 ## 실행 방법
 
 ### 사전 요구
