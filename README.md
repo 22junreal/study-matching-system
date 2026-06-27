@@ -265,13 +265,45 @@ erDiagram
 - 스터디 중복 신청 문제 → DB UNIQUE + 서버 검증으로 해결
 - 권한 문제 → Owner만 승인 가능하도록 설계
 
+## API 테스트 화면
+
+Postman을 사용하여 회원가입, 로그인, JWT 인증, 스터디 생성, 참여 신청, 권한 검증, 참여 승인 흐름을 테스트했습니다.
+전체 API 테스트 캡처는 [`docs/postman`](docs/postman) 폴더에서 확인할 수 있습니다.
+
+### 주요 API 테스트 흐름
+
+| 기능           | 설명                                 | 테스트 화면                                                           |
+| ------------ | ---------------------------------- | ---------------------------------------------------------------- |
+| 로그인 및 JWT 발급 | 사용자 로그인 성공 후 JWT 토큰이 발급되는지 확인      | <img src="docs/postman/03_login_owner_jwt.png" width="420">      |
+| 스터디 생성       | 인증된 사용자가 스터디를 생성할 수 있는지 확인         | <img src="docs/postman/06_create_study.png" width="420">         |
+| 스터디 참여 신청    | 다른 사용자가 모집 중인 스터디에 참여 신청할 수 있는지 확인 | <img src="docs/postman/08_join_request.png" width="420">         |
+| 권한 검증        | 스터디 생성자가 아닌 사용자의 승인 요청이 차단되는지 확인   | <img src="docs/postman/11_forbidden_owner_only.png" width="420"> |
+| 참여 승인        | 스터디 생성자가 참여 신청을 승인할 수 있는지 확인       | <img src="docs/postman/12_approve_member.png" width="420">       |
+
+### 전체 테스트 시나리오
+
+1. 생성자 계정 회원가입
+2. 참여자 계정 회원가입
+3. 생성자 로그인 및 JWT 발급
+4. 참여자 로그인 및 JWT 발급
+5. 생성자 프로필 저장
+6. 생성자 스터디 생성
+7. 스터디 목록 조회
+8. 참여자 스터디 참여 신청
+9. 동일 사용자의 중복 신청 차단 확인
+10. 생성자의 참여자 목록 조회
+11. 생성자가 아닌 사용자의 승인 요청 차단 확인
+12. 생성자의 참여 신청 승인
+13. 승인 결과 재조회
+
+
 ## API 개요 및 예시
 
 ### 인증 적용 기준
 
 - `POST /api/auth/register` : 인증 불필요
 - `POST /api/auth/login` : 인증 불필요
-- `POST /api/auth/profile` : 인증 필요
+- `POST /api/profile` : 인증 필요
 - `POST /api/studies` : 인증 필요
 - `GET /api/studies` : 인증 불필요
 - `POST /api/studies/:studyId/join` : 인증 필요
