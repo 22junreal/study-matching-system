@@ -11,8 +11,8 @@
 
 ## Documents
 
-- 📄 SRS : [SRS.md](SRS.md)
-- 📄 Design : [DESIGN.md](DESIGN.md)
+- 📄 SRS : [SRS.md](docs/SRS.md)
+- 📄 Design : [DESIGN.md](docs/DESIGN.md)
 
 ## 프로젝트 개요
 
