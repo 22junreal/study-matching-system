@@ -29,23 +29,11 @@
 
 본 프로젝트 화면은 실제화면이 아닌 구상을 위해 초기에 제작된 화면입니다
 
-### Login
-
-![login](docs/image/login.png)
-
-사용자 로그인 화면 입니다.
-
-### Study Detail
-
-![Study Detail](docs/image/study_detail.png)
-
-스터디 관심 분야 및 학습목표 입력 화면 입니다.
-
-### Study Create
-
-![Study Create](docs/image/study_create.png)
-
-스터디 생성 완료 화면입니다.
+|화면|설명|
+|----|----|
+|<img src="docs/image/login.png" width="350">|로그인|
+|<img src="docs/image/study_detail.png" width="350">|스터디 정보 입력|
+|<img src="docs/image/study_create.png" width="350">|스터디 생성 완료|
 
 ---
 
