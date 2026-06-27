@@ -6,11 +6,6 @@ const authMiddleware = require("../middlewares/auth.middleware");
 
 const router = express.Router();
 
-// 회원가입 테스트
-router.get("/test", (req, res) => {
-  res.json({ message: "auth test ok" });
-});
-
 // 회원가입
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
