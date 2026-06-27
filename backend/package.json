@@ -1,29 +1,25 @@
 {
-	"author": "",
-	"dependencies": {
-		"bcrypt": "^6.0.0",
-		"cors": "^2.8.6",
-		"dotenv": "^17.3.1",
-		"express": "^5.2.1",
-		"jsonwebtoken": "^9.0.3",
-		"sqlite3": "^6.0.1"
-	},
-	"description": "",
-	"devDependencies": {
-		"nodemon": "^3.1.14"
-	},
-	"keywords": [],
-	"license": "ISC",
-	"main": "index.js",
-	"name": "backend",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"type": "commonjs",
-	"version": "1.0.0"
-}
-
-"scripts": {
-  "start": "node src/server.js",
-  "dev": "nodemon src/server.js"
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Study matching system backend",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": ["nodejs", "express", "sqlite", "jwt", "study-matching"],
+  "author": "Lee Eui-jun",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
 }
