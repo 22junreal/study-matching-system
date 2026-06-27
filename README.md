@@ -89,11 +89,14 @@
 ---
 
 ### 2. 사용자 프로필
-- 관심분야 입력
-- 학습 목표 입력
-- 학습 수준 입력
+- 나이 입력
+- 성별 입력
+- 학과 입력
+- 학번 입력
+- 선호 스터디 분야 입력
 - 원하는 공부 요일 입력
 - 원하는 공부 시간 입력
+- MBTI 입력
 - 프로필 정보 저장
 
 ---
@@ -119,12 +122,10 @@
 
 본 시스템은 웹 기반 Client–Server 구조로 설계되었습니다.
 
-### Client (Frontend)
-- HTML
-- CSS
-- JavaScript
-- 사용자 입력 처리
-- API 요청 전송 및 응답 데이터 표시
+### Client / UI Prototype
+- HTML, CSS, JavaScript 기반 UI 설계 화면
+- 실제 서비스용 프론트엔드가 아닌 기능 흐름 검증 및 화면 구상 목적
+- 주요 백엔드 기능은 Postman API 테스트를 통해 검증
 
 ---
 
@@ -159,9 +160,10 @@ graph TD
 
 | 구분 | 기술 |
 |------|------|
-| Frontend | HTML, CSS, JavaScript |
+| UI Prototype | HTML, CSS, JavaScript |
 | Backend | Node.js, Express |
 | Database | SQLite |
+| API Test | Postman |
 | Deployment | Local environment |
 | Source Repository | GitHub |
 
@@ -202,7 +204,7 @@ study-matching-system
 본 시스템은 다음 4개의 주요 테이블로 구성됩니다.
 
 - `users` : 사용자 계정 정보
-- `profiles` : 관심 분야, 학습 목표, 수준, 공부 요일, 공부 시간
+- `profiles` : 나이, 성별, 학과, 학번, 선호 스터디 분야, 선호 요일, 선호 시간, MBTI 정보
 - `studies` : 스터디 정보
 - `study_members` : 스터디 참여 관계 정보
 
