@@ -167,6 +167,36 @@ graph TD
 
 ---
 
+## 프로젝트 구조
+
+```text
+study-matching-system
+├── backend
+│   ├── src
+│   │   ├── routes
+│   │   ├── middleware
+│   │   ├── config
+│   │   └── server.js
+│   ├── database
+│   │   └── schema.sql
+│   ├── package.json
+│   └── .env.example
+│
+├── docs
+│   ├── image
+│   │   ├── login.png
+│   │   ├── study_detail.png
+│   │   └── study_create.png
+│   ├── postman
+│   │   ├── 01_register_owner.png
+│   │   ├── ...
+│   │   └── 13_get_members_approved.png
+│   ├── SRS.md
+│   └── DESIGN.md
+│
+└── README.md
+```
+
 ## 데이터베이스 구조
 
 본 시스템은 다음 4개의 주요 테이블로 구성됩니다.
@@ -426,11 +456,11 @@ Authorization: Bearer {token}
 
 ## What I Learned
 
-REST API를 설계하면서 자원 중심 URI 설계 방법을 익혔다.
-
-JWT 인증을 적용하면서 인증이 필요한 API와 공개 API를 분리하는 방법을 익혔다.
-
-SQLite를 사용하면서 관계형 데이터 모델링과 외래키 설계를 경험하였다.
+- REST API를 설계하면서 자원 중심 URI 설계 방식과 HTTP Method 기반 API 구조를 익혔다.
+- JWT 인증을 적용하면서 공개 API와 인증이 필요한 API를 분리하는 방법을 경험했다.
+- SQLite를 사용하면서 관계형 데이터 모델링, 외래키, UNIQUE 제약 조건을 활용한 데이터 무결성 설계를 경험했다.
+- 스터디 참여 신청, 승인, 거절 흐름을 구현하면서 상태 기반 비즈니스 로직을 설계하는 방법을 익혔다.
+- 권한 검증 로직을 통해 스터디 생성자만 참여 상태를 변경할 수 있도록 접근 제어를 구현했다.
 
 
 ## 프로젝트 결과
