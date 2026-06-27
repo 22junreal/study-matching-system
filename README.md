@@ -24,13 +24,30 @@
 **사용자 프로필 기반 스터디 생성 / 조회 / 참여 신청 / 승인·거절 기능**을 제공하는 웹 기반 시스템입니다.
 
 ---
+
 ## 프로젝트 화면
+
+본 프로젝트 화면은 실제화면이 아닌 구상을 위해 초기에 제작된 화면입니다
 
 ### Login
 
+![Login](docs/images/Login.png)
+
+사용자 로그인 화면 입니다.
+
 ### Study Detail
 
+![Study Detail](docs/images/Study Detail.png)
+
+스터디 관심 분야 및 학습목표 입력 화면 입니다.
+
 ### Study Creat
+
+![Study Creat](docs/images/Study Creat.png)
+
+스터디 생성 완료 화면입나다.
+
+---
 
 ## 시스템 목표
 
