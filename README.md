@@ -9,6 +9,11 @@
 
 ---
 
+## Documents
+
+- 📄 SRS : [SRS.md](SRS.md)
+- 📄 Design : [DESIGN.md](DESIGN.md)
+
 ## 프로젝트 개요
 
 기존의 스터디 모집은 커뮤니티 게시글, 단체 채팅방, 지인 추천 등에 의존하는 경우가 많아  
@@ -46,6 +51,33 @@
 - 향후 자동 매칭 기능 확장을 위한 데이터 구조 설계
 
 ---
+
+## 구현 범위
+
+✔ 회원가입
+
+✔ 로그인
+
+✔ JWT 인증
+
+✔ 프로필 관리
+
+✔ 스터디 생성
+
+✔ 스터디 조회
+
+✔ 참여 신청
+
+✔ 승인/거절
+
+❌ 자동 추천
+
+❌ AI 매칭
+
+(향후 확장 예정)
+
+---
+
 
 ## 주요 기능
 
@@ -357,6 +389,19 @@ Authorization: Bearer {token}
   "message": "Cannot approve request because study is closed or full"
 }
 ```
+
+## What I Learned
+
+이 프로젝트를 통해
+
+- REST API 설계
+- JWT 인증
+- SQLite 데이터 모델링
+- 권한 기반 접근 제어
+- 상태 기반 비즈니스 로직
+
+을 구현하며 백엔드 개발 프로세스를 경험하였다.
+
 
 ## 프로젝트 결과
 
