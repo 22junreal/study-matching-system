@@ -45,7 +45,7 @@
 
 ![Study Create](docs/image/study_create.png)
 
-스터디 생성 완료 화면입나다.
+스터디 생성 완료 화면입니다.
 
 ---
 
