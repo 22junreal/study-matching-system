@@ -5,9 +5,12 @@ import com.studymatching.member.repository.MemberRepository;
 import com.studymatching.study.dto.StudyCreateRequest;
 import com.studymatching.study.dto.StudyResponse;
 import com.studymatching.study.entity.Study;
+import com.studymatching.study.exception.StudyNotFoundException;
 import com.studymatching.study.repository.StudyRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class StudyService {
@@ -49,6 +52,24 @@ public class StudyService {
         Study savedStudy = studyRepository.save(study);
 
         return toResponse(savedStudy);
+    }
+
+    @Transactional(readOnly = true)
+    public StudyResponse getStudy(Long studyId) {
+
+        Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        return toResponse(study);
+    }
+
+    @Transactional(readOnly = true)
+    public List<StudyResponse> getStudies() {
+
+        return studyRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
     private StudyResponse toResponse(Study study) {

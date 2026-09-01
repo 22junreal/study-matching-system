@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.security.core.AuthenticationException;
+import com.studymatching.study.exception.StudyNotFoundException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -69,6 +70,20 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
+                .body(response);
+    }
+    @ExceptionHandler(StudyNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleStudyNotFound(
+            StudyNotFoundException e
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                404,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(response);
     }
 }

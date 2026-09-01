@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/studies")
 public class StudyController {
@@ -28,5 +30,17 @@ public class StudyController {
                 authentication.getName(),
                 request
         );
+    }
+
+    @GetMapping("/{studyId}")
+    public StudyResponse getStudy(
+            @PathVariable Long studyId
+    ) {
+        return studyService.getStudy(studyId);
+    }
+
+    @GetMapping
+    public List<StudyResponse> getStudies() {
+        return studyService.getStudies();
     }
 }
