@@ -11,6 +11,8 @@ import com.studymatching.study.exception.StudyAccessDeniedException;
 import com.studymatching.studyapplication.exception.DuplicateStudyApplicationException;
 import com.studymatching.studyapplication.exception.OwnStudyApplicationException;
 import com.studymatching.studyapplication.exception.StudyNotRecruitingException;
+import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
+import com.studymatching.studyapplication.exception.StudyApplicationNotFoundException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -135,6 +137,34 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(StudyNotRecruitingException.class)
     public ResponseEntity<ErrorResponse> handleStudyNotRecruiting(
             StudyNotRecruitingException e
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                409,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(response);
+    }
+    @ExceptionHandler(StudyApplicationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleStudyApplicationNotFound(
+            StudyApplicationNotFoundException e
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                404,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
+    @ExceptionHandler(StudyApplicationAlreadyProcessedException.class)
+    public ResponseEntity<ErrorResponse> handleStudyApplicationAlreadyProcessed(
+            StudyApplicationAlreadyProcessedException e
     ) {
         ErrorResponse response = new ErrorResponse(
                 409,
