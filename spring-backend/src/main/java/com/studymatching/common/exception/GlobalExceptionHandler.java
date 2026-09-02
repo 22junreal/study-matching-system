@@ -8,6 +8,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.security.core.AuthenticationException;
 import com.studymatching.study.exception.StudyNotFoundException;
 import com.studymatching.study.exception.StudyAccessDeniedException;
+import com.studymatching.studyapplication.exception.DuplicateStudyApplicationException;
+import com.studymatching.studyapplication.exception.OwnStudyApplicationException;
+import com.studymatching.studyapplication.exception.StudyNotRecruitingException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -99,6 +102,48 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
+                .body(response);
+    }
+    @ExceptionHandler(OwnStudyApplicationException.class)
+    public ResponseEntity<ErrorResponse> handleOwnStudyApplication(
+            OwnStudyApplicationException e
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                400,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(response);
+    }
+    @ExceptionHandler(DuplicateStudyApplicationException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateStudyApplication(
+            DuplicateStudyApplicationException e
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                409,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(response);
+    }
+    @ExceptionHandler(StudyNotRecruitingException.class)
+    public ResponseEntity<ErrorResponse> handleStudyNotRecruiting(
+            StudyNotRecruitingException e
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                409,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
                 .body(response);
     }
 }
