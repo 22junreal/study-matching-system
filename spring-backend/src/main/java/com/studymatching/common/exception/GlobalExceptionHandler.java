@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.security.core.AuthenticationException;
 import com.studymatching.study.exception.StudyNotFoundException;
+import com.studymatching.study.exception.StudyAccessDeniedException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -84,6 +85,20 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
+    @ExceptionHandler(StudyAccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleStudyAccessDenied(
+            StudyAccessDeniedException e
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                403,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
                 .body(response);
     }
 }

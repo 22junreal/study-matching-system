@@ -9,6 +9,14 @@ import com.studymatching.study.exception.StudyNotFoundException;
 import com.studymatching.study.repository.StudyRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.studymatching.study.dto.StudyUpdateRequest;
+import com.studymatching.study.exception.StudyAccessDeniedException;
+import com.studymatching.study.dto.StudyPageResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 
 import java.util.List;
 
@@ -64,12 +72,43 @@ public class StudyService {
     }
 
     @Transactional(readOnly = true)
-    public List<StudyResponse> getStudies() {
+    public StudyPageResponse getStudies(
+            int page,
+            int size
+    ) {
 
-        return studyRepository.findAll()
-                .stream()
-                .map(this::toResponse)
-                .toList();
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+
+        Page<Study> studyPage =
+                studyRepository.findAll(pageable);
+
+        return toPageResponse(studyPage);
+    }
+
+    @Transactional(readOnly = true)
+    public StudyPageResponse getMyStudies(
+            String username,
+            int page,
+            int size
+    ) {
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+
+        Page<Study> studyPage =
+                studyRepository.findByOwnerUsername(
+                        username,
+                        pageable
+                );
+
+        return toPageResponse(studyPage);
     }
 
     private StudyResponse toResponse(Study study) {
@@ -89,5 +128,66 @@ public class StudyService {
                 study.getStatus(),
                 study.getCreatedAt()
         );
+    }
+    private StudyPageResponse toPageResponse(
+            Page<Study> studyPage
+    ) {
+
+        return new StudyPageResponse(
+                studyPage.getContent()
+                        .stream()
+                        .map(this::toResponse)
+                        .toList(),
+
+                studyPage.getNumber(),
+                studyPage.getSize(),
+                studyPage.getTotalElements(),
+                studyPage.getTotalPages(),
+                studyPage.isFirst(),
+                studyPage.isLast()
+        );
+    }
+
+    @Transactional
+    public StudyResponse updateStudy(
+            Long studyId,
+            String username,
+            StudyUpdateRequest request
+    ) {
+
+        Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        if (!study.getOwner().getUsername().equals(username)) {
+            throw new StudyAccessDeniedException();
+        }
+
+        study.update(
+                request.title(),
+                request.description(),
+                request.category(),
+                request.level(),
+                request.days(),
+                request.startTime(),
+                request.endTime(),
+                request.maxMembers()
+        );
+
+        return toResponse(study);
+    }
+    @Transactional
+    public void deleteStudy(
+            Long studyId,
+            String username
+    ) {
+
+        Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        if (!study.getOwner().getUsername().equals(username)) {
+            throw new StudyAccessDeniedException();
+        }
+
+        studyRepository.delete(study);
     }
 }

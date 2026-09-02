@@ -79,6 +79,26 @@ public class Study {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
+    public void update(
+            String title,
+            String description,
+            StudyCategory category,
+            StudyLevel level,
+            String days,
+            LocalTime startTime,
+            LocalTime endTime,
+            Integer maxMembers
+    ) {
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.level = level;
+        this.days = days;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.maxMembers = maxMembers;
+        this.updatedAt = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
