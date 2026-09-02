@@ -1,5 +1,29 @@
 node_modules/
-.env
 *.db
 .vscode/
 .vs/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Gradle
+.gradle/
+**/.gradle/
+build/
+**/build/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
