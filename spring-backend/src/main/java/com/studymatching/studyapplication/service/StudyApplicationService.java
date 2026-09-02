@@ -14,7 +14,12 @@ import com.studymatching.studyapplication.exception.StudyNotRecruitingException;
 import com.studymatching.studyapplication.repository.StudyApplicationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.studymatching.study.exception.StudyAccessDeniedException;
+import com.studymatching.studyapplication.entity.ApplicationStatus;
+import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
+import com.studymatching.studyapplication.exception.StudyApplicationNotFoundException;
 
+import java.util.List;
 @Service
 public class StudyApplicationService {
 
@@ -68,6 +73,85 @@ public class StudyApplicationService {
                 applicationRepository.save(application);
 
         return toResponse(savedApplication);
+    }
+    @Transactional(readOnly = true)
+    public List<StudyApplicationResponse> getApplications(
+            Long studyId,
+            String username
+    ) {
+
+        Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        if (!study.getOwner().getUsername().equals(username)) {
+            throw new StudyAccessDeniedException();
+        }
+
+        return applicationRepository
+                .findByStudyIdOrderByCreatedAtAsc(studyId)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+    @Transactional
+    public StudyApplicationResponse approve(
+            Long studyId,
+            Long applicationId,
+            String username
+    ) {
+
+        Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        if (!study.getOwner().getUsername().equals(username)) {
+            throw new StudyAccessDeniedException();
+        }
+
+        StudyApplication application =
+                applicationRepository.findByIdAndStudyId(
+                        applicationId,
+                        studyId
+                ).orElseThrow(
+                        StudyApplicationNotFoundException::new
+                );
+
+        if (application.getStatus() != ApplicationStatus.PENDING) {
+            throw new StudyApplicationAlreadyProcessedException();
+        }
+
+        application.approve();
+
+        return toResponse(application);
+    }
+    @Transactional
+    public StudyApplicationResponse reject(
+            Long studyId,
+            Long applicationId,
+            String username
+    ) {
+
+        Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        if (!study.getOwner().getUsername().equals(username)) {
+            throw new StudyAccessDeniedException();
+        }
+
+        StudyApplication application =
+                applicationRepository.findByIdAndStudyId(
+                        applicationId,
+                        studyId
+                ).orElseThrow(
+                        StudyApplicationNotFoundException::new
+                );
+
+        if (application.getStatus() != ApplicationStatus.PENDING) {
+            throw new StudyApplicationAlreadyProcessedException();
+        }
+
+        application.reject();
+
+        return toResponse(application);
     }
 
     private StudyApplicationResponse toResponse(

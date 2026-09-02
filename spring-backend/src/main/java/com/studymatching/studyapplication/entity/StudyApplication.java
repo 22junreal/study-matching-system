@@ -53,6 +53,15 @@ public class StudyApplication {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
+    public void approve() {
+        this.status = ApplicationStatus.APPROVED;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void reject() {
+        this.status = ApplicationStatus.REJECTED;
+        this.updatedAt = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
