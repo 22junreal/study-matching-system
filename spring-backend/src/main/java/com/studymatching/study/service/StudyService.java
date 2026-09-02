@@ -16,7 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
+import com.studymatching.study.entity.StudyCategory;
+import com.studymatching.study.entity.StudyLevel;
+import com.studymatching.study.entity.StudyStatus;
 
 import java.util.List;
 
@@ -85,6 +87,31 @@ public class StudyService {
 
         Page<Study> studyPage =
                 studyRepository.findAll(pageable);
+
+        return toPageResponse(studyPage);
+    }
+    @Transactional(readOnly = true)
+    public StudyPageResponse searchStudies(
+            StudyCategory category,
+            StudyLevel level,
+            StudyStatus status,
+            int page,
+            int size
+    ) {
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+
+        Page<Study> studyPage =
+                studyRepository.findByCategoryAndLevelAndStatus(
+                        category,
+                        level,
+                        status,
+                        pageable
+                );
 
         return toPageResponse(studyPage);
     }

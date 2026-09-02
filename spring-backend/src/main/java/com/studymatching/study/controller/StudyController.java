@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.studymatching.study.dto.StudyPageResponse;
+import com.studymatching.study.entity.StudyCategory;
+import com.studymatching.study.entity.StudyLevel;
+import com.studymatching.study.entity.StudyStatus;
 
 import java.util.List;
 
@@ -36,9 +39,23 @@ public class StudyController {
 
     @GetMapping
     public StudyPageResponse getStudies(
+            @RequestParam(required = false) StudyCategory category,
+            @RequestParam(required = false) StudyLevel level,
+            @RequestParam(required = false) StudyStatus status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
+
+        if (category != null && level != null && status != null) {
+            return studyService.searchStudies(
+                    category,
+                    level,
+                    status,
+                    page,
+                    size
+            );
+        }
+
         return studyService.getStudies(page, size);
     }
 
