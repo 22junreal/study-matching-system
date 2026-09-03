@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import com.studymatching.study.entity.StudyCategory;
 import com.studymatching.study.entity.StudyLevel;
 import com.studymatching.study.entity.StudyStatus;
+import com.studymatching.member.exception.MemberNotFoundException;
 
 import java.util.List;
 
@@ -43,9 +44,7 @@ public class StudyService {
     ) {
 
         Member owner = memberRepository.findByUsername(username)
-                .orElseThrow(() ->
-                        new IllegalArgumentException("사용자를 찾을 수 없습니다.")
-                );
+                .orElseThrow(MemberNotFoundException::new);
 
         Study study = new Study(
                 owner,

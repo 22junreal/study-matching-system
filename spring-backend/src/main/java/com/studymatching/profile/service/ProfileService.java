@@ -8,7 +8,7 @@ import com.studymatching.profile.entity.Profile;
 import com.studymatching.profile.repository.ProfileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.studymatching.member.exception.MemberNotFoundException;
 @Service
 public class ProfileService {
 
@@ -41,9 +41,7 @@ public class ProfileService {
     ) {
 
         Member member = memberRepository.findByUsername(username)
-                .orElseThrow(() ->
-                        new IllegalArgumentException("사용자를 찾을 수 없습니다.")
-                );
+                .orElseThrow(MemberNotFoundException::new);
 
         Profile profile = profileRepository.findByMemberUsername(username)
                 .orElseGet(() ->

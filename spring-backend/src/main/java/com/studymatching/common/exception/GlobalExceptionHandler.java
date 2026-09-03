@@ -13,6 +13,7 @@ import com.studymatching.studyapplication.exception.OwnStudyApplicationException
 import com.studymatching.studyapplication.exception.StudyNotRecruitingException;
 import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
 import com.studymatching.studyapplication.exception.StudyApplicationNotFoundException;
+import com.studymatching.member.exception.MemberNotFoundException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -174,6 +175,20 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
+                .body(response);
+    }
+    @ExceptionHandler(MemberNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleMemberNotFound(
+            MemberNotFoundException e
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                404,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(response);
     }
 }

@@ -18,6 +18,7 @@ import com.studymatching.study.exception.StudyAccessDeniedException;
 import com.studymatching.studyapplication.entity.ApplicationStatus;
 import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
 import com.studymatching.studyapplication.exception.StudyApplicationNotFoundException;
+import com.studymatching.member.exception.MemberNotFoundException;
 
 import java.util.List;
 @Service
@@ -47,9 +48,7 @@ public class StudyApplicationService {
                 .orElseThrow(StudyNotFoundException::new);
 
         Member applicant = memberRepository.findByUsername(username)
-                .orElseThrow(() ->
-                        new IllegalArgumentException("사용자를 찾을 수 없습니다.")
-                );
+                .orElseThrow(MemberNotFoundException::new);
 
         if (study.getStatus() != StudyStatus.RECRUITING) {
             throw new StudyNotRecruitingException();

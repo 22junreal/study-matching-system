@@ -12,11 +12,16 @@ import com.studymatching.study.dto.StudyPageResponse;
 import com.studymatching.study.entity.StudyCategory;
 import com.studymatching.study.entity.StudyLevel;
 import com.studymatching.study.entity.StudyStatus;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/studies")
+@Validated
 public class StudyController {
 
     private final StudyService studyService;
@@ -62,8 +67,14 @@ public class StudyController {
     @GetMapping("/mine")
     public StudyPageResponse getMyStudies(
             Authentication authentication,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "0")
+            @Min(0)
+            int page,
+
+            @RequestParam(defaultValue = "10")
+            @Min(1)
+            @Max(100)
+            int size
     ) {
         return studyService.getMyStudies(
                 authentication.getName(),
