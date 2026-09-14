@@ -100,7 +100,7 @@ public class StudyApplicationService {
             String username
     ) {
 
-        Study study = studyRepository.findById(studyId)
+        Study study = studyRepository.findByIdForUpdate(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         if (!study.getOwner().getUsername().equals(username)) {
