@@ -62,6 +62,15 @@ public class StudyApplication {
         this.status = ApplicationStatus.REJECTED;
         this.updatedAt = LocalDateTime.now();
     }
+    public void cancel() {
+        this.status = ApplicationStatus.CANCELED;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void reapply() {
+        this.status = ApplicationStatus.PENDING;
+        this.updatedAt = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;

@@ -28,4 +28,9 @@ public interface StudyApplicationRepository
             Long studyId,
             ApplicationStatus status
     );
+    Optional<StudyApplication> findByIdAndStudyIdAndApplicantUsername(
+            Long applicationId,
+            Long studyId,
+            String username
+    );
 }
