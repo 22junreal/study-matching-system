@@ -19,6 +19,7 @@ import com.studymatching.studyapplication.entity.ApplicationStatus;
 import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
 import com.studymatching.studyapplication.exception.StudyApplicationNotFoundException;
 import com.studymatching.member.exception.MemberNotFoundException;
+import com.studymatching.studyapplication.exception.StudyCapacityExceededException;
 
 import java.util.List;
 @Service
@@ -118,7 +119,25 @@ public class StudyApplicationService {
             throw new StudyApplicationAlreadyProcessedException();
         }
 
+        long approvedCount =
+                applicationRepository.countByStudyIdAndStatus(
+                        studyId,
+                        ApplicationStatus.APPROVED
+                );
+
+        long currentMemberCount = approvedCount + 1;
+
+        if (currentMemberCount >= study.getMaxMembers()) {
+            throw new StudyCapacityExceededException();
+        }
+
         application.approve();
+
+        long newMemberCount = currentMemberCount + 1;
+
+        if (newMemberCount >= study.getMaxMembers()) {
+            study.close();
+        }
 
         return toResponse(application);
     }
@@ -152,6 +171,7 @@ public class StudyApplicationService {
 
         return toResponse(application);
     }
+
 
     private StudyApplicationResponse toResponse(
             StudyApplication application

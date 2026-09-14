@@ -14,6 +14,7 @@ import com.studymatching.studyapplication.exception.StudyNotRecruitingException;
 import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
 import com.studymatching.studyapplication.exception.StudyApplicationNotFoundException;
 import com.studymatching.member.exception.MemberNotFoundException;
+import com.studymatching.studyapplication.exception.StudyCapacityExceededException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -189,6 +190,20 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
+    @ExceptionHandler(StudyCapacityExceededException.class)
+    public ResponseEntity<ErrorResponse> handleStudyCapacityExceeded(
+            StudyCapacityExceededException e
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                409,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
                 .body(response);
     }
 }
