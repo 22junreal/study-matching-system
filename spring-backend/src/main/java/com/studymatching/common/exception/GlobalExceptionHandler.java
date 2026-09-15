@@ -1,5 +1,6 @@
 package com.studymatching.common.exception;
 
+import com.studymatching.studyapplication.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,16 +9,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.security.core.AuthenticationException;
 import com.studymatching.study.exception.StudyNotFoundException;
 import com.studymatching.study.exception.StudyAccessDeniedException;
-import com.studymatching.studyapplication.exception.DuplicateStudyApplicationException;
-import com.studymatching.studyapplication.exception.OwnStudyApplicationException;
-import com.studymatching.studyapplication.exception.StudyNotRecruitingException;
-import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
-import com.studymatching.studyapplication.exception.StudyApplicationNotFoundException;
 import com.studymatching.member.exception.MemberNotFoundException;
+import com.studymatching.studyapplication.exception.StudyApplicationCannotCancelException;
+import com.studymatching.studyapplication.exception.StudyApplicationCannotReapplyException;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.time.LocalDateTime;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -189,6 +188,48 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
+    @ExceptionHandler(StudyCapacityExceededException.class)
+    public ResponseEntity<ErrorResponse> handleStudyCapacityExceeded(
+            StudyCapacityExceededException e
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                409,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(response);
+    }
+    @ExceptionHandler(StudyApplicationCannotCancelException.class)
+    public ResponseEntity<ErrorResponse> handleStudyApplicationCannotCancel(
+            StudyApplicationCannotCancelException e
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                409,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(response);
+    }
+    @ExceptionHandler(StudyApplicationCannotReapplyException.class)
+    public ResponseEntity<ErrorResponse> handleStudyApplicationCannotReapply(
+            StudyApplicationCannotReapplyException e
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                409,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
                 .body(response);
     }
 }

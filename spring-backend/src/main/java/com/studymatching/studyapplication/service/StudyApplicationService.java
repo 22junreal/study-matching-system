@@ -19,6 +19,10 @@ import com.studymatching.studyapplication.entity.ApplicationStatus;
 import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
 import com.studymatching.studyapplication.exception.StudyApplicationNotFoundException;
 import com.studymatching.member.exception.MemberNotFoundException;
+import com.studymatching.studyapplication.exception.StudyCapacityExceededException;
+
+import com.studymatching.studyapplication.exception.StudyApplicationCannotCancelException;
+import com.studymatching.studyapplication.exception.StudyApplicationCannotReapplyException;
 
 import java.util.List;
 @Service
@@ -99,7 +103,7 @@ public class StudyApplicationService {
             String username
     ) {
 
-        Study study = studyRepository.findById(studyId)
+        Study study = studyRepository.findByIdForUpdate(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         if (!study.getOwner().getUsername().equals(username)) {
@@ -118,7 +122,25 @@ public class StudyApplicationService {
             throw new StudyApplicationAlreadyProcessedException();
         }
 
+        long approvedCount =
+                applicationRepository.countByStudyIdAndStatus(
+                        studyId,
+                        ApplicationStatus.APPROVED
+                );
+
+        long currentMemberCount = approvedCount + 1;
+
+        if (currentMemberCount >= study.getMaxMembers()) {
+            throw new StudyCapacityExceededException();
+        }
+
         application.approve();
+
+        long newMemberCount = currentMemberCount + 1;
+
+        if (newMemberCount >= study.getMaxMembers()) {
+            study.close();
+        }
 
         return toResponse(application);
     }
@@ -152,6 +174,78 @@ public class StudyApplicationService {
 
         return toResponse(application);
     }
+    @Transactional
+    public StudyApplicationResponse cancel(
+            Long studyId,
+            Long applicationId,
+            String username
+    ) {
+
+        StudyApplication application =
+                applicationRepository
+                        .findByIdAndStudyIdAndApplicantUsername(
+                                applicationId,
+                                studyId,
+                                username
+                        )
+                        .orElseThrow(
+                                StudyApplicationNotFoundException::new
+                        );
+
+        if (application.getStatus() != ApplicationStatus.PENDING) {
+            throw new StudyApplicationCannotCancelException();
+        }
+
+        application.cancel();
+
+        return toResponse(application);
+    }
+    @Transactional
+    public StudyApplicationResponse reapply(
+            Long studyId,
+            Long applicationId,
+            String username
+    ) {
+
+        Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        if (study.getStatus() != StudyStatus.RECRUITING) {
+            throw new StudyNotRecruitingException();
+        }
+
+        StudyApplication application =
+                applicationRepository
+                        .findByIdAndStudyIdAndApplicantUsername(
+                                applicationId,
+                                studyId,
+                                username
+                        )
+                        .orElseThrow(
+                                StudyApplicationNotFoundException::new
+                        );
+
+        if (application.getStatus() != ApplicationStatus.CANCELED) {
+            throw new StudyApplicationCannotReapplyException();
+        }
+
+        long approvedCount =
+                applicationRepository.countByStudyIdAndStatus(
+                        studyId,
+                        ApplicationStatus.APPROVED
+                );
+
+        long currentMemberCount = approvedCount + 1;
+
+        if (currentMemberCount >= study.getMaxMembers()) {
+            throw new StudyCapacityExceededException();
+        }
+
+        application.reapply();
+
+        return toResponse(application);
+    }
+
 
     private StudyApplicationResponse toResponse(
             StudyApplication application

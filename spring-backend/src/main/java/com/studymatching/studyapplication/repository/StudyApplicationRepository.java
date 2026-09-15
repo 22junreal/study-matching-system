@@ -1,5 +1,6 @@
 package com.studymatching.studyapplication.repository;
 
+import com.studymatching.studyapplication.entity.ApplicationStatus;
 import com.studymatching.studyapplication.entity.StudyApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -21,5 +22,15 @@ public interface StudyApplicationRepository
     Optional<StudyApplication> findByIdAndStudyId(
             Long applicationId,
             Long studyId
+    );
+
+    long countByStudyIdAndStatus(
+            Long studyId,
+            ApplicationStatus status
+    );
+    Optional<StudyApplication> findByIdAndStudyIdAndApplicantUsername(
+            Long applicationId,
+            Long studyId,
+            String username
     );
 }

@@ -5,6 +5,8 @@ import com.studymatching.studyapplication.service.StudyApplicationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 @RestController
@@ -63,5 +65,37 @@ public class StudyApplicationController {
                 applicationId,
                 authentication.getName()
         );
+    }
+    @PatchMapping("/{applicationId}/cancel")
+    public ResponseEntity<StudyApplicationResponse> cancel(
+            @PathVariable Long studyId,
+            @PathVariable Long applicationId,
+            Authentication authentication
+    ) {
+
+        StudyApplicationResponse response =
+                studyApplicationService.cancel(
+                        studyId,
+                        applicationId,
+                        authentication.getName()
+                );
+
+        return ResponseEntity.ok(response);
+    }
+    @PatchMapping("/{applicationId}/reapply")
+    public ResponseEntity<StudyApplicationResponse> reapply(
+            @PathVariable Long studyId,
+            @PathVariable Long applicationId,
+            Authentication authentication
+    ) {
+
+        StudyApplicationResponse response =
+                studyApplicationService.reapply(
+                        studyId,
+                        applicationId,
+                        authentication.getName()
+                );
+
+        return ResponseEntity.ok(response);
     }
 }

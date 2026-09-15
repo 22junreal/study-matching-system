@@ -99,6 +99,10 @@ public class Study {
         this.maxMembers = maxMembers;
         this.updatedAt = LocalDateTime.now();
     }
+    public void close() {
+        this.status = StudyStatus.CLOSED;
+        this.updatedAt = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
