@@ -3,12 +3,18 @@ package com.studymatching.studyapplication.controller;
 import com.studymatching.studyapplication.dto.StudyApplicationResponse;
 import com.studymatching.studyapplication.service.StudyApplicationService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/studies/{studyId}/applications")
 public class StudyApplicationController {
@@ -32,6 +38,7 @@ public class StudyApplicationController {
                 authentication.getName()
         );
     }
+
     @GetMapping
     public List<StudyApplicationResponse> getApplications(
             @PathVariable Long studyId,
@@ -42,6 +49,7 @@ public class StudyApplicationController {
                 authentication.getName()
         );
     }
+
     @PatchMapping("/{applicationId}/approve")
     public StudyApplicationResponse approve(
             @PathVariable Long studyId,
@@ -54,6 +62,7 @@ public class StudyApplicationController {
                 authentication.getName()
         );
     }
+
     @PatchMapping("/{applicationId}/reject")
     public StudyApplicationResponse reject(
             @PathVariable Long studyId,
@@ -66,15 +75,15 @@ public class StudyApplicationController {
                 authentication.getName()
         );
     }
+
     @PatchMapping("/{applicationId}/cancel")
     public ResponseEntity<StudyApplicationResponse> cancel(
             @PathVariable Long studyId,
             @PathVariable Long applicationId,
             Authentication authentication
     ) {
-
         StudyApplicationResponse response =
-                studyApplicationService.cancel(
+                applicationService.cancel(
                         studyId,
                         applicationId,
                         authentication.getName()
@@ -82,15 +91,15 @@ public class StudyApplicationController {
 
         return ResponseEntity.ok(response);
     }
+
     @PatchMapping("/{applicationId}/reapply")
     public ResponseEntity<StudyApplicationResponse> reapply(
             @PathVariable Long studyId,
             @PathVariable Long applicationId,
             Authentication authentication
     ) {
-
         StudyApplicationResponse response =
-                studyApplicationService.reapply(
+                applicationService.reapply(
                         studyId,
                         applicationId,
                         authentication.getName()

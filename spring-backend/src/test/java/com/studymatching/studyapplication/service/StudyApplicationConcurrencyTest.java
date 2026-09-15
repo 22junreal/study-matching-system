@@ -11,6 +11,7 @@ import com.studymatching.studyapplication.entity.ApplicationStatus;
 import com.studymatching.studyapplication.entity.StudyApplication;
 import com.studymatching.studyapplication.repository.StudyApplicationRepository;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.springframework.test.context.ActiveProfiles;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,10 +26,10 @@ import java.time.LocalTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(properties = {
-        "jwt.secret=dGVzdC1qd3Qtc2VjcmV0LWtleS10ZXN0LWp3dC1zZWNyZXQta2V5LTEyMzQ1Njc4OTA="
-})
+@ActiveProfiles("test")
+@SpringBootTest
 class StudyApplicationConcurrencyTest {
+
 
     @Autowired
     private StudyApplicationService studyApplicationService;
