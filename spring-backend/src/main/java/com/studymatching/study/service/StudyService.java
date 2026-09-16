@@ -20,6 +20,8 @@ import com.studymatching.study.entity.StudyCategory;
 import com.studymatching.study.entity.StudyLevel;
 import com.studymatching.study.entity.StudyStatus;
 import com.studymatching.member.exception.MemberNotFoundException;
+import com.studymatching.study.repository.StudySpecification;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
@@ -104,11 +106,27 @@ public class StudyService {
                 Sort.by(Sort.Direction.DESC, "createdAt")
         );
 
+        Specification<Study> specification =
+                Specification
+                        .where(
+                                StudySpecification.categoryEquals(
+                                        category
+                                )
+                        )
+                        .and(
+                                StudySpecification.levelEquals(
+                                        level
+                                )
+                        )
+                        .and(
+                                StudySpecification.statusEquals(
+                                        status
+                                )
+                        );
+
         Page<Study> studyPage =
-                studyRepository.findByCategoryAndLevelAndStatus(
-                        category,
-                        level,
-                        status,
+                studyRepository.findAll(
+                        specification,
                         pageable
                 );
 

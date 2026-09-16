@@ -2,11 +2,10 @@ package com.studymatching;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest(properties = {
-		"jwt.secret=MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=",
-		"jwt.access-token-expiration-seconds=3600"
-})
+@ActiveProfiles("test")
+@SpringBootTest
 class StudyMatchingApiApplicationTests {
 
 	@Test
