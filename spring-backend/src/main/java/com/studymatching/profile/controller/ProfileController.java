@@ -3,6 +3,7 @@ package com.studymatching.profile.controller;
 import com.studymatching.profile.dto.ProfileResponse;
 import com.studymatching.profile.dto.ProfileUpdateRequest;
 import com.studymatching.profile.service.ProfileService;
+import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class ProfileController {
     @PutMapping("/me")
     public ProfileResponse updateMyProfile(
             Authentication authentication,
-            @RequestBody ProfileUpdateRequest request
+            @Valid @RequestBody ProfileUpdateRequest request
     ) {
         return profileService.updateMyProfile(
                 authentication.getName(),
