@@ -50,18 +50,13 @@ public class StudyController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-
-        if (category != null && level != null && status != null) {
-            return studyService.searchStudies(
-                    category,
-                    level,
-                    status,
-                    page,
-                    size
-            );
-        }
-
-        return studyService.getStudies(page, size);
+        return studyService.searchStudies(
+                category,
+                level,
+                status,
+                page,
+                size
+        );
     }
 
     @GetMapping("/mine")
