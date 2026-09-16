@@ -17,12 +17,15 @@ import org.springframework.test.context.ActiveProfiles;
 import com.studymatching.study.repository.StudyRepository;
 import com.studymatching.studyapplication.repository.StudyApplicationRepository;
 import com.studymatching.profile.repository.ProfileRepository;
+import com.studymatching.support.PostgresTestContainerConfig;
+import org.springframework.context.annotation.Import;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @SpringBootTest
+@Import(PostgresTestContainerConfig.class)
 class AuthServiceTest {
     @Autowired
     private StudyApplicationRepository studyApplicationRepository;

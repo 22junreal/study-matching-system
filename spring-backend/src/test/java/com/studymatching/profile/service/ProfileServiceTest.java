@@ -15,13 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import com.studymatching.profile.exception.ProfileNotFoundException;
-
+import com.studymatching.support.PostgresTestContainerConfig;
+import org.springframework.context.annotation.Import;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @SpringBootTest
+@Import(PostgresTestContainerConfig.class)
 class ProfileServiceTest {
 
     @Autowired

@@ -12,6 +12,8 @@ import com.studymatching.studyapplication.entity.StudyApplication;
 import com.studymatching.studyapplication.repository.StudyApplicationRepository;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.test.context.ActiveProfiles;
+import com.studymatching.support.PostgresTestContainerConfig;
+import org.springframework.context.annotation.Import;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @SpringBootTest
+@Import(PostgresTestContainerConfig.class)
 class StudyApplicationConcurrencyTest {
 
 

@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import com.studymatching.study.dto.StudyPageResponse;
+import com.studymatching.support.PostgresTestContainerConfig;
+import org.springframework.context.annotation.Import;
 
 import java.time.LocalTime;
 
@@ -27,6 +29,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @SpringBootTest
+@Import(PostgresTestContainerConfig.class)
 class StudyServiceTest {
 
     @Autowired
