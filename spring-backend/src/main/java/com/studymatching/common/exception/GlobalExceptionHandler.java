@@ -18,6 +18,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.studymatching.profile.exception.ProfileNotFoundException;
+import com.studymatching.study.exception.StudyCapacityBelowCurrentMembersException;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
@@ -201,6 +202,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(StudyApplicationCannotReapplyException.class)
     public ResponseEntity<ErrorResponse> handleStudyApplicationCannotReapply(
             StudyApplicationCannotReapplyException e
+    ) {
+        return buildResponse(
+                HttpStatus.CONFLICT,
+                e.getMessage()
+        );
+    }
+    @ExceptionHandler(StudyCapacityBelowCurrentMembersException.class)
+    public ResponseEntity<ErrorResponse> handleStudyCapacityBelowCurrentMembers(
+            StudyCapacityBelowCurrentMembersException e
     ) {
         return buildResponse(
                 HttpStatus.CONFLICT,

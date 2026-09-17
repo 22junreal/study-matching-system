@@ -21,6 +21,8 @@ import org.springframework.test.context.ActiveProfiles;
 import com.studymatching.study.dto.StudyPageResponse;
 import com.studymatching.support.PostgresTestContainerConfig;
 import org.springframework.context.annotation.Import;
+import com.studymatching.study.exception.StudyCapacityBelowCurrentMembersException;
+import com.studymatching.studyapplication.entity.StudyApplication;
 
 import java.time.LocalTime;
 
@@ -741,6 +743,140 @@ class StudyServiceTest {
 
         assertThat(response.content())
                 .hasSize(2);
+    }
+    @Test
+    void updateStudyFailsWhenMaxMembersIsLessThanCurrentMembers() {
+        Member applicant1 = memberRepository.save(
+                new Member(
+                        "applicant1",
+                        "password",
+                        "applicant1@test.com"
+                )
+        );
+
+        Member applicant2 = memberRepository.save(
+                new Member(
+                        "applicant2",
+                        "password",
+                        "applicant2@test.com"
+                )
+        );
+
+        Study study = studyRepository.save(
+                new Study(
+                        owner,
+                        "알고리즘 스터디",
+                        "알고리즘 공부",
+                        StudyCategory.PROGRAMMING,
+                        StudyLevel.INTERMEDIATE,
+                        "MONDAY,WEDNESDAY",
+                        LocalTime.of(19, 0),
+                        LocalTime.of(21, 0),
+                        5
+                )
+        );
+
+        StudyApplication application1 =
+                new StudyApplication(study, applicant1);
+        application1.approve();
+
+        StudyApplication application2 =
+                new StudyApplication(study, applicant2);
+        application2.approve();
+
+        studyApplicationRepository.save(application1);
+        studyApplicationRepository.save(application2);
+
+        StudyUpdateRequest request =
+                new StudyUpdateRequest(
+                        "알고리즘 스터디",
+                        "알고리즘 공부",
+                        StudyCategory.PROGRAMMING,
+                        StudyLevel.INTERMEDIATE,
+                        "MONDAY,WEDNESDAY",
+                        LocalTime.of(19, 0),
+                        LocalTime.of(21, 0),
+                        2
+                );
+
+        assertThatThrownBy(() ->
+                studyService.updateStudy(
+                        study.getId(),
+                        owner.getUsername(),
+                        request
+                )
+        )
+                .isInstanceOf(
+                        StudyCapacityBelowCurrentMembersException.class
+                )
+                .hasMessage(
+                        "현재 참여 인원보다 스터디 정원을 적게 설정할 수 없습니다."
+                );
+    }
+    @Test
+    void updateStudyClosesStudyWhenMaxMembersEqualsCurrentMembers() {
+        Member applicant1 = memberRepository.save(
+                new Member(
+                        "applicant1",
+                        "password",
+                        "applicant1@test.com"
+                )
+        );
+
+        Member applicant2 = memberRepository.save(
+                new Member(
+                        "applicant2",
+                        "password",
+                        "applicant2@test.com"
+                )
+        );
+
+        Study study = studyRepository.save(
+                new Study(
+                        owner,
+                        "알고리즘 스터디",
+                        "알고리즘 공부",
+                        StudyCategory.PROGRAMMING,
+                        StudyLevel.INTERMEDIATE,
+                        "MONDAY,WEDNESDAY",
+                        LocalTime.of(19, 0),
+                        LocalTime.of(21, 0),
+                        5
+                )
+        );
+
+        StudyApplication application1 =
+                new StudyApplication(study, applicant1);
+        application1.approve();
+
+        StudyApplication application2 =
+                new StudyApplication(study, applicant2);
+        application2.approve();
+
+        studyApplicationRepository.save(application1);
+        studyApplicationRepository.save(application2);
+
+        StudyUpdateRequest request =
+                new StudyUpdateRequest(
+                        "알고리즘 스터디",
+                        "알고리즘 공부",
+                        StudyCategory.PROGRAMMING,
+                        StudyLevel.INTERMEDIATE,
+                        "MONDAY,WEDNESDAY",
+                        LocalTime.of(19, 0),
+                        LocalTime.of(21, 0),
+                        3
+                );
+
+        StudyResponse response =
+                studyService.updateStudy(
+                        study.getId(),
+                        owner.getUsername(),
+                        request
+                );
+
+        assertThat(response.maxMembers()).isEqualTo(3);
+        assertThat(response.status()).isEqualTo(StudyStatus.CLOSED);
     }
 
     private Study createStudyEntity() {

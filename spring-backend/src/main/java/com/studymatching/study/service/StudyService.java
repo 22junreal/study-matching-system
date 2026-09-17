@@ -22,6 +22,9 @@ import com.studymatching.study.entity.StudyStatus;
 import com.studymatching.member.exception.MemberNotFoundException;
 import com.studymatching.study.repository.StudySpecification;
 import org.springframework.data.jpa.domain.Specification;
+import com.studymatching.study.exception.StudyCapacityBelowCurrentMembersException;
+import com.studymatching.studyapplication.entity.ApplicationStatus;
+import com.studymatching.studyapplication.repository.StudyApplicationRepository;
 
 import java.util.List;
 
@@ -30,13 +33,16 @@ public class StudyService {
 
     private final StudyRepository studyRepository;
     private final MemberRepository memberRepository;
+    private final StudyApplicationRepository studyApplicationRepository;
 
     public StudyService(
             StudyRepository studyRepository,
-            MemberRepository memberRepository
+            MemberRepository memberRepository,
+            StudyApplicationRepository studyApplicationRepository
     ) {
         this.studyRepository = studyRepository;
         this.memberRepository = memberRepository;
+        this.studyApplicationRepository = studyApplicationRepository;
     }
 
     @Transactional
@@ -198,12 +204,23 @@ public class StudyService {
             String username,
             StudyUpdateRequest request
     ) {
-
-        Study study = studyRepository.findById(studyId)
+        Study study = studyRepository.findByIdForUpdate(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         if (!study.getOwner().getUsername().equals(username)) {
             throw new StudyAccessDeniedException();
+        }
+
+        long approvedCount =
+                studyApplicationRepository.countByStudyIdAndStatus(
+                        studyId,
+                        ApplicationStatus.APPROVED
+                );
+
+        long currentMemberCount = approvedCount + 1;
+
+        if (request.maxMembers() < currentMemberCount) {
+            throw new StudyCapacityBelowCurrentMembersException();
         }
 
         study.update(
@@ -216,6 +233,10 @@ public class StudyService {
                 request.endTime(),
                 request.maxMembers()
         );
+
+        if (request.maxMembers() == currentMemberCount) {
+            study.close();
+        }
 
         return toResponse(study);
     }
