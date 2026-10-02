@@ -1,8 +1,11 @@
 package com.studymatching.study.exception;
 
-public class StudyAccessDeniedException extends RuntimeException {
+import com.studymatching.common.exception.BusinessException;
+import com.studymatching.common.exception.ErrorCode;
+
+public class StudyAccessDeniedException extends BusinessException {
 
     public StudyAccessDeniedException() {
-        super("해당 스터디에 대한 권한이 없습니다.");
+        super(ErrorCode.STUDY_ACCESS_DENIED);
     }
 }

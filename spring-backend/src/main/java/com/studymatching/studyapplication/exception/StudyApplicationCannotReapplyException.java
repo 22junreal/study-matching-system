@@ -1,8 +1,11 @@
 package com.studymatching.studyapplication.exception;
 
-public class StudyApplicationCannotReapplyException extends RuntimeException {
+import com.studymatching.common.exception.BusinessException;
+import com.studymatching.common.exception.ErrorCode;
+
+public class StudyApplicationCannotReapplyException extends BusinessException {
 
     public StudyApplicationCannotReapplyException() {
-        super("취소된 신청만 재신청할 수 있습니다.");
+        super(ErrorCode.STUDY_APPLICATION_CANNOT_REAPPLY);
     }
 }

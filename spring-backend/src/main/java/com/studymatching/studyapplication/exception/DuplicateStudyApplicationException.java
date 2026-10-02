@@ -1,8 +1,11 @@
 package com.studymatching.studyapplication.exception;
 
-public class DuplicateStudyApplicationException extends RuntimeException {
+import com.studymatching.common.exception.BusinessException;
+import com.studymatching.common.exception.ErrorCode;
+
+public class DuplicateStudyApplicationException extends BusinessException {
 
     public DuplicateStudyApplicationException() {
-        super("이미 해당 스터디에 참여 신청했습니다.");
+        super(ErrorCode.DUPLICATE_STUDY_APPLICATION);
     }
 }

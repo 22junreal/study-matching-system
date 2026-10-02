@@ -1,8 +1,11 @@
 package com.studymatching.studyapplication.exception;
 
-public class StudyApplicationCannotCancelException extends RuntimeException {
+import com.studymatching.common.exception.BusinessException;
+import com.studymatching.common.exception.ErrorCode;
+
+public class StudyApplicationCannotCancelException extends BusinessException {
 
     public StudyApplicationCannotCancelException() {
-        super("대기 중인 신청만 취소할 수 있습니다.");
+        super(ErrorCode.STUDY_APPLICATION_CANNOT_CANCEL);
     }
 }

@@ -1,8 +1,11 @@
 package com.studymatching.profile.exception;
 
-public class ProfileNotFoundException extends RuntimeException {
+import com.studymatching.common.exception.BusinessException;
+import com.studymatching.common.exception.ErrorCode;
+
+public class ProfileNotFoundException extends BusinessException {
 
     public ProfileNotFoundException() {
-        super("프로필이 존재하지 않습니다.");
+        super(ErrorCode.PROFILE_NOT_FOUND);
     }
 }

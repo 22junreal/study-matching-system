@@ -1,8 +1,11 @@
 package com.studymatching.studyapplication.exception;
 
-public class OwnStudyApplicationException extends RuntimeException {
+import com.studymatching.common.exception.BusinessException;
+import com.studymatching.common.exception.ErrorCode;
+
+public class OwnStudyApplicationException extends BusinessException {
 
     public OwnStudyApplicationException() {
-        super("본인이 만든 스터디에는 참여 신청할 수 없습니다.");
+        super(ErrorCode.OWN_STUDY_APPLICATION);
     }
 }

@@ -1,8 +1,11 @@
 package com.studymatching.studyapplication.exception;
 
-public class StudyNotRecruitingException extends RuntimeException {
+import com.studymatching.common.exception.BusinessException;
+import com.studymatching.common.exception.ErrorCode;
+
+public class StudyNotRecruitingException extends BusinessException {
 
     public StudyNotRecruitingException() {
-        super("현재 모집 중인 스터디가 아닙니다.");
+        super(ErrorCode.STUDY_NOT_RECRUITING);
     }
 }

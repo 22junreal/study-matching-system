@@ -1,9 +1,12 @@
 package com.studymatching.study.exception;
 
+import com.studymatching.common.exception.BusinessException;
+import com.studymatching.common.exception.ErrorCode;
+
 public class StudyCapacityBelowCurrentMembersException
-        extends RuntimeException {
+        extends BusinessException {
 
     public StudyCapacityBelowCurrentMembersException() {
-        super("현재 참여 인원보다 스터디 정원을 적게 설정할 수 없습니다.");
+        super(ErrorCode.STUDY_CAPACITY_BELOW_CURRENT_MEMBERS);
     }
 }

@@ -3,6 +3,7 @@ package com.studymatching.studyapplication.repository;
 import com.studymatching.studyapplication.entity.ApplicationStatus;
 import com.studymatching.studyapplication.entity.StudyApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ public interface StudyApplicationRepository
             Long applicantId
     );
 
+    @EntityGraph(attributePaths = {"study", "applicant"})
     List<StudyApplication> findByStudyIdOrderByCreatedAtAsc(
             Long studyId
     );

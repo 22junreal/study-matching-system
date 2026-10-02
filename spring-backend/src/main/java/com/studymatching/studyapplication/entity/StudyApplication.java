@@ -1,5 +1,6 @@
 package com.studymatching.studyapplication.entity;
 
+import com.studymatching.common.entity.BaseTimeEntity;
 import com.studymatching.member.entity.Member;
 import com.studymatching.study.entity.Study;
 import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
@@ -7,7 +8,6 @@ import com.studymatching.studyapplication.exception.StudyApplicationCannotCancel
 import com.studymatching.studyapplication.exception.StudyApplicationCannotReapplyException;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 
 @Entity
 @Table(
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
                 )
         }
 )
-public class StudyApplication {
+public class StudyApplication extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +37,6 @@ public class StudyApplication {
     @Column(nullable = false, length = 30)
     private ApplicationStatus status;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
-
     protected StudyApplication() {
     }
 
@@ -53,26 +47,21 @@ public class StudyApplication {
         this.study = study;
         this.applicant = applicant;
         this.status = ApplicationStatus.PENDING;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
     public void approve() {
         validatePending();
         this.status = ApplicationStatus.APPROVED;
-        this.updatedAt = LocalDateTime.now();
     }
 
     public void reject() {
         validatePending();
         this.status = ApplicationStatus.REJECTED;
-        this.updatedAt = LocalDateTime.now();
     }
     public void cancel() {
         if (status != ApplicationStatus.PENDING) {
             throw new StudyApplicationCannotCancelException();
         }
         this.status = ApplicationStatus.CANCELED;
-        this.updatedAt = LocalDateTime.now();
     }
 
     public void reapply() {
@@ -80,7 +69,6 @@ public class StudyApplication {
             throw new StudyApplicationCannotReapplyException();
         }
         this.status = ApplicationStatus.PENDING;
-        this.updatedAt = LocalDateTime.now();
     }
 
     private void validatePending() {
@@ -105,11 +93,4 @@ public class StudyApplication {
         return status;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
 }

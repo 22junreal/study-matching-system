@@ -1,8 +1,11 @@
 package com.studymatching.studyapplication.exception;
 
-public class StudyApplicationNotFoundException extends RuntimeException {
+import com.studymatching.common.exception.BusinessException;
+import com.studymatching.common.exception.ErrorCode;
+
+public class StudyApplicationNotFoundException extends BusinessException {
 
     public StudyApplicationNotFoundException() {
-        super("참여 신청을 찾을 수 없습니다.");
+        super(ErrorCode.STUDY_APPLICATION_NOT_FOUND);
     }
 }

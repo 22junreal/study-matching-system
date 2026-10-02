@@ -206,7 +206,10 @@ public class StudyService {
         Study study = studyRepository.findByIdForUpdate(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
-        if (!study.getOwner().getUsername().equals(username)) {
+        Long currentMemberId = memberRepository.findIdByUsername(username)
+                .orElseThrow(MemberNotFoundException::new);
+
+        if (!study.getOwner().getId().equals(currentMemberId)) {
             throw new StudyAccessDeniedException();
         }
 
@@ -240,7 +243,10 @@ public class StudyService {
         Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
-        if (!study.getOwner().getUsername().equals(username)) {
+        Long currentMemberId = memberRepository.findIdByUsername(username)
+                .orElseThrow(MemberNotFoundException::new);
+
+        if (!study.getOwner().getId().equals(currentMemberId)) {
             throw new StudyAccessDeniedException();
         }
 

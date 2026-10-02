@@ -1,8 +1,11 @@
 package com.studymatching.member.exception;
 
-public class MemberNotFoundException extends RuntimeException {
+import com.studymatching.common.exception.BusinessException;
+import com.studymatching.common.exception.ErrorCode;
+
+public class MemberNotFoundException extends BusinessException {
 
     public MemberNotFoundException() {
-        super("사용자를 찾을 수 없습니다.");
+        super(ErrorCode.MEMBER_NOT_FOUND);
     }
 }

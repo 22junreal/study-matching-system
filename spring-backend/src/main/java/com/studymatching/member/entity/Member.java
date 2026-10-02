@@ -1,12 +1,11 @@
 package com.studymatching.member.entity;
 
+import com.studymatching.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "members")
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +20,6 @@ public class Member {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
     protected Member() {
     }
 
@@ -34,8 +27,6 @@ public class Member {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -54,11 +45,4 @@ public class Member {
         return email;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
 }

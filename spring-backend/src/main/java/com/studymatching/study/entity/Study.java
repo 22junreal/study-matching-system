@@ -1,15 +1,15 @@
 package com.studymatching.study.entity;
 
+import com.studymatching.common.entity.BaseTimeEntity;
 import com.studymatching.member.entity.Member;
 import com.studymatching.study.exception.StudyInvalidTimeRangeException;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "studies")
-public class Study {
+public class Study extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,12 +47,6 @@ public class Study {
     @Column(nullable = false, length = 30)
     private StudyStatus status;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
-
     protected Study() {
     }
 
@@ -80,8 +74,6 @@ public class Study {
         this.status = Integer.valueOf(1).equals(maxMembers)
                 ? StudyStatus.CLOSED
                 : StudyStatus.RECRUITING;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
     public void update(
             String title,
@@ -104,14 +96,12 @@ public class Study {
         this.endTime = endTime;
         this.maxMembers = maxMembers;
         synchronizeStatusWithCapacity(currentMemberCount);
-        this.updatedAt = LocalDateTime.now();
     }
 
     public void synchronizeStatusWithCapacity(long currentMemberCount) {
         this.status = currentMemberCount >= maxMembers
                 ? StudyStatus.CLOSED
                 : StudyStatus.RECRUITING;
-        this.updatedAt = LocalDateTime.now();
     }
 
     private void validateTimeRange(LocalTime startTime, LocalTime endTime) {
@@ -124,7 +114,6 @@ public class Study {
 
     public void close() {
         this.status = StudyStatus.CLOSED;
-        this.updatedAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -171,11 +160,4 @@ public class Study {
         return status;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
 }

@@ -1,9 +1,12 @@
 package com.studymatching.studyapplication.exception;
 
+import com.studymatching.common.exception.BusinessException;
+import com.studymatching.common.exception.ErrorCode;
+
 public class StudyApplicationAlreadyProcessedException
-        extends RuntimeException {
+        extends BusinessException {
 
     public StudyApplicationAlreadyProcessedException() {
-        super("이미 처리된 참여 신청입니다.");
+        super(ErrorCode.STUDY_APPLICATION_ALREADY_PROCESSED);
     }
 }

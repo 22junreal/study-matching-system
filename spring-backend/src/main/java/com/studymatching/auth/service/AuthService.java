@@ -6,6 +6,7 @@ import com.studymatching.auth.dto.RegisterRequest;
 import com.studymatching.auth.dto.RegisterResponse;
 import com.studymatching.auth.security.JwtTokenService;
 import com.studymatching.common.exception.DuplicateMemberException;
+import com.studymatching.common.exception.ErrorCode;
 import com.studymatching.member.entity.Member;
 import com.studymatching.member.repository.MemberRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,11 +40,11 @@ public class AuthService {
     public RegisterResponse register(RegisterRequest request) {
 
         if (memberRepository.existsByUsername(request.username())) {
-            throw new DuplicateMemberException("이미 사용 중인 사용자명입니다.");
+            throw new DuplicateMemberException(ErrorCode.DUPLICATE_USERNAME);
         }
 
         if (memberRepository.existsByEmail(request.email())) {
-            throw new DuplicateMemberException("이미 사용 중인 이메일입니다.");
+            throw new DuplicateMemberException(ErrorCode.DUPLICATE_EMAIL);
         }
 
         String encodedPassword =
