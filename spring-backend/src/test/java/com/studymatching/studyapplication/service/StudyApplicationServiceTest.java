@@ -12,6 +12,9 @@ import com.studymatching.studyapplication.entity.StudyApplication;
 import com.studymatching.studyapplication.exception.StudyApplicationCannotCancelException;
 import com.studymatching.studyapplication.exception.StudyApplicationCannotReapplyException;
 import com.studymatching.studyapplication.exception.StudyNotRecruitingException;
+import com.studymatching.studyapplication.exception.DuplicateStudyApplicationException;
+import com.studymatching.studyapplication.exception.OwnStudyApplicationException;
+import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
 import com.studymatching.studyapplication.repository.StudyApplicationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -113,6 +116,81 @@ class StudyApplicationServiceTest {
 
         assertThat(savedApplication.getStatus())
                 .isEqualTo(ApplicationStatus.CANCELED);
+    }
+
+    @Test
+    void applyCreatesPendingApplication() {
+        StudyApplicationResponse response = studyApplicationService.apply(
+                study.getId(),
+                applicant.getUsername()
+        );
+
+        assertThat(response.id()).isNotNull();
+        assertThat(response.studyId()).isEqualTo(study.getId());
+        assertThat(response.applicantId()).isEqualTo(applicant.getId());
+        assertThat(response.status()).isEqualTo(ApplicationStatus.PENDING);
+
+        StudyApplication savedApplication = studyApplicationRepository
+                .findById(response.id())
+                .orElseThrow();
+        assertThat(savedApplication.getStatus()).isEqualTo(ApplicationStatus.PENDING);
+    }
+
+    @Test
+    void ownerCannotApplyToOwnStudy() {
+        assertThatThrownBy(() -> studyApplicationService.apply(
+                study.getId(),
+                owner.getUsername()
+        )).isInstanceOf(OwnStudyApplicationException.class);
+
+        assertThat(studyApplicationRepository.count()).isZero();
+    }
+
+    @Test
+    void memberCannotApplyToSameStudyTwice() {
+        studyApplicationService.apply(
+                study.getId(),
+                applicant.getUsername()
+        );
+
+        assertThatThrownBy(() -> studyApplicationService.apply(
+                study.getId(),
+                applicant.getUsername()
+        )).isInstanceOf(DuplicateStudyApplicationException.class);
+
+        assertThat(studyApplicationRepository.count()).isEqualTo(1);
+    }
+
+    @Test
+    void ownerCanRejectPendingApplication() {
+        StudyApplication application = studyApplicationRepository.save(
+                new StudyApplication(study, applicant)
+        );
+
+        StudyApplicationResponse response = studyApplicationService.reject(
+                study.getId(),
+                application.getId(),
+                owner.getUsername()
+        );
+
+        assertThat(response.status()).isEqualTo(ApplicationStatus.REJECTED);
+        assertThat(studyApplicationRepository.findById(application.getId()))
+                .get()
+                .extracting(StudyApplication::getStatus)
+                .isEqualTo(ApplicationStatus.REJECTED);
+    }
+
+    @Test
+    void processedApplicationCannotBeRejected() {
+        StudyApplication application = new StudyApplication(study, applicant);
+        application.approve();
+        studyApplicationRepository.save(application);
+
+        assertThatThrownBy(() -> studyApplicationService.reject(
+                study.getId(),
+                application.getId(),
+                owner.getUsername()
+        )).isInstanceOf(StudyApplicationAlreadyProcessedException.class);
     }
 
     @Test

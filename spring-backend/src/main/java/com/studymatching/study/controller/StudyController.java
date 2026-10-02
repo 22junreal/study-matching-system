@@ -47,8 +47,13 @@ public class StudyController {
             @RequestParam(required = false) StudyCategory category,
             @RequestParam(required = false) StudyLevel level,
             @RequestParam(required = false) StudyStatus status,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "0")
+            @Min(0)
+            int page,
+            @RequestParam(defaultValue = "10")
+            @Min(1)
+            @Max(100)
+            int size
     ) {
         return studyService.searchStudies(
                 category,

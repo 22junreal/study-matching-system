@@ -23,7 +23,6 @@ import com.studymatching.member.exception.MemberNotFoundException;
 import com.studymatching.study.repository.StudySpecification;
 import org.springframework.data.jpa.domain.Specification;
 import com.studymatching.study.exception.StudyCapacityBelowCurrentMembersException;
-import com.studymatching.studyapplication.entity.ApplicationStatus;
 import com.studymatching.studyapplication.repository.StudyApplicationRepository;
 
 import java.util.List;
@@ -211,13 +210,8 @@ public class StudyService {
             throw new StudyAccessDeniedException();
         }
 
-        long approvedCount =
-                studyApplicationRepository.countByStudyIdAndStatus(
-                        studyId,
-                        ApplicationStatus.APPROVED
-                );
-
-        long currentMemberCount = approvedCount + 1;
+        long currentMemberCount =
+                studyApplicationRepository.countCurrentMembers(studyId);
 
         if (request.maxMembers() < currentMemberCount) {
             throw new StudyCapacityBelowCurrentMembersException();
@@ -231,12 +225,9 @@ public class StudyService {
                 request.days(),
                 request.startTime(),
                 request.endTime(),
-                request.maxMembers()
+                request.maxMembers(),
+                currentMemberCount
         );
-
-        if (request.maxMembers() == currentMemberCount) {
-            study.close();
-        }
 
         return toResponse(study);
     }

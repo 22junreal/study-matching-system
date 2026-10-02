@@ -9,8 +9,8 @@ import com.studymatching.study.entity.StudyStatus;
 import com.studymatching.study.repository.StudyRepository;
 import com.studymatching.studyapplication.entity.ApplicationStatus;
 import com.studymatching.studyapplication.entity.StudyApplication;
+import com.studymatching.studyapplication.exception.StudyCapacityExceededException;
 import com.studymatching.studyapplication.repository.StudyApplicationRepository;
-import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.test.context.ActiveProfiles;
 import com.studymatching.support.PostgresTestContainerConfig;
 import org.springframework.context.annotation.Import;
@@ -23,8 +23,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -47,8 +51,7 @@ class StudyApplicationConcurrencyTest {
     private MemberRepository memberRepository;
 
     private Long studyId;
-    private Long application1Id;
-    private Long application2Id;
+    private List<Long> pendingApplicationIds;
     private String ownerUsername;
 
     @BeforeEach
@@ -69,22 +72,8 @@ class StudyApplicationConcurrencyTest {
                 "applicant1@test.com"
         );
 
-        Member applicant2 = new Member(
-                "applicant2",
-                "encoded-password",
-                "applicant2@test.com"
-        );
-
-        Member applicant3 = new Member(
-                "applicant3",
-                "encoded-password",
-                "applicant3@test.com"
-        );
-
         owner = memberRepository.save(owner);
         applicant1 = memberRepository.save(applicant1);
-        applicant2 = memberRepository.save(applicant2);
-        applicant3 = memberRepository.save(applicant3);
 
         ownerUsername = owner.getUsername();
 
@@ -108,95 +97,66 @@ class StudyApplicationConcurrencyTest {
         approvedApplication.approve();
         studyApplicationRepository.save(approvedApplication);
 
-        StudyApplication application1 =
-                studyApplicationRepository.save(
-                        new StudyApplication(study, applicant2)
-                );
-
-        StudyApplication application2 =
-                studyApplicationRepository.save(
-                        new StudyApplication(study, applicant3)
-                );
-
-        application1Id = application1.getId();
-        application2Id = application2.getId();
+        pendingApplicationIds = new ArrayList<>();
+        for (int i = 2; i <= 11; i++) {
+            Member applicant = memberRepository.save(
+                    new Member(
+                            "applicant" + i,
+                            "encoded-password",
+                            "applicant" + i + "@test.com"
+                    )
+            );
+            StudyApplication application = studyApplicationRepository.save(
+                    new StudyApplication(study, applicant)
+            );
+            pendingApplicationIds.add(application.getId());
+        }
     }
 
     @Test
-    void 동시에_두_신청을_승인해도_정원을_초과하지_않는다()
-            throws InterruptedException {
-        AtomicInteger successCount = new AtomicInteger();
-        AtomicInteger failureCount = new AtomicInteger();
+    void 동시에_열_개의_신청을_승인해도_정원을_초과하지_않는다()
+            throws Exception {
+        int requestCount = pendingApplicationIds.size();
+        ExecutorService executorService = Executors.newFixedThreadPool(requestCount);
 
-        ExecutorService executorService =
-                Executors.newFixedThreadPool(2);
-
-        CountDownLatch readyLatch = new CountDownLatch(2);
+        CountDownLatch readyLatch = new CountDownLatch(requestCount);
         CountDownLatch startLatch = new CountDownLatch(1);
-        CountDownLatch doneLatch = new CountDownLatch(2);
+        List<Future<Boolean>> results = pendingApplicationIds.stream()
+                .map(applicationId -> executorService.submit(() -> {
+                    readyLatch.countDown();
+                    startLatch.await();
+                    try {
+                        studyApplicationService.approve(
+                                studyId,
+                                applicationId,
+                                ownerUsername
+                        );
+                        return true;
+                    } catch (StudyCapacityExceededException e) {
+                        return false;
+                    }
+                }))
+                .toList();
 
-        Runnable approve1 = () -> {
-            readyLatch.countDown();
+        try {
+            assertThat(readyLatch.await(10, TimeUnit.SECONDS)).isTrue();
+            startLatch.countDown();
 
-            try {
-                startLatch.await();
-
-                studyApplicationService.approve(
-                        studyId,
-                        application1Id,
-                        ownerUsername
-                );
-
-                successCount.incrementAndGet();
-
-            } catch (Exception e) {
-                failureCount.incrementAndGet();
-
-                System.out.println(
-                        "application1 실패: "
-                                + e.getClass().getSimpleName()
-                );
-            } finally {
-                doneLatch.countDown();
+            List<Boolean> outcomes = new ArrayList<>();
+            for (Future<Boolean> result : results) {
+                outcomes.add(result.get(10, TimeUnit.SECONDS));
             }
-        };
 
-        Runnable approve2 = () -> {
-            readyLatch.countDown();
-
-            try {
-                startLatch.await();
-
-                studyApplicationService.approve(
-                        studyId,
-                        application2Id,
-                        ownerUsername
-                );
-
-                successCount.incrementAndGet();
-
-            } catch (Exception e) {
-                failureCount.incrementAndGet();
-
-                System.out.println(
-                        "application2 실패: "
-                                + e.getClass().getSimpleName()
-                );
-            } finally {
-                doneLatch.countDown();
-            }
-        };
-
-        executorService.submit(approve1);
-        executorService.submit(approve2);
-
-        readyLatch.await();
-
-        startLatch.countDown();
-
-        doneLatch.await();
-
-        executorService.shutdown();
+            assertThat(outcomes).containsExactlyInAnyOrderElementsOf(
+                    java.util.stream.Stream.concat(
+                                    java.util.stream.Stream.of(true),
+                                    java.util.stream.Stream.generate(() -> false).limit(9)
+                            )
+                            .toList()
+            );
+        } finally {
+            executorService.shutdownNow();
+        }
 
         long approvedCount =
                 studyApplicationRepository.countByStudyIdAndStatus(
@@ -207,9 +167,6 @@ class StudyApplicationConcurrencyTest {
         Study study =
                 studyRepository.findById(studyId)
                         .orElseThrow();
-
-        assertThat(successCount.get()).isEqualTo(1);
-        assertThat(failureCount.get()).isEqualTo(1);
 
         assertThat(approvedCount).isEqualTo(2);
         assertThat(study.getStatus()).isEqualTo(StudyStatus.CLOSED);

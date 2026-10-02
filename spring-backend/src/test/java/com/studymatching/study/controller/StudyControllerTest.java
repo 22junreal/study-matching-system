@@ -137,6 +137,21 @@ class StudyControllerTest {
         verifyNoInteractions(studyService);
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "page, -1",
+            "size, 0",
+            "size, 101"
+    })
+    void invalidPaginationReturns400(String parameter, String value) throws Exception {
+        mockMvc.perform(get("/api/studies")
+                        .with(jwt())
+                        .param(parameter, value))
+                .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(studyService);
+    }
+
     @Test
     void unauthenticatedRequestReturns401() throws Exception {
         mockMvc.perform(get("/api/studies").param("category", "AI"))

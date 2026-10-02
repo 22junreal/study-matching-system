@@ -28,6 +28,14 @@ public interface StudyApplicationRepository
             Long studyId,
             ApplicationStatus status
     );
+
+    default long countCurrentMembers(Long studyId) {
+        return countByStudyIdAndStatus(
+                studyId,
+                ApplicationStatus.APPROVED
+        ) + 1;
+    }
+
     Optional<StudyApplication> findByIdAndStudyIdAndApplicantUsername(
             Long applicationId,
             Long studyId,

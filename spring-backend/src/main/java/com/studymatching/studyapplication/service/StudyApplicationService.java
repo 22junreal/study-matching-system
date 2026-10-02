@@ -15,14 +15,10 @@ import com.studymatching.studyapplication.repository.StudyApplicationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.studymatching.study.exception.StudyAccessDeniedException;
-import com.studymatching.studyapplication.entity.ApplicationStatus;
-import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
 import com.studymatching.studyapplication.exception.StudyApplicationNotFoundException;
 import com.studymatching.member.exception.MemberNotFoundException;
 import com.studymatching.studyapplication.exception.StudyCapacityExceededException;
 
-import com.studymatching.studyapplication.exception.StudyApplicationCannotCancelException;
-import com.studymatching.studyapplication.exception.StudyApplicationCannotReapplyException;
 
 import java.util.List;
 @Service
@@ -118,17 +114,8 @@ public class StudyApplicationService {
                         StudyApplicationNotFoundException::new
                 );
 
-        if (application.getStatus() != ApplicationStatus.PENDING) {
-            throw new StudyApplicationAlreadyProcessedException();
-        }
-
-        long approvedCount =
-                applicationRepository.countByStudyIdAndStatus(
-                        studyId,
-                        ApplicationStatus.APPROVED
-                );
-
-        long currentMemberCount = approvedCount + 1;
+        long currentMemberCount =
+                applicationRepository.countCurrentMembers(studyId);
 
         if (currentMemberCount >= study.getMaxMembers()) {
             throw new StudyCapacityExceededException();
@@ -138,9 +125,7 @@ public class StudyApplicationService {
 
         long newMemberCount = currentMemberCount + 1;
 
-        if (newMemberCount >= study.getMaxMembers()) {
-            study.close();
-        }
+        study.synchronizeStatusWithCapacity(newMemberCount);
 
         return toResponse(application);
     }
@@ -166,10 +151,6 @@ public class StudyApplicationService {
                         StudyApplicationNotFoundException::new
                 );
 
-        if (application.getStatus() != ApplicationStatus.PENDING) {
-            throw new StudyApplicationAlreadyProcessedException();
-        }
-
         application.reject();
 
         return toResponse(application);
@@ -191,10 +172,6 @@ public class StudyApplicationService {
                         .orElseThrow(
                                 StudyApplicationNotFoundException::new
                         );
-
-        if (application.getStatus() != ApplicationStatus.PENDING) {
-            throw new StudyApplicationCannotCancelException();
-        }
 
         application.cancel();
 
@@ -225,17 +202,8 @@ public class StudyApplicationService {
                                 StudyApplicationNotFoundException::new
                         );
 
-        if (application.getStatus() != ApplicationStatus.CANCELED) {
-            throw new StudyApplicationCannotReapplyException();
-        }
-
-        long approvedCount =
-                applicationRepository.countByStudyIdAndStatus(
-                        studyId,
-                        ApplicationStatus.APPROVED
-                );
-
-        long currentMemberCount = approvedCount + 1;
+        long currentMemberCount =
+                applicationRepository.countCurrentMembers(studyId);
 
         if (currentMemberCount >= study.getMaxMembers()) {
             throw new StudyCapacityExceededException();

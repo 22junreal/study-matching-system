@@ -3,6 +3,7 @@ package com.studymatching.common.exception;
 import com.studymatching.member.exception.MemberNotFoundException;
 import com.studymatching.study.exception.StudyAccessDeniedException;
 import com.studymatching.study.exception.StudyNotFoundException;
+import com.studymatching.study.exception.StudyInvalidTimeRangeException;
 import com.studymatching.studyapplication.exception.DuplicateStudyApplicationException;
 import com.studymatching.studyapplication.exception.OwnStudyApplicationException;
 import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
@@ -13,7 +14,9 @@ import com.studymatching.studyapplication.exception.StudyCapacityExceededExcepti
 import com.studymatching.studyapplication.exception.StudyNotRecruitingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.AuthenticationException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -41,6 +44,27 @@ public class GlobalExceptionHandler {
                 .status(status)
                 .body(response);
     }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolation() {
+        return buildResponse(
+                HttpStatus.CONFLICT,
+                "이미 존재하거나 처리할 수 없는 데이터입니다."
+        );
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolation(
+            ConstraintViolationException e
+    ) {
+        String message = e.getConstraintViolations().stream()
+                .findFirst()
+                .map(violation -> violation.getMessage())
+                .orElse("요청 값이 올바르지 않습니다.");
+
+        return buildResponse(HttpStatus.BAD_REQUEST, message);
+    }
+
     @ExceptionHandler(ProfileNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleProfileNotFound(
             ProfileNotFoundException e
@@ -107,6 +131,13 @@ public class GlobalExceptionHandler {
                 HttpStatus.NOT_FOUND,
                 e.getMessage()
         );
+    }
+
+    @ExceptionHandler(StudyInvalidTimeRangeException.class)
+    public ResponseEntity<ErrorResponse> handleStudyInvalidTimeRange(
+            StudyInvalidTimeRangeException e
+    ) {
+        return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(StudyAccessDeniedException.class)

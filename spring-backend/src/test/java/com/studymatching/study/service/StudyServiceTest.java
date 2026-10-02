@@ -879,6 +879,63 @@ class StudyServiceTest {
         assertThat(response.status()).isEqualTo(StudyStatus.CLOSED);
     }
 
+    @Test
+    void createStudyWithMaxMembersOneStartsClosed() {
+        StudyCreateRequest request = new StudyCreateRequest(
+                "혼자 하는 스터디",
+                "Owner가 정원을 모두 차지합니다.",
+                StudyCategory.PROGRAMMING,
+                StudyLevel.BEGINNER,
+                "MONDAY",
+                LocalTime.of(19, 0),
+                LocalTime.of(20, 0),
+                1
+        );
+
+        StudyResponse response = studyService.createStudy(
+                owner.getUsername(),
+                request
+        );
+
+        assertThat(response.status()).isEqualTo(StudyStatus.CLOSED);
+    }
+
+    @Test
+    void increasingCapacityReopensCapacityClosedStudy() {
+        Study study = studyRepository.save(
+                new Study(
+                        owner,
+                        "혼자 하는 스터디",
+                        "Owner가 정원을 모두 차지합니다.",
+                        StudyCategory.PROGRAMMING,
+                        StudyLevel.BEGINNER,
+                        "MONDAY",
+                        LocalTime.of(19, 0),
+                        LocalTime.of(20, 0),
+                        1
+                )
+        );
+
+        StudyUpdateRequest request = new StudyUpdateRequest(
+                study.getTitle(),
+                study.getDescription(),
+                study.getCategory(),
+                study.getLevel(),
+                study.getDays(),
+                study.getStartTime(),
+                study.getEndTime(),
+                2
+        );
+
+        StudyResponse response = studyService.updateStudy(
+                study.getId(),
+                owner.getUsername(),
+                request
+        );
+
+        assertThat(response.status()).isEqualTo(StudyStatus.RECRUITING);
+    }
+
     private Study createStudyEntity() {
 
         return new Study(

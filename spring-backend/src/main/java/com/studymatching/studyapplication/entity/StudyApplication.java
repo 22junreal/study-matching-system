@@ -2,6 +2,9 @@ package com.studymatching.studyapplication.entity;
 
 import com.studymatching.member.entity.Member;
 import com.studymatching.study.entity.Study;
+import com.studymatching.studyapplication.exception.StudyApplicationAlreadyProcessedException;
+import com.studymatching.studyapplication.exception.StudyApplicationCannotCancelException;
+import com.studymatching.studyapplication.exception.StudyApplicationCannotReapplyException;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -54,22 +57,36 @@ public class StudyApplication {
         this.updatedAt = LocalDateTime.now();
     }
     public void approve() {
+        validatePending();
         this.status = ApplicationStatus.APPROVED;
         this.updatedAt = LocalDateTime.now();
     }
 
     public void reject() {
+        validatePending();
         this.status = ApplicationStatus.REJECTED;
         this.updatedAt = LocalDateTime.now();
     }
     public void cancel() {
+        if (status != ApplicationStatus.PENDING) {
+            throw new StudyApplicationCannotCancelException();
+        }
         this.status = ApplicationStatus.CANCELED;
         this.updatedAt = LocalDateTime.now();
     }
 
     public void reapply() {
+        if (status != ApplicationStatus.CANCELED) {
+            throw new StudyApplicationCannotReapplyException();
+        }
         this.status = ApplicationStatus.PENDING;
         this.updatedAt = LocalDateTime.now();
+    }
+
+    private void validatePending() {
+        if (status != ApplicationStatus.PENDING) {
+            throw new StudyApplicationAlreadyProcessedException();
+        }
     }
 
     public Long getId() {

@@ -1,6 +1,7 @@
 package com.studymatching.study.entity;
 
 import com.studymatching.member.entity.Member;
+import com.studymatching.study.exception.StudyInvalidTimeRangeException;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -66,6 +67,7 @@ public class Study {
             LocalTime endTime,
             Integer maxMembers
     ) {
+        validateTimeRange(startTime, endTime);
         this.owner = owner;
         this.title = title;
         this.description = description;
@@ -75,7 +77,9 @@ public class Study {
         this.startTime = startTime;
         this.endTime = endTime;
         this.maxMembers = maxMembers;
-        this.status = StudyStatus.RECRUITING;
+        this.status = Integer.valueOf(1).equals(maxMembers)
+                ? StudyStatus.CLOSED
+                : StudyStatus.RECRUITING;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
@@ -87,8 +91,10 @@ public class Study {
             String days,
             LocalTime startTime,
             LocalTime endTime,
-            Integer maxMembers
+            Integer maxMembers,
+            long currentMemberCount
     ) {
+        validateTimeRange(startTime, endTime);
         this.title = title;
         this.description = description;
         this.category = category;
@@ -97,8 +103,25 @@ public class Study {
         this.startTime = startTime;
         this.endTime = endTime;
         this.maxMembers = maxMembers;
+        synchronizeStatusWithCapacity(currentMemberCount);
         this.updatedAt = LocalDateTime.now();
     }
+
+    public void synchronizeStatusWithCapacity(long currentMemberCount) {
+        this.status = currentMemberCount >= maxMembers
+                ? StudyStatus.CLOSED
+                : StudyStatus.RECRUITING;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    private void validateTimeRange(LocalTime startTime, LocalTime endTime) {
+        if (startTime != null
+                && endTime != null
+                && !startTime.isBefore(endTime)) {
+            throw new StudyInvalidTimeRangeException();
+        }
+    }
+
     public void close() {
         this.status = StudyStatus.CLOSED;
         this.updatedAt = LocalDateTime.now();
