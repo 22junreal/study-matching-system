@@ -1,5 +1,7 @@
 package com.studymatching.studyapplication.service;
 
+import com.studymatching.studymember.entity.StudyMember;
+import com.studymatching.studymember.repository.StudyMemberRepository;
 import com.studymatching.member.entity.Member;
 import com.studymatching.member.repository.MemberRepository;
 import com.studymatching.study.entity.Study;
@@ -33,6 +35,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringBootTest
 @Import(PostgresTestContainerConfig.class)
 class StudyApplicationServiceTest {
+
+    @Autowired
+    private StudyMemberRepository memberships;
 
     @Autowired
     private StudyApplicationService studyApplicationService;
@@ -86,6 +91,7 @@ class StudyApplicationServiceTest {
                         4
                 )
         );
+        memberships.save(new StudyMember(study, owner));
     }
 
     @Test

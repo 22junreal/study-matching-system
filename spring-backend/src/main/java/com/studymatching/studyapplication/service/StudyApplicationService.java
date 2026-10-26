@@ -21,21 +21,30 @@ import com.studymatching.studyapplication.exception.StudyCapacityExceededExcepti
 
 
 import java.util.List;
+import com.studymatching.common.exception.ErrorCode;
+import com.studymatching.studymember.entity.StudyMember;
+import com.studymatching.studymember.entity.StudyMemberStatus;
+import com.studymatching.studymember.repository.StudyMemberRepository;
+import com.studymatching.studymember.exception.StudyMemberException;
+import com.studymatching.studyapplication.entity.ApplicationStatus;
 @Service
 public class StudyApplicationService {
 
     private final StudyApplicationRepository applicationRepository;
     private final StudyRepository studyRepository;
     private final MemberRepository memberRepository;
+    private final StudyMemberRepository studyMemberRepository;
 
     public StudyApplicationService(
             StudyApplicationRepository applicationRepository,
             StudyRepository studyRepository,
-            MemberRepository memberRepository
+            MemberRepository memberRepository,
+            StudyMemberRepository studyMemberRepository
     ) {
         this.applicationRepository = applicationRepository;
         this.studyRepository = studyRepository;
         this.memberRepository = memberRepository;
+        this.studyMemberRepository = studyMemberRepository;
     }
 
     @Transactional
@@ -44,7 +53,7 @@ public class StudyApplicationService {
             String username
     ) {
 
-        Study study = studyRepository.findById(studyId)
+        Study study = studyRepository.findByIdForUpdate(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         Member applicant = memberRepository.findByUsername(username)
@@ -57,6 +66,8 @@ public class StudyApplicationService {
         if (study.getOwner().getId().equals(applicant.getId())) {
             throw new OwnStudyApplicationException();
         }
+
+        ensureCanJoin(studyId, applicant.getId());
 
         if (applicationRepository.existsByStudyIdAndApplicantId(
                 study.getId(),
@@ -121,13 +132,20 @@ public class StudyApplicationService {
                 );
 
         long currentMemberCount =
-                applicationRepository.countCurrentMembers(studyId);
+                studyMemberRepository.countActiveMembers(studyId);
 
         if (currentMemberCount >= study.getMaxMembers()) {
             throw new StudyCapacityExceededException();
         }
 
         application.approve();
+        StudyMember membership = studyMemberRepository.findByStudyIdAndMemberId(
+                studyId, application.getApplicant().getId()).orElse(null);
+        if (membership == null) {
+            studyMemberRepository.save(new StudyMember(study, application.getApplicant()));
+        } else {
+            membership.activate();
+        }
 
         long newMemberCount = currentMemberCount + 1;
 
@@ -142,7 +160,7 @@ public class StudyApplicationService {
             String username
     ) {
 
-        Study study = studyRepository.findById(studyId)
+        Study study = studyRepository.findByIdForUpdate(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         Long currentMemberId = memberRepository.findIdByUsername(username)
@@ -193,12 +211,8 @@ public class StudyApplicationService {
             String username
     ) {
 
-        Study study = studyRepository.findById(studyId)
+        Study study = studyRepository.findByIdForUpdate(studyId)
                 .orElseThrow(StudyNotFoundException::new);
-
-        if (study.getStatus() != StudyStatus.RECRUITING) {
-            throw new StudyNotRecruitingException();
-        }
 
         StudyApplication application =
                 applicationRepository
@@ -211,18 +225,40 @@ public class StudyApplicationService {
                                 StudyApplicationNotFoundException::new
                         );
 
+        StudyMember membership = ensureCanJoin(studyId, application.getApplicant().getId());
+
+        if (study.getStatus() != StudyStatus.RECRUITING) {
+            throw new StudyNotRecruitingException();
+        }
+
         long currentMemberCount =
-                applicationRepository.countCurrentMembers(studyId);
+                studyMemberRepository.countActiveMembers(studyId);
 
         if (currentMemberCount >= study.getMaxMembers()) {
             throw new StudyCapacityExceededException();
         }
 
-        application.reapply();
+        if (membership != null && membership.getStatus() == StudyMemberStatus.LEFT
+                && application.getStatus() == ApplicationStatus.APPROVED) {
+            application.reapplyAfterLeaving();
+        } else {
+            application.reapply();
+        }
 
         return toResponse(application);
     }
 
+
+    private StudyMember ensureCanJoin(Long studyId, Long memberId) {
+        StudyMember membership = studyMemberRepository.findByStudyIdAndMemberId(studyId, memberId).orElse(null);
+        if (membership != null && membership.getStatus() == StudyMemberStatus.REMOVED) {
+            throw new StudyMemberException(ErrorCode.STUDY_MEMBER_REMOVED);
+        }
+        if (membership != null && membership.getStatus() == StudyMemberStatus.ACTIVE) {
+            throw new StudyMemberException(ErrorCode.STUDY_MEMBER_ALREADY_ACTIVE);
+        }
+        return membership;
+    }
 
     private StudyApplicationResponse toResponse(
             StudyApplication application

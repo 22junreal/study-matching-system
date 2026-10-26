@@ -23,7 +23,8 @@ import com.studymatching.member.exception.MemberNotFoundException;
 import com.studymatching.study.repository.StudySpecification;
 import org.springframework.data.jpa.domain.Specification;
 import com.studymatching.study.exception.StudyCapacityBelowCurrentMembersException;
-import com.studymatching.studyapplication.repository.StudyApplicationRepository;
+import com.studymatching.studymember.repository.StudyMemberRepository;
+import com.studymatching.studymember.entity.StudyMember;
 
 import java.util.List;
 
@@ -32,16 +33,16 @@ public class StudyService {
 
     private final StudyRepository studyRepository;
     private final MemberRepository memberRepository;
-    private final StudyApplicationRepository studyApplicationRepository;
+    private final StudyMemberRepository studyMemberRepository;
 
     public StudyService(
             StudyRepository studyRepository,
             MemberRepository memberRepository,
-            StudyApplicationRepository studyApplicationRepository
+            StudyMemberRepository studyMemberRepository
     ) {
         this.studyRepository = studyRepository;
         this.memberRepository = memberRepository;
-        this.studyApplicationRepository = studyApplicationRepository;
+        this.studyMemberRepository = studyMemberRepository;
     }
 
     @Transactional
@@ -66,6 +67,7 @@ public class StudyService {
         );
 
         Study savedStudy = studyRepository.save(study);
+        studyMemberRepository.save(new StudyMember(savedStudy, owner));
 
         return toResponse(savedStudy);
     }
@@ -214,7 +216,7 @@ public class StudyService {
         }
 
         long currentMemberCount =
-                studyApplicationRepository.countCurrentMembers(studyId);
+                studyMemberRepository.countActiveMembers(studyId);
 
         if (request.maxMembers() < currentMemberCount) {
             throw new StudyCapacityBelowCurrentMembersException();
@@ -240,7 +242,7 @@ public class StudyService {
             String username
     ) {
 
-        Study study = studyRepository.findById(studyId)
+        Study study = studyRepository.findByIdForUpdate(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         Long currentMemberId = memberRepository.findIdByUsername(username)

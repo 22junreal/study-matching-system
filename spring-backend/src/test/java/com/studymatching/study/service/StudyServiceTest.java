@@ -1,5 +1,7 @@
 package com.studymatching.study.service;
 
+import com.studymatching.studymember.entity.StudyMember;
+import com.studymatching.studymember.repository.StudyMemberRepository;
 import com.studymatching.member.entity.Member;
 import com.studymatching.member.repository.MemberRepository;
 import com.studymatching.study.dto.StudyCreateRequest;
@@ -33,6 +35,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringBootTest
 @Import(PostgresTestContainerConfig.class)
 class StudyServiceTest {
+
+    @Autowired
+    private StudyMemberRepository memberships;
 
     @Autowired
     private StudyService studyService;
@@ -151,7 +156,7 @@ class StudyServiceTest {
     void getStudySuccess() {
 
         Study study =
-                studyRepository.save(
+                saveStudy(
                         createStudyEntity()
                 );
 
@@ -174,7 +179,7 @@ class StudyServiceTest {
     void updateStudySuccess() {
 
         Study study =
-                studyRepository.save(
+                saveStudy(
                         createStudyEntity()
                 );
 
@@ -235,7 +240,7 @@ class StudyServiceTest {
     void nonOwnerCannotUpdateStudy() {
 
         Study study =
-                studyRepository.save(
+                saveStudy(
                         createStudyEntity()
                 );
 
@@ -267,7 +272,7 @@ class StudyServiceTest {
     void nonOwnerCannotDeleteStudy() {
 
         Study study =
-                studyRepository.save(
+                saveStudy(
                         createStudyEntity()
                 );
 
@@ -307,7 +312,7 @@ class StudyServiceTest {
     void ownerCanDeleteStudy() {
 
         Study study =
-                studyRepository.save(
+                saveStudy(
                         createStudyEntity()
                 );
 
@@ -327,7 +332,7 @@ class StudyServiceTest {
     @Test
     void getStudiesPaginationSuccess() {
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "Study 1",
@@ -341,7 +346,7 @@ class StudyServiceTest {
                 )
         );
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "Study 2",
@@ -355,7 +360,7 @@ class StudyServiceTest {
                 )
         );
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "Study 3",
@@ -400,7 +405,7 @@ class StudyServiceTest {
     void searchStudiesSuccess() {
 
         Study matchingStudy =
-                studyRepository.save(
+                saveStudy(
                         new Study(
                                 owner,
                                 "Programming Study",
@@ -414,7 +419,7 @@ class StudyServiceTest {
                         )
                 );
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "AI Study",
@@ -458,7 +463,7 @@ class StudyServiceTest {
     @Test
     void getMyStudiesSuccess() {
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "Owner Study 1",
@@ -472,7 +477,7 @@ class StudyServiceTest {
                 )
         );
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "Owner Study 2",
@@ -486,7 +491,7 @@ class StudyServiceTest {
                 )
         );
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         otherMember,
                         "Other Member Study",
@@ -522,7 +527,7 @@ class StudyServiceTest {
     @Test
     void searchStudiesByCategoryOnly() {
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "Programming Study",
@@ -536,7 +541,7 @@ class StudyServiceTest {
                 )
         );
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "AI Study",
@@ -568,7 +573,7 @@ class StudyServiceTest {
     @Test
     void searchStudiesByLevelOnly() {
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "Beginner Study",
@@ -582,7 +587,7 @@ class StudyServiceTest {
                 )
         );
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "Advanced Study",
@@ -615,7 +620,7 @@ class StudyServiceTest {
     void searchStudiesByStatusOnly() {
 
         Study recruitingStudy =
-                studyRepository.save(
+                saveStudy(
                         new Study(
                                 owner,
                                 "Recruiting Study",
@@ -630,7 +635,7 @@ class StudyServiceTest {
                 );
 
         Study closedStudy =
-                studyRepository.save(
+                saveStudy(
                         new Study(
                                 owner,
                                 "Closed Study",
@@ -645,7 +650,7 @@ class StudyServiceTest {
                 );
 
         closedStudy.close();
-        studyRepository.save(closedStudy);
+        saveStudy(closedStudy);
 
         StudyPageResponse response =
                 studyService.searchStudies(
@@ -665,7 +670,7 @@ class StudyServiceTest {
     @Test
     void searchStudiesByCategoryAndLevel() {
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "Matching Study",
@@ -679,7 +684,7 @@ class StudyServiceTest {
                 )
         );
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "Different Level",
@@ -711,11 +716,11 @@ class StudyServiceTest {
     @Test
     void searchStudiesWithoutConditionsReturnsAll() {
 
-        studyRepository.save(
+        saveStudy(
                 createStudyEntity()
         );
 
-        studyRepository.save(
+        saveStudy(
                 new Study(
                         owner,
                         "Second Study",
@@ -762,7 +767,7 @@ class StudyServiceTest {
                 )
         );
 
-        Study study = studyRepository.save(
+        Study study = saveStudy(
                 new Study(
                         owner,
                         "알고리즘 스터디",
@@ -785,7 +790,9 @@ class StudyServiceTest {
         application2.approve();
 
         studyApplicationRepository.save(application1);
+        memberships.save(new StudyMember(study, applicant1));
         studyApplicationRepository.save(application2);
+        memberships.save(new StudyMember(study, applicant2));
 
         StudyUpdateRequest request =
                 new StudyUpdateRequest(
@@ -831,7 +838,7 @@ class StudyServiceTest {
                 )
         );
 
-        Study study = studyRepository.save(
+        Study study = saveStudy(
                 new Study(
                         owner,
                         "알고리즘 스터디",
@@ -854,7 +861,9 @@ class StudyServiceTest {
         application2.approve();
 
         studyApplicationRepository.save(application1);
+        memberships.save(new StudyMember(study, applicant1));
         studyApplicationRepository.save(application2);
+        memberships.save(new StudyMember(study, applicant2));
 
         StudyUpdateRequest request =
                 new StudyUpdateRequest(
@@ -902,7 +911,7 @@ class StudyServiceTest {
 
     @Test
     void increasingCapacityReopensCapacityClosedStudy() {
-        Study study = studyRepository.save(
+        Study study = saveStudy(
                 new Study(
                         owner,
                         "혼자 하는 스터디",
@@ -950,4 +959,12 @@ class StudyServiceTest {
                 4
         );
     }
+    private Study saveStudy(Study study) {
+        Study saved = studyRepository.save(study);
+        if (memberships.findByStudyIdAndMemberId(saved.getId(), saved.getOwner().getId()).isEmpty()) {
+            memberships.save(new StudyMember(saved, saved.getOwner()));
+        }
+        return saved;
+    }
+
 }

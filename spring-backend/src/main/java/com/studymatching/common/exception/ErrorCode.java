@@ -3,6 +3,12 @@ package com.studymatching.common.exception;
 import org.springframework.http.HttpStatus;
 
 public enum ErrorCode {
+    STUDY_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "스터디 멤버를 찾을 수 없습니다."),
+    STUDY_MEMBER_NOT_ACTIVE(HttpStatus.CONFLICT, "현재 참여 중인 멤버가 아닙니다."),
+    STUDY_MEMBER_ALREADY_ACTIVE(HttpStatus.CONFLICT, "이미 참여 중인 멤버입니다."),
+    STUDY_MEMBER_REMOVED(HttpStatus.FORBIDDEN, "강퇴된 스터디에는 재신청할 수 없습니다."),
+    STUDY_OWNER_CANNOT_LEAVE(HttpStatus.CONFLICT, "방장은 위임 후 탈퇴할 수 있습니다."),
+    STUDY_OWNER_TRANSFER_TO_SELF(HttpStatus.CONFLICT, "자신에게 방장을 위임할 수 없습니다."),
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "요청 값이 올바르지 않습니다."),
     VALIDATION_FAILED(HttpStatus.BAD_REQUEST, "입력값이 올바르지 않습니다."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "사용자명 또는 비밀번호가 올바르지 않습니다."),

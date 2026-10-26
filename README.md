@@ -1449,6 +1449,21 @@ export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
 bash gradlew clean test
 ```
 
+핵심 E2E 테스트만 실행하려면 backend 디렉터리에서 다음 명령을 사용합니다. 위 전체 테스트 명령에도 자동으로 포함됩니다.
+
+```bash
+bash gradlew test --tests com.studymatching.e2e.StudyApplicationE2ETest
+```
+
+E2E 테스트는 임의 포트의 실제 HTTP 서버와 Testcontainers PostgreSQL을 사용합니다. 회원가입·로그인으로 발급받은 JWT로 API를 호출하며 인증, Service, Repository를 mock으로 대체하지 않습니다.
+
+- 스터디 생성 → 신청 → 승인 → 참여 인원 및 정원 마감 상태를 검증합니다.
+- 취소·재신청·거절, 중복 신청, 다른 사용자의 접근 및 다른 스터디 ID를 이용한 변경을 검증합니다.
+- 미인증·잘못된 토큰·잘못된 비밀번호의 401 응답을 검증합니다.
+- 승인/취소 및 취소/거절은 같은 버전을 읽도록 제어해 낙관적 잠금 충돌과 HTTP 409, 롤백을 검증합니다. 승인/거절은 스터디 잠금으로 직렬화되며 먼저 처리된 결과를 유지하고 후속 요청이 비즈니스 409를 받는지 검증합니다.
+
+HTTP 요청은 서버 스레드에서 커밋되므로 테스트에 `@Transactional` 롤백을 적용하지 않습니다. 각 테스트는 전용 컨테이너 DB의 데이터를 초기화하며 개발·운영 DB는 사용하지 않습니다.
+
 이미지 빌드는 `bootJar`만 실행하므로 테스트는 위 명령으로 별도 검증합니다.
 
 ---
@@ -1468,6 +1483,16 @@ http://localhost:8080/v3/api-docs
 ```
 
 ---
+
+## Study Member Lifecycle
+
+실제 참여 인원은 `study_members`의 `ACTIVE` 멤버 수로 계산하며 방장도 포함합니다. 참여자 목록, 탈퇴, 강퇴, 방장 위임 API 및 재가입 정책은 [Study Member Lifecycle 가이드](docs/STUDY_MEMBER_LIFECYCLE.md)를 참고하세요. V7 migration은 기존 방장과 승인된 신청자를 참여자로 이전합니다.
+
+Lifecycle E2E와 데이터 이전 테스트만 실행하려면 backend 디렉터리에서 다음 명령을 사용합니다.
+
+```bash
+bash gradlew test --tests com.studymatching.e2e.StudyMemberE2ETest --tests com.studymatching.common.persistence.StudyMemberMigrationTest
+```
 
 ## 7. 운영 배포 준비
 

@@ -112,6 +112,10 @@ public class Study extends BaseTimeEntity {
         }
     }
 
+    public void transferOwnership(Member newOwner) {
+        this.owner = java.util.Objects.requireNonNull(newOwner);
+    }
+
     public void close() {
         this.status = StudyStatus.CLOSED;
     }

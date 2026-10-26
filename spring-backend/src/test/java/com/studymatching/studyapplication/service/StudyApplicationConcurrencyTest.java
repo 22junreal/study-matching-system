@@ -1,5 +1,7 @@
 package com.studymatching.studyapplication.service;
 
+import com.studymatching.studymember.entity.StudyMember;
+import com.studymatching.studymember.repository.StudyMemberRepository;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -46,6 +48,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Import(PostgresTestContainerConfig.class)
 class StudyApplicationConcurrencyTest {
 
+
+    @Autowired
+    private StudyMemberRepository memberships;
 
     @Autowired
     private StudyApplicationService studyApplicationService;
@@ -100,6 +105,8 @@ class StudyApplicationConcurrencyTest {
 
         study = studyRepository.save(study);
         studyId = study.getId();
+        memberships.save(new StudyMember(study, owner));
+        memberships.save(new StudyMember(study, applicant1));
 
         StudyApplication approvedApplication =
                 new StudyApplication(study, applicant1);
@@ -183,8 +190,7 @@ class StudyApplicationConcurrencyTest {
 
     @ParameterizedTest(name = "{0} commits before {1}")
     @CsvSource({
-            "approve,cancel", "cancel,approve", "approve,reject",
-            "reject,approve", "cancel,reject", "reject,cancel", "reapply,reapply"
+            "approve,cancel", "cancel,approve", "cancel,reject", "reject,cancel"
     })
     void staleStateTransitionMustConflict(String winner, String loser) throws Exception {
         Long applicationId = pendingApplicationIds.getFirst();
@@ -254,11 +260,53 @@ class StudyApplicationConcurrencyTest {
         };
         assertThat(studyApplicationRepository.findById(applicationId).orElseThrow().getStatus())
                 .isEqualTo(expected);
-        assertThat(studyApplicationRepository.countCurrentMembers(studyId))
+        assertThat(memberships.countActiveMembers(studyId))
                 .isEqualTo(winner.equals("approve") ? 3 : 2);
         // In particular, a losing approval must roll back the Study's CLOSED state too.
         assertThat(studyRepository.findById(studyId).orElseThrow().getStatus())
                 .isEqualTo(winner.equals("approve") ? StudyStatus.CLOSED : StudyStatus.RECRUITING);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"approve,reject", "reapply,reapply"})
+    void studyLockedTransitionsSerialize(String firstOperation, String secondOperation) throws Exception {
+        Long applicationId = pendingApplicationIds.getFirst();
+        if (firstOperation.equals("reapply")) {
+            studyApplicationService.cancel(studyId, applicationId, "applicant2");
+        }
+        CountDownLatch start = new CountDownLatch(1);
+        var executor = Executors.newFixedThreadPool(2);
+        try {
+            var first = executor.submit(() -> lockedOutcome(firstOperation, applicationId, start));
+            var second = executor.submit(() -> lockedOutcome(secondOperation, applicationId, start));
+            start.countDown();
+            assertThat(List.of(first.get(10, TimeUnit.SECONDS), second.get(10, TimeUnit.SECONDS)))
+                    .containsExactlyInAnyOrder("OK", firstOperation.equals("reapply")
+                            ? "STUDY_APPLICATION_CANNOT_REAPPLY" : "STUDY_APPLICATION_ALREADY_PROCESSED");
+        } finally {
+            start.countDown();
+            executor.shutdownNow();
+            assertThat(executor.awaitTermination(10, TimeUnit.SECONDS)).isTrue();
+        }
+        ApplicationStatus status = studyApplicationRepository.findById(applicationId).orElseThrow().getStatus();
+        if (firstOperation.equals("reapply")) {
+            assertThat(status).isEqualTo(ApplicationStatus.PENDING);
+        } else {
+            assertThat(status).isIn(ApplicationStatus.APPROVED, ApplicationStatus.REJECTED);
+        }
+        assertThat(memberships.countActiveMembers(studyId)).isEqualTo(status == ApplicationStatus.APPROVED ? 3 : 2);
+        assertThat(studyRepository.findById(studyId).orElseThrow().getStatus())
+                .isEqualTo(status == ApplicationStatus.APPROVED ? StudyStatus.CLOSED : StudyStatus.RECRUITING);
+    }
+
+    private String lockedOutcome(String operation, Long applicationId, CountDownLatch start) throws Exception {
+        start.await();
+        try {
+            transition(operation, applicationId);
+            return "OK";
+        } catch (com.studymatching.common.exception.BusinessException e) {
+            return e.getErrorCode().name();
+        }
     }
 
     private void transition(String operation, Long applicationId) {

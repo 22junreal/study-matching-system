@@ -75,6 +75,14 @@ public class StudyApplication extends BaseTimeEntity {
         this.status = ApplicationStatus.PENDING;
     }
 
+    // Called only after the service verifies a LEFT membership under the Study lock.
+    public void reapplyAfterLeaving() {
+        if (status != ApplicationStatus.APPROVED) {
+            throw new StudyApplicationCannotReapplyException();
+        }
+        this.status = ApplicationStatus.PENDING;
+    }
+
     private void validatePending() {
         if (status != ApplicationStatus.PENDING) {
             throw new StudyApplicationAlreadyProcessedException();
