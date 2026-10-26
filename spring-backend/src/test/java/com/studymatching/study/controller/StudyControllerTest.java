@@ -1,5 +1,7 @@
 package com.studymatching.study.controller;
 
+import org.springframework.http.MediaType;
+
 import com.studymatching.auth.security.CustomUserDetailsService;
 import com.studymatching.common.config.SecurityConfig;
 import com.studymatching.study.dto.StudyPageResponse;
@@ -132,7 +134,9 @@ class StudyControllerTest {
         mockMvc.perform(get("/api/studies")
                         .with(jwt())
                         .param(parameter, "INVALID"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.message").isNotEmpty());
 
         verifyNoInteractions(studyService);
     }
@@ -147,15 +151,38 @@ class StudyControllerTest {
         mockMvc.perform(get("/api/studies")
                         .with(jwt())
                         .param(parameter, value))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.message").isNotEmpty());
 
+        verifyNoInteractions(studyService);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"/api/studies/not-a-number", "/api/studies?page=abc"})
+    void invalidPathAndQueryHaveConsistentBody(String path) throws Exception {
+        mockMvc.perform(get(path).with(jwt()))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400));
+        verifyNoInteractions(studyService);
+    }
+
+    @Test
+    void invalidBodyEnumReturnsConsistent400() throws Exception {
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/studies")
+                        .with(jwt()).contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"category\":\"INVALID\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("INVALID_REQUEST"));
         verifyNoInteractions(studyService);
     }
 
     @Test
     void unauthenticatedRequestReturns401() throws Exception {
         mockMvc.perform(get("/api/studies").param("category", "AI"))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.status").value(401))
+                .andExpect(jsonPath("$.timestamp").exists());
 
         verifyNoInteractions(studyService);
     }

@@ -1,5 +1,12 @@
 package com.studymatching.studyapplication.service;
 
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.springframework.aop.framework.Advised;
+import java.util.concurrent.ExecutionException;
+import org.springframework.dao.OptimisticLockingFailureException;
+
 import com.studymatching.member.entity.Member;
 import com.studymatching.member.repository.MemberRepository;
 import com.studymatching.study.entity.Study;
@@ -31,6 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -170,5 +179,95 @@ class StudyApplicationConcurrencyTest {
 
         assertThat(approvedCount).isEqualTo(2);
         assertThat(study.getStatus()).isEqualTo(StudyStatus.CLOSED);
+    }
+
+    @ParameterizedTest(name = "{0} commits before {1}")
+    @CsvSource({
+            "approve,cancel", "cancel,approve", "approve,reject",
+            "reject,approve", "cancel,reject", "reject,cancel", "reapply,reapply"
+    })
+    void staleStateTransitionMustConflict(String winner, String loser) throws Exception {
+        Long applicationId = pendingApplicationIds.getFirst();
+        if (winner.equals("reapply")) {
+            studyApplicationService.cancel(studyId, applicationId, "applicant2");
+        }
+        CountDownLatch bothRead = new CountDownLatch(2);
+        CountDownLatch winnerCommitted = new CountDownLatch(1);
+        ThreadLocal<Boolean> losingThread = ThreadLocal.withInitial(() -> false);
+        MethodInterceptor synchronizeReads = invocation -> {
+            Object loaded = invocation.proceed();
+            String method = invocation.getMethod().getName();
+            if (!method.equals("findByIdAndStudyId")
+                    && !method.equals("findByIdAndStudyIdAndApplicantUsername")) {
+                return loaded;
+            }
+            bothRead.countDown();
+            if (!bothRead.await(10, TimeUnit.SECONDS)) {
+                throw new AssertionError("Both transactions must read the same initial state");
+            }
+            if (losingThread.get() && !winnerCommitted.await(10, TimeUnit.SECONDS)) {
+                throw new AssertionError("Winning transaction must commit");
+            }
+            return loaded;
+        };
+        // Observe actual repository reads without replacing the query or transaction.
+        Advised repositoryProxy =
+                (Advised) studyApplicationRepository;
+        repositoryProxy.addAdvice(0, synchronizeReads);
+
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        try {
+            Future<?> first = executor.submit(() -> {
+                try {
+                    transition(winner, applicationId);
+                } finally {
+                    winnerCommitted.countDown();
+                }
+            });
+            Future<?> second = executor.submit(() -> {
+                losingThread.set(true);
+                try {
+                    transition(loser, applicationId);
+                } finally {
+                    losingThread.remove();
+                }
+            });
+            first.get(15, TimeUnit.SECONDS);
+            assertThatThrownBy(() -> second.get(15, TimeUnit.SECONDS))
+                    .isInstanceOf(ExecutionException.class)
+                    .hasCauseInstanceOf(OptimisticLockingFailureException.class);
+        } finally {
+            executor.shutdownNow();
+            try {
+                assertThat(executor.awaitTermination(10, TimeUnit.SECONDS)).isTrue();
+            } finally {
+                repositoryProxy.removeAdvice(synchronizeReads);
+            }
+        }
+
+        ApplicationStatus expected = switch (winner) {
+            case "approve" -> ApplicationStatus.APPROVED;
+            case "cancel" -> ApplicationStatus.CANCELED;
+            case "reject" -> ApplicationStatus.REJECTED;
+            case "reapply" -> ApplicationStatus.PENDING;
+            default -> throw new AssertionError(winner);
+        };
+        assertThat(studyApplicationRepository.findById(applicationId).orElseThrow().getStatus())
+                .isEqualTo(expected);
+        assertThat(studyApplicationRepository.countCurrentMembers(studyId))
+                .isEqualTo(winner.equals("approve") ? 3 : 2);
+        // In particular, a losing approval must roll back the Study's CLOSED state too.
+        assertThat(studyRepository.findById(studyId).orElseThrow().getStatus())
+                .isEqualTo(winner.equals("approve") ? StudyStatus.CLOSED : StudyStatus.RECRUITING);
+    }
+
+    private void transition(String operation, Long applicationId) {
+        switch (operation) {
+            case "approve" -> studyApplicationService.approve(studyId, applicationId, ownerUsername);
+            case "reject" -> studyApplicationService.reject(studyId, applicationId, ownerUsername);
+            case "cancel" -> studyApplicationService.cancel(studyId, applicationId, "applicant2");
+            case "reapply" -> studyApplicationService.reapply(studyId, applicationId, "applicant2");
+            default -> throw new AssertionError(operation);
+        }
     }
 }

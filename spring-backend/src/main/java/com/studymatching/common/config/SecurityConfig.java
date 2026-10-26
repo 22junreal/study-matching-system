@@ -1,6 +1,8 @@
 package com.studymatching.common.config;
 
 import com.studymatching.auth.security.CustomUserDetailsService;
+import com.studymatching.auth.security.SecurityErrorHandler;
+import tools.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +26,11 @@ import java.util.List;
 
 @Configuration
 public class SecurityConfig {
+
+    @Bean
+    public SecurityErrorHandler securityErrorHandler(ObjectMapper objectMapper) {
+        return new SecurityErrorHandler(objectMapper);
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -98,7 +105,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
-            CorsConfigurationSource corsConfigurationSource
+            CorsConfigurationSource corsConfigurationSource,
+            SecurityErrorHandler securityErrorHandler
     ) throws Exception {
 
         http
@@ -132,9 +140,13 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-                .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(Customizer.withDefaults())
-                );
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(securityErrorHandler)
+                        .accessDeniedHandler(securityErrorHandler))
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(Customizer.withDefaults())
+                        .authenticationEntryPoint(securityErrorHandler)
+                        .accessDeniedHandler(securityErrorHandler));
 
         return http.build();
     }

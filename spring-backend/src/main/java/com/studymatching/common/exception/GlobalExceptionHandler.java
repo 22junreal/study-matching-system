@@ -1,98 +1,108 @@
 package com.studymatching.common.exception;
 
+import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private ResponseEntity<ErrorResponse> buildResponse(
-            HttpStatus status,
-            String message
-    ) {
-        ErrorResponse response = new ErrorResponse(
-                status.value(),
-                message,
-                LocalDateTime.now()
-        );
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-        return ResponseEntity
-                .status(status)
-                .body(response);
+    private ResponseEntity<ErrorResponse> buildResponse(ErrorCode code) {
+        return ResponseEntity.status(code.getStatus()).body(ErrorResponse.of(code));
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleBusinessException(
-            BusinessException e
-    ) {
-        ErrorCode errorCode = e.getErrorCode();
-        return buildResponse(errorCode.getStatus(), errorCode.getMessage());
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
+        return buildResponse(e.getErrorCode());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolation() {
-        return buildResponse(
-                HttpStatus.CONFLICT,
-                "이미 존재하거나 처리할 수 없는 데이터입니다."
-        );
+        return buildResponse(ErrorCode.DATA_INTEGRITY_VIOLATION);
+    }
+
+    @ExceptionHandler({OptimisticLockingFailureException.class, OptimisticLockException.class})
+    public ResponseEntity<ErrorResponse> handleOptimisticLock() {
+        return buildResponse(ErrorCode.CONCURRENT_MODIFICATION);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorResponse> handleConstraintViolation(
-            ConstraintViolationException e
-    ) {
+    public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException e) {
         String message = e.getConstraintViolations().stream()
-                .findFirst()
-                .map(violation -> violation.getMessage())
-                .orElse("요청 값이 올바르지 않습니다.");
-
-        return buildResponse(HttpStatus.BAD_REQUEST, message);
+                .findFirst().map(violation -> violation.getMessage())
+                .orElse(ErrorCode.INVALID_REQUEST.getMessage());
+        return ResponseEntity.badRequest().body(new ErrorResponse(
+                ErrorCode.INVALID_REQUEST.name(), 400, message, LocalDateTime.now()));
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationErrorResponse> handleValidation(
-            MethodArgumentNotValidException e
-    ) {
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException e, HttpHeaders headers,
+            HttpStatusCode status, WebRequest request) {
         Map<String, String> errors = new LinkedHashMap<>();
-
-        e.getBindingResult()
-                .getFieldErrors()
-                .forEach(error ->
-                        errors.put(
-                                error.getField(),
-                                error.getDefaultMessage()
-                        )
-                );
-
+        e.getBindingResult().getFieldErrors()
+                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
         ValidationErrorResponse response = new ValidationErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                "입력값이 올바르지 않습니다.",
-                errors,
-                LocalDateTime.now()
-        );
+                ErrorCode.VALIDATION_FAILED.name(), status.value(),
+                ErrorCode.VALIDATION_FAILED.getMessage(), errors, LocalDateTime.now());
+        return new ResponseEntity<>(response, headers, status);
+    }
 
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(response);
+    // Preserve Spring MVC's status and protocol headers (e.g. Allow for 405).
+    // Includes malformed JSON, conversion failures and MVC method validation.
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(
+            Exception e, Object body, HttpHeaders headers,
+            HttpStatusCode status, WebRequest request) {
+        ErrorCode code = status.is5xxServerError()
+                ? ErrorCode.INTERNAL_SERVER_ERROR : ErrorCode.INVALID_REQUEST;
+        if (status.is5xxServerError()) {
+            log.error("Unhandled MVC server error", e);
+        }
+        return super.handleExceptionInternal(e, new ErrorResponse(
+                code.name(), status.value(), code.getMessage(), LocalDateTime.now()),
+                headers, status, request);
+    }
+
+    @ExceptionHandler(AuthenticationServiceException.class)
+    public ResponseEntity<ErrorResponse> handleAuthenticationService(AuthenticationServiceException e) {
+        log.error("Authentication service failed", e);
+        return buildResponse(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ErrorResponse> handleAuthentication(
-            AuthenticationException e
-    ) {
-        return buildResponse(
-                HttpStatus.UNAUTHORIZED,
-                "사용자명 또는 비밀번호가 올바르지 않습니다."
-        );
+    public ResponseEntity<ErrorResponse> handleAuthentication(AuthenticationException e) {
+        return buildResponse(ErrorCode.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDenied() {
+        return buildResponse(ErrorCode.ACCESS_DENIED);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleUnexpected(Exception e) {
+        log.error("Unhandled request failure", e);
+        return buildResponse(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 }
