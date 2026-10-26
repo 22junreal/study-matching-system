@@ -1453,7 +1453,7 @@ bash gradlew clean test
 
 ---
 
-## 6. Swagger
+## 6. Swagger (local profile)
 
 서버 실행 후 다음 주소에서 API 문서를 확인할 수 있습니다.
 
@@ -1466,6 +1466,12 @@ OpenAPI JSON:
 ```text
 http://localhost:8080/v3/api-docs
 ```
+
+---
+
+## 7. 운영 배포 준비
+
+운영 환경변수, 별도 Compose 실행, healthcheck, 정상 종료 및 Flyway 점검은 [운영 실행 가이드](docs/PRODUCTION.md)를 참고하세요. 운영에서는 Swagger/OpenAPI를 비활성화합니다.
 
 ---
 
