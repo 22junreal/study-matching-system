@@ -151,7 +151,7 @@ AI 학습계획 생성
 - [ ] Rate Limiting
 - [ ] 이메일 인증
 - [ ] 비밀번호 재설정
-- [ ] Dockerfile
+- [x] Dockerfile
 - [ ] 실제 서비스 배포
 - [ ] Monitoring / Logging 고도화
 
@@ -1334,10 +1334,10 @@ AI 기능 외에도 실제 서비스 운영을 위해 다음 기능을 추가할
 
 ## 사전 요구사항
 
-- Java 21
-- Docker Desktop
+- Docker Desktop 실행
+- Docker Compose 2.20.3 이상 (`include` 지원)
 - Git
-- IntelliJ IDEA 권장
+- 호스트에서 백엔드 또는 테스트를 실행할 때 Java 21
 
 ---
 
@@ -1345,7 +1345,6 @@ AI 기능 외에도 실제 서비스 운영을 위해 다음 기능을 추가할
 
 ```bash
 git clone https://github.com/22junreal/study-matching-system.git
-
 cd study-matching-system
 ```
 
@@ -1353,90 +1352,104 @@ cd study-matching-system
 
 ## 2. Environment Variables
 
-프로젝트 루트에 `.env` 파일을 생성합니다.
+루트에 `.env`가 없다면 예제 파일을 복사한 뒤 값을 설정합니다. 기존 `.env`는 덮어쓰지 않습니다.
 
-`.env.example`을 참고하여 다음 값을 설정합니다.
-
-```dotenv
-DB_URL=jdbc:postgresql://localhost:5432/...
-DB_USERNAME=...
-DB_PASSWORD=...
-
-POSTGRES_DB=...
-POSTGRES_USER=...
-POSTGRES_PASSWORD=...
-
-JWT_SECRET=...
+```bash
+cp -n .env.example .env
+openssl rand -base64 32
 ```
 
-> `.env` 파일은 Git에 Commit하지 않습니다.
+생성한 값을 `.env`의 `JWT_SECRET`에 넣고, `POSTGRES_PASSWORD`와 `DB_PASSWORD`를 같은 로컬 비밀번호로 설정합니다. `DB_USERNAME`도 `POSTGRES_USER`와 맞춥니다.
+
+- `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`: IntelliJ 또는 `bootRun`으로 실행할 때 사용합니다.
+- 컨테이너 backend: `POSTGRES_*` 값으로 접속하며, 주소는 Compose가 `jdbc:postgresql://postgres:5432/<POSTGRES_DB>`로 지정합니다.
+- `SERVER_PORT`: 호스트에 공개할 backend 포트입니다. 기본값은 `8080`이며 컨테이너 내부 포트는 `8080`으로 고정합니다.
+- `.env`는 Git에 커밋하지 않습니다. `.env.example`에는 실제 비밀값을 넣지 않습니다.
+
+기존 PostgreSQL 볼륨이 있다면 기존 DB 이름과 계정 정보를 유지합니다. `.env`의 비밀번호만 바꿔도 기존 DB 계정의 비밀번호가 변경되지는 않습니다.
 
 ---
 
-## 3. PostgreSQL 실행
+## 3. PostgreSQL + Backend 실행
 
-프로젝트 루트에서 다음 명령어를 실행합니다.
+프로젝트 루트에서 한 번에 실행합니다. 첫 실행 시 Java 21 이미지와 Gradle wrapper로 backend를 빌드합니다.
+
+```bash
+docker compose up
+```
+
+백그라운드 실행 및 코드 변경 후 재빌드:
+
+```bash
+docker compose build
+docker compose up -d
+docker ps
+curl -fsS http://localhost:8080/actuator/health
+```
+
+`SERVER_PORT`를 바꿨다면 확인 URL의 포트도 변경합니다. PostgreSQL healthcheck가 통과한 뒤 backend가 시작됩니다. backend의 초기 기동에는 추가 시간이 필요하므로 다음 로그도 확인할 수 있습니다.
+
+```bash
+docker compose logs -f backend
+```
+
+기존 명령도 같은 서비스를 실행합니다.
 
 ```bash
 docker compose --env-file .env -f infra/compose.local.yml up -d
 ```
 
-실행 확인:
+루트 `compose.yaml`은 기존 `infra` 프로젝트 이름을 유지하여 PostgreSQL 볼륨을 이어 씁니다. 이전에 `-p` 또는 `COMPOSE_PROJECT_NAME`으로 다른 이름을 사용했다면 같은 이름을 계속 사용합니다.
+
+종료할 때 DB 데이터를 유지합니다.
 
 ```bash
-docker ps
+docker compose down
 ```
+
+`docker compose down -v`는 DB 볼륨까지 삭제하므로 데이터를 유지하려면 사용하지 않습니다.
 
 ---
 
-## 4. Backend 실행
+## 4. 호스트에서 Backend 실행 (선택)
+
+IntelliJ 또는 `bootRun`을 사용할 때는 컨테이너 backend와 포트가 겹치지 않도록 중지하고 PostgreSQL만 실행합니다.
 
 ```bash
+docker compose stop backend
+docker compose up -d postgres
 cd spring-backend
 ```
 
-macOS에서 Gradle Wrapper에 실행 권한이 없는 경우:
+IntelliJ 실행 구성에 `local` profile과 `.env`의 `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `JWT_SECRET`을 설정합니다. Gradle은 `.env`를 자동으로 읽지 않으므로 터미널 실행 시에도 해당 값을 환경변수로 전달해야 합니다.
 
 ```bash
-bash gradlew bootRun
+bash gradlew bootRun --args='--spring.profiles.active=local'
 ```
 
-또는 IntelliJ의 `StudyMatchingApiApplication` 실행 구성을 이용합니다.
-
-Active Profile:
-
-```text
-local
-```
-
-필수 환경변수:
-
-```text
-DB_URL
-DB_USERNAME
-DB_PASSWORD
-JWT_SECRET
-```
+Gradle wrapper에 실행 권한이 없어도 `bash gradlew`로 실행할 수 있습니다.
 
 ---
 
 ## 5. Test 실행
 
+Docker Desktop을 실행한 상태에서 backend 디렉터리에서 실행합니다. Testcontainers가 별도 테스트 DB를 생성합니다.
+
 ```bash
+cd spring-backend # 저장소 루트에서 실행하는 경우
 bash gradlew clean test
-```
-
-macOS에서 테스트 리포트 확인:
-
-```bash
 open build/reports/tests/test/index.html
 ```
 
-현재 기준:
+macOS에서 Testcontainers가 Docker를 찾지 못하면 현재 Docker context의 소켓을 지정합니다.
 
-```text
-62 Tests
+```bash
+export DOCKER_HOST="$(docker context inspect --format '{{.Endpoints.docker.Host}}')"
+export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
+bash gradlew clean test
 ```
+
+이미지 빌드는 `bootJar`만 실행하므로 테스트는 위 명령으로 별도 검증합니다.
 
 ---
 

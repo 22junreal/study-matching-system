@@ -1,0 +1,5 @@
+# Preserve the project name used by the original infra/compose.local.yml command.
+name: infra
+
+include:
+  - infra/compose.local.yml
