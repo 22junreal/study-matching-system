@@ -151,6 +151,10 @@ bash gradlew clean test
 
 전체 실행에는 Service/Controller/Entity, V6~V8 데이터 이전, DB 제약, 정원·신청·위임 동시성, 실제 JWT/HTTP E2E, 입력 정규화, 조회 쿼리 수 검증이 포함된다. Refresh 회전·재사용 탐지·로그아웃·동시 요청·오류 롤백과 V9→V10 이전도 검증한다. 빈 DB에는 V1~V10을 실제 적용한다. Docker 이미지 빌드는 bootJar만 수행하므로 테스트는 별도 실행해야 한다.
 
+## CI 이미지 빌드 · GHCR
+
+`Backend Test` workflow는 테스트 성공 후 Docker 이미지를 빌드한다. PR에서는 빌드만 확인하고 main push에서는 `ghcr.io/22junreal/study-matching-system:sha-<전체 커밋 SHA>`로 업로드한다. Actions 수동 실행도 가능하다. 서버 배포는 포함하지 않는다. 이미지 digest와 pull 명령은 해당 실행 Summary에 기록한다. 권한·패키지 접근·실행 조건은 [CI 이미지 가이드](docs/CI_IMAGES.md)를 참고한다.
+
 ## 운영·성능 재현
 
 ```bash
