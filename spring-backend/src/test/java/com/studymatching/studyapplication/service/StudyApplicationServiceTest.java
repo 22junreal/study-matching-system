@@ -85,7 +85,7 @@ class StudyApplicationServiceTest {
                         "Java backend study",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.BEGINNER,
-                        "MONDAY,WEDNESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY, com.studymatching.study.entity.StudyDay.WEDNESDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4

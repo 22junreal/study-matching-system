@@ -1,0 +1,579 @@
+{
+  "createdAt": "2026-10-27T01:24:47.450612+00:00",
+  "baseCommit": "4072cc9a76cb7fee858b019b7375445810cdadea",
+  "state": "working tree; no commit or push performed",
+  "files": [
+    {
+      "path": ".env.prod.example",
+      "sha256": "1360da63327fd202ce247d6826224851706694df0da4edfbdc058b56739d478e"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "57381b08dadef959cbe64109b2bb133438dce875bff6b12e8faa40a42a595a06"
+    },
+    {
+      "path": "README.md",
+      "sha256": "09cc2869ebed80a2d8dd12834b39c6b4473aa8e41e83527ffd709d1984de2bd7"
+    },
+    {
+      "path": "docs/DESIGN.md",
+      "sha256": "f636e5bec428054ee79f5fdbe8a8f590ea05a7176bc15b73cda9ce9142a430b6"
+    },
+    {
+      "path": "docs/INPUT_CONTRACT.md",
+      "sha256": "74278ead08bf834d7eb1c5d2b94d1affc33e19edc0b778ff6f71dea34cb2b8d2"
+    },
+    {
+      "path": "docs/PERFORMANCE.md",
+      "sha256": "e9580fa4d89f769c95076076c57dcfc5496297ea8c023181ec79b22f38d78464"
+    },
+    {
+      "path": "docs/PORTFOLIO.md",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "docs/PRODUCTION.md",
+      "sha256": "777d54d89c8c347d07cdf3f2e6cf977e5dd66d406657d3ef506ba6c5f3c18efb"
+    },
+    {
+      "path": "docs/SRS.md",
+      "sha256": "dd8f522a44ace1a9c6bcea77a5e54d51111813886fd578ccdd721cf37027238d"
+    },
+    {
+      "path": "docs/STUDY_MEMBER_LIFECYCLE.md",
+      "sha256": "4376fbe56318da3d2c4eafe1b65caf7471e9c1041b6171aebe88391904f512ba"
+    },
+    {
+      "path": "docs/history/PRODUCTION_2026-10-26.md",
+      "sha256": "f3110bb2cca0ebb62520c4092d159e07f9bf63dd5ae270b3b687b217bee296b4"
+    },
+    {
+      "path": "infra/compose.edge.yml",
+      "sha256": "f98dd804bd43d990da96d9a634195e7e16b20eaa819717b6f16bd2824f186c36"
+    },
+    {
+      "path": "infra/compose.local.yml",
+      "sha256": "7dd1111a5f024ae5d25aa8f2aec4d29f29ab52188ca544351b13e3a5aacfabe1"
+    },
+    {
+      "path": "infra/compose.prod.yml",
+      "sha256": "ffd1079412094c8417e7fcd4fe06c8ebc920e580450ef99ce952a75069f4b5cd"
+    },
+    {
+      "path": "infra/edge/Caddyfile",
+      "sha256": "73b43d22f29c782e87a11fa717624398361e5da048a12d3e01a107f452e4559e"
+    },
+    {
+      "path": "infra/edge/default.conf.template",
+      "sha256": "1e3eaac59c1af89fcd987cf65026edb272d7a049a6d522c0c0003233e4c2a8ab"
+    },
+    {
+      "path": "perf/candidate-indexes.sql",
+      "sha256": "3a13cc3af301a4881035c88d58392bf2a0a8b32063d22f50aa95ac043ff1d9a0"
+    },
+    {
+      "path": "perf/search.js",
+      "sha256": "5ab627f40ab83e35cc63f84f17e66da2477759454dd97c450da00d84630efc4e"
+    },
+    {
+      "path": "scripts/backup-db.sh",
+      "sha256": "3e4aa8207fd9cac99a4fe5cc6d2fbeef5f33cd7d688a8af630ce1c9103b44f1d"
+    },
+    {
+      "path": "scripts/measure-performance.py",
+      "sha256": "9255b2953814f1d7db4fbe68282f69fb32c20c272ae54aea335609b4c927a1c1"
+    },
+    {
+      "path": "scripts/prepare-proof.py",
+      "sha256": "2b3dbf74ebe124f44ce0b1f9cbd9e754d540f0bf8f7a277f03036ff1593f37d5"
+    },
+    {
+      "path": "scripts/restore-db.sh",
+      "sha256": "61f2bbc8a6ba6e7217054220df4dc89bdc734115a7c9bf28059e76d538a0dbf3"
+    },
+    {
+      "path": "scripts/verify-operations.py",
+      "sha256": "96a81ad491eaf444fe64f739f051879764c1acf79799d41a7a3c3d729b6cf3fe"
+    },
+    {
+      "path": "spring-backend/Dockerfile",
+      "sha256": "3aa93f0960ca70a7d03a4aead96c55752c22403092129bd1a01f79eb6939be89"
+    },
+    {
+      "path": "spring-backend/build.gradle",
+      "sha256": "6af4401d956677b8c6979e876324b4a2461c04af144e1f2d7540ecfee2543b13"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/StudyMatchingApiApplication.java",
+      "sha256": "bd25cbcb7df0ad643973b4b578bee2ceb96f098c883abbab9d93c39ddc3f7903"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/auth/controller/AuthController.java",
+      "sha256": "d2b38d101cd31920b94e1e31937e210892d63c486c5f886b7a067731bae62818"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/auth/dto/LoginRequest.java",
+      "sha256": "1fa72125514ec3bb5ca2d1ec511c0d7a377cf2408a525f75aae3382b26b7ff2d"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/auth/dto/LoginResponse.java",
+      "sha256": "6df4305e0e1750dfd3f4359979c86339a28641168e7524102d0e06d38df1dbba"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/auth/dto/RegisterRequest.java",
+      "sha256": "dbc04b3e7c85d3762f29a004159d43f01fa13c15d22026e46b25a035c99fcec5"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/auth/dto/RegisterResponse.java",
+      "sha256": "3d0040e01465d423d43500059a7068e84a1fadd4f303e3b1480abed42f21b8bf"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/auth/security/CustomUserDetailsService.java",
+      "sha256": "a51cb4b6c9ff4b04b358311ae99f6f23c199b517f1098b57338b278a7afe12fc"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/auth/security/JwtTokenService.java",
+      "sha256": "96997b2b3313d1ad3a18551af88480094e9859a6c1190d7f1f487c4f7c7ad510"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/auth/security/SecurityErrorHandler.java",
+      "sha256": "7c0cf60c1173148c709a64d593324c770076289e84ef265941061b0f17160008"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/auth/service/AuthService.java",
+      "sha256": "15248591a51c230e7a825824f84b75b32150a0223d96390651ed01291a9ff4c8"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/auth/validation/BcryptPasswordValidator.java",
+      "sha256": "5edc3d36c1e3959ca04378e2af7ad8c96d3a0e9e5f11ba52a211ba5f354a303d"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/auth/validation/ValidBcryptPassword.java",
+      "sha256": "adc42a6f4cbae0a3668807a4e05ccb19f4eaaa8608bfc325e41a1a56ddeede2f"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/config/JpaAuditingConfig.java",
+      "sha256": "9c4f53c6e2347d587704ee1559967fe2bd08ce3c6f1fd3d26d649ceac6fcc5a2"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/config/JwtConfig.java",
+      "sha256": "ff1f84c73b5946b16d14916f751d589847a49e6574147e7802a1fa01bfdca2ad"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/config/MinuteTimeDeserializer.java",
+      "sha256": "68295d64d369a794ce50f312b07493a99f364321803ec7e374a30bc6bddeaaab"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/config/OpenApiConfig.java",
+      "sha256": "f296c2b220fbd17c76d7084d48eafa61bc11f3f9bc121ca5bedf8bef9a9b35f3"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/config/RequestLoggingFilter.java",
+      "sha256": "af7479ce844a7ee6f2f7014cddf6f61a39a7293f0c0ecaf43d78589cf46b8052"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/config/SecurityConfig.java",
+      "sha256": "da915a482e8260fdc9135668c31bc08e03a8b518cf97720aaba176ffd7244765"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/config/StudyInputConfig.java",
+      "sha256": "3bd41631350d2e66ee69fa02d0eae5c49f1863f4ddeef57dd741f7481309f72b"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/entity/BaseTimeEntity.java",
+      "sha256": "0af4c9a7d8955d5e425f448c32ba5e9c35d7602e773d508e3c4096b6b6a50b38"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/exception/BusinessException.java",
+      "sha256": "a28a1be0d817c295c684ad81e5ae89158dd3da0a19c85ef4f7aae15bb19f2cb4"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/exception/DuplicateMemberException.java",
+      "sha256": "bea645f31290e68dedf2caf8e79aaa30d89e47ce00bf1ceb45880491b709430c"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/exception/ErrorCode.java",
+      "sha256": "3eedd9fd4909988caf45bb3de7ebd4bab70dab00848a9ed9e7157741f467439c"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/exception/ErrorResponse.java",
+      "sha256": "81268e4226d8f1fb1fe6a444f704d751431989dbee704867a2f89dd9a078d953"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/exception/GlobalExceptionHandler.java",
+      "sha256": "726a5e2cd331217dc0eb5bd27ff48ec51089cc9616ca558f36c33d9ba600dae3"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/common/exception/ValidationErrorResponse.java",
+      "sha256": "4f81af9d64c59ebfb116e2f62337c5d1f7ba7e701062166673801358e8fa8676"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/member/controller/MemberController.java",
+      "sha256": "83a2a042c6d19d01d45388c5e21f6b4ca9f25057b062516c85e65c5727512dbe"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/member/dto/MemberResponse.java",
+      "sha256": "ecd4bd1a11a0d62b8e4c13bb6ba2a0365ac68a9f710827f3b3c2e51d9b0a82a7"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/member/entity/Member.java",
+      "sha256": "be6d9774208627e103ed6b213af5ff09884162b14e5abef225940f8dc42f0ab4"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/member/exception/MemberNotFoundException.java",
+      "sha256": "0f4b28b79cda76432feb263a16b2dbe4fe86603100fb8fe6332052c6043b5792"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/member/repository/MemberRepository.java",
+      "sha256": "94e04aa3b427e7ee49c2c35acd22f6e736b58cd85e1d972cb47075f9bde701c5"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/member/service/MemberService.java",
+      "sha256": "17fbb89e243f01118a68895e674a4d97e0d46261bb9e425e07042b05f4e5795a"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/profile/controller/ProfileController.java",
+      "sha256": "55e697a473691e833dab76a1188e9938c73fe0f2dc5aebf4899422b08e27fd77"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/profile/dto/ProfileResponse.java",
+      "sha256": "7366e208c25190dbf82d093226444071bc3d980fceaeda9207bb86b0368d1f55"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/profile/dto/ProfileUpdateRequest.java",
+      "sha256": "0a6863f11d2dfca3380db16174ede3b5df728d5d2034238405fce69b6b09881b"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/profile/entity/Profile.java",
+      "sha256": "2ea8068566aef2944f4be0ab58d688fe625e4716a2bf9336f4932996acce3e69"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/profile/exception/ProfileNotFoundException.java",
+      "sha256": "434fabc1881ccffccf336b2a83c8042a4a5a63eb3fc486fea3ecc95053f31a11"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/profile/repository/ProfileRepository.java",
+      "sha256": "426a953550263170e625855be9afedcc16ca84aabc2d00f6155c5490d52c7dc5"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/profile/service/ProfileService.java",
+      "sha256": "1e2f14c211298d77735b12e2f27e9e57297477414985ace58d8965e3f1bba2e4"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/controller/StudyController.java",
+      "sha256": "5946069fb8f644dad11e25f260eb2f7ea7a412d880ec57e60016d51b1290a9c6"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/dto/StudyCreateRequest.java",
+      "sha256": "6dfdc8065d8c0e38289b4e52dda75dd122fde69ff6da071b849657d35963fece"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/dto/StudyPageResponse.java",
+      "sha256": "82a275ced659a9dda09c5466631ed89abfa34d475b199384de735e6086f67fbe"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/dto/StudyResponse.java",
+      "sha256": "23ad0071e32a74b287b1a41697c781f7d7e63862b7767fe03f980d0cb8243782"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/dto/StudyUpdateRequest.java",
+      "sha256": "af47616d474d24d84a00e82ed3157d002e2e36891603c74aa80c8256721411d4"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/entity/Study.java",
+      "sha256": "a1757e6d511ae3da13c20906b618e6020dfd6ce9e8fb448d6902fbdd7938a8a0"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/entity/StudyCategory.java",
+      "sha256": "52765683421d984750051620dd5dfc76c563464139f6d0d036efc7a422564998"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/entity/StudyDay.java",
+      "sha256": "bbd45adc5d84ace9d5010e691a25352043cbabfe37940a4d6548c990307f44d8"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/entity/StudyLevel.java",
+      "sha256": "4bffe4e121c291df648c548888b2d5ba1e929f451ce51a4bd32487bef87363c4"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/entity/StudySchedule.java",
+      "sha256": "726f215cd43a16c5c0a0f5a576573ed221c541d374d31a421ac0021cf8fcc25e"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/entity/StudyStatus.java",
+      "sha256": "316d5951fb862bee441b96f717ca537a99ff344734097f9bb02a50f881d756b5"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/exception/StudyAccessDeniedException.java",
+      "sha256": "6b333a8fca2617bb3943466204807b9ca9489177951ca2ba00e16b93eee8d1e9"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/exception/StudyCapacityBelowCurrentMembersException.java",
+      "sha256": "f7224dfa0c7b7eac655c790cbba56960c8cd86db0d6527c2e4ec5fc9da64471b"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/exception/StudyInvalidDaysException.java",
+      "sha256": "9bf2c91dd4ed42476348c9bc224f4873eb6cc5f18d073810809afd0d62801be8"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/exception/StudyInvalidTimeRangeException.java",
+      "sha256": "9251ea9b307447e66f5cbe53e2e8fc104b9a931bee2da7ec581aef53fcecbec3"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/exception/StudyNotFoundException.java",
+      "sha256": "711f0b82f9eefc744fee4b59a23fe801039dd44de98fc3851aa894cc68582c5f"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/repository/StudyRepository.java",
+      "sha256": "992cc787a27eaf30152b84748f1abf80350e97d08360b2bad579624cc5dd6f7e"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/repository/StudySpecification.java",
+      "sha256": "46de110eddf665d5fb06e5828f62ea5916dfa9e60a175300f553922df3866ad5"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/study/service/StudyService.java",
+      "sha256": "f2fa5c9f3b045bd23e278c85c09611c4b393f503132c7b3a02c7e549b888a97d"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/controller/StudyApplicationController.java",
+      "sha256": "238b86e7ce728bdb1859b727a30913625a306d8603233e613e54871e93028735"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/dto/StudyApplicationResponse.java",
+      "sha256": "8b01ec1ba8bcea0042d41c96d4ac6e711a911aa9564d832ae2e7b4959c0d4481"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/entity/ApplicationStatus.java",
+      "sha256": "7edc663a33fd052a5af9ee024a2611b0c74bcd4078669648dad55119e7e91b08"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/entity/StudyApplication.java",
+      "sha256": "4e91351146bb74fe7be0430e69b29fe9379c734753deaa35d7c5c78eadefb06a"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/exception/DuplicateStudyApplicationException.java",
+      "sha256": "9a0ea8afdbfee9dda1c7caa14402ee121cb6c27fe320b0b3dfdc7001806ce396"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/exception/OwnStudyApplicationException.java",
+      "sha256": "adf61d0078aaa9e4fcc40b343f86285c32c63a0e6a4f129b3c895663a67f6288"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/exception/StudyApplicationAlreadyProcessedException.java",
+      "sha256": "d2fede029739a00b81015873062d22f9628fafef3f392b45a238e46ee8157529"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/exception/StudyApplicationCannotCancelException.java",
+      "sha256": "8c471aeab9669bbfb1b05eea040c2cd9122d1bf15b0212236dc95ba79d8155ff"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/exception/StudyApplicationCannotReapplyException.java",
+      "sha256": "4e6dd61bd17afc13e6eb37c6ffad512b5fdfba43f38f0c0b60577ae37a4de2a4"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/exception/StudyApplicationNotFoundException.java",
+      "sha256": "458e3d08678e3bdad16b638d0c1b2ad087257ab61af9d8aface5ad09e39d129c"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/exception/StudyCapacityExceededException.java",
+      "sha256": "84e483cfd3955dcea27d78a8029e42814822752d612a777e0583d0547f4420cd"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/exception/StudyNotRecruitingException.java",
+      "sha256": "1117ce6671a287a0bfbdd7d45f6346ae3b67f0c122d32576b89dc4350775b7dd"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/repository/StudyApplicationRepository.java",
+      "sha256": "ae87413ece6805c66ab1670e8828b7f3507129c578ecc59a90bda61a85f8965c"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studyapplication/service/StudyApplicationService.java",
+      "sha256": "bda38eb163ce90e0e945e5568690dee112bcae920007979c1348774f9dc51628"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studymember/controller/StudyMemberController.java",
+      "sha256": "cb75adadea9f61e50cee05d7bad9d8d39cd85651f9995920dd5332af2c842edf"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studymember/dto/StudyMemberResponse.java",
+      "sha256": "a54d6b4c5b32023eede6947828a0f5a9ecb5a5323bdff94229fde90554618d35"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studymember/dto/TransferOwnershipRequest.java",
+      "sha256": "85410cb1f37c07c82891b15200c5a7153039878b09e6f39179baeb0fc0389d83"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studymember/entity/StudyMember.java",
+      "sha256": "401af5588dd41fcd511746d39dbc219a60aadce735fd2e29a885f19d9724cbb7"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studymember/entity/StudyMemberStatus.java",
+      "sha256": "79432ba70a023d1878a7504ede6a2b36e517bcbd8fdb28af210e604277a78bb1"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studymember/exception/StudyMemberException.java",
+      "sha256": "7b1cda7893a1f28a3ddb5b5625bb60febeb9f25ae4ecff04a1641ea5b58093a0"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studymember/repository/StudyMemberRepository.java",
+      "sha256": "9f0e47181238e03b93485bafec23fbf8f9f672201aab9534fc30c3831256a548"
+    },
+    {
+      "path": "spring-backend/src/main/java/com/studymatching/studymember/service/StudyMemberService.java",
+      "sha256": "13a57c250bb69831dfe2859fa2ca3f13e419fa60e87a813af8585509f3e35b43"
+    },
+    {
+      "path": "spring-backend/src/main/resources/application-local.properties",
+      "sha256": "aaf25db2336fdb9f7cd47185000fa65806dc84e28a0b745b2ca536974ed097df"
+    },
+    {
+      "path": "spring-backend/src/main/resources/application-prod.properties",
+      "sha256": "c67facc9bb7914ad21681989f05d8ab82d7f5a01f3577bd46ec8ea4874d3aa3c"
+    },
+    {
+      "path": "spring-backend/src/main/resources/application.properties",
+      "sha256": "46454418aa7d12d3b6be10810842f2d1441f927f703b180812e0c65b9a4ad68e"
+    },
+    {
+      "path": "spring-backend/src/main/resources/db/migration/V1__create_initial_schema.sql",
+      "sha256": "ea6d3fc8b70a5b6a3a9a5fa6f3a8dc7b3917e041b3ec2ffd3698dec91b7d372f"
+    },
+    {
+      "path": "spring-backend/src/main/resources/db/migration/V2__create_profiles.sql",
+      "sha256": "f3ab1056410b884bd9ace7ae4edd98100f35c3ba7b231f356b4c84a27a55f40d"
+    },
+    {
+      "path": "spring-backend/src/main/resources/db/migration/V3__create_studies.sql",
+      "sha256": "75846e777918dfdf88967e80cdacf641df0b6f254534c59565e66188796c8b0f"
+    },
+    {
+      "path": "spring-backend/src/main/resources/db/migration/V4__create_study_applications.sql",
+      "sha256": "00e01ca8c49edcaf9aba49ffdb43af382698193b08c9e3c029584215f7ac3ef9"
+    },
+    {
+      "path": "spring-backend/src/main/resources/db/migration/V5__add_study_indexes.sql",
+      "sha256": "6e4e76030201396147d0bd6e21d635ab01a2595d89e1391e4914636b3f67c274"
+    },
+    {
+      "path": "spring-backend/src/main/resources/db/migration/V6__add_study_application_version.sql",
+      "sha256": "a35de1e34a2ffd6ffc97538f68f4b68c8c543868e67c423f4731aa85edd403f9"
+    },
+    {
+      "path": "spring-backend/src/main/resources/db/migration/V7__create_study_members.sql",
+      "sha256": "37575249c218d9a2f4c30837da7c0eaeacc257749ddb0b5b38dddc30753e3df0"
+    },
+    {
+      "path": "spring-backend/src/main/resources/db/migration/V8__normalize_study_and_profile_inputs.sql",
+      "sha256": "6de3118cabfe0193493727679f8a2110d37534675a5e4d64367b12893eff65d9"
+    },
+    {
+      "path": "spring-backend/src/main/resources/db/migration/V9__optimize_study_search_order.sql",
+      "sha256": "3a13cc3af301a4881035c88d58392bf2a0a8b32063d22f50aa95ac043ff1d9a0"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/StudyMatchingApiApplicationTests.java",
+      "sha256": "a8d991f3ee67dcf16250d266abf3f2427dd852238e3ec700274e0b81e6f5fd6a"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/auth/controller/AuthControllerTest.java",
+      "sha256": "d287c561ec938fea9fb2bcd2add55de9dd1cab7c9cfba613e4b32315af21e2a6"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/auth/controller/AuthenticationBoundaryTest.java",
+      "sha256": "d0114f3b22185d9bfba1e1adffb1ce1e3b053e2ad6b06dfdd1c95a9fcd89d9c1"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/auth/dto/AuthRequestValidationTest.java",
+      "sha256": "5a0f469c1bec7ca7bb84a0573aed3b01024a004449c18567bf4f1905c54aab73"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/auth/security/CustomUserDetailsServiceTest.java",
+      "sha256": "2bdb956d9e1991231be54ead9fb953685f6cda4d180393a284ed653adbba6723"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/auth/security/SecurityBoundaryTest.java",
+      "sha256": "68a8e373b5d2b104b63927c4fcb0b0dd40d2029ac6cb2b715fa93caf220b424a"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/auth/service/AuthServiceTest.java",
+      "sha256": "610e9ee1699754a7acdb2dc30bf29ee4e067d1edcb5717c15d9c78635786c653"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/common/exception/GlobalExceptionHandlerTest.java",
+      "sha256": "770a3f004ee47424345bd2a446b564c63aada904eb62f0aef9c3090dea6101f2"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/common/persistence/EntityGraphQueryTest.java",
+      "sha256": "032b57bf673692ac0d1f89cbda5bd06195400f8aaa1e0dec36f71f5591b2a906"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/common/persistence/InputNormalizationMigrationTest.java",
+      "sha256": "9952f700eb36fd4464d10867b8014bbf950982070b378878e2a74d668472bb2d"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/common/persistence/JpaAuditingTest.java",
+      "sha256": "be1e5867c934f6015b76255a94b44c07b99062453a47af070b0549cbd18d7187"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/common/persistence/StudyApplicationVersionMigrationTest.java",
+      "sha256": "d76c8933321f8b35ac83115199346875d01457a47dd419e72cfad12805408d6a"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/common/persistence/StudyMemberMigrationTest.java",
+      "sha256": "b46dd5a56975a4eb9b4aef0d420f7739b405c4abb877f9cee94db1545fcfee72"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/e2e/StudyApplicationE2ETest.java",
+      "sha256": "ee5bc57fc813efa26723a4145cfbe604f7738dff6bd9ddf7fd1a2bde179baf75"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/e2e/StudyMemberE2ETest.java",
+      "sha256": "f72bbe7a89b98222037586e474f30144f1898a472643156041e7babe2779744b"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/profile/controller/ProfileControllerTest.java",
+      "sha256": "f0ed0de73998d2a9c8e8ac2094ef5547f9389d7fe08f217f74c0abe7fb8bc356"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/profile/service/ProfileServiceTest.java",
+      "sha256": "89e5f8849d729ce9a7172442d1777701a4b87c39832d0ccdacc8492fe3f3f9dd"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/study/controller/StudyControllerTest.java",
+      "sha256": "9429fde4351635b8345f2949844d8b47a912066a4a97053539d7406185d6c0fe"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/study/entity/StudyTest.java",
+      "sha256": "375e3bb05bb9abd10ae50956ca4efc7fbb7a7eb10aba4d5ee09321f517cbb6ef"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/study/service/StudyServiceTest.java",
+      "sha256": "2a0435e6b10343836ba09b77fd782e354baaafe0e0573c2c7f6c144277e92e8e"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/studyapplication/controller/StudyApplicationControllerTest.java",
+      "sha256": "c2713a2fa77c7c37ae717ed1e18640810249b69892f47dd0d2f4455ffcfe35d4"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/studyapplication/entity/StudyApplicationTest.java",
+      "sha256": "5744345711ed79c65bc44e5f1310f3ee9dcd19827eafb2e150cf8bb1d4971d50"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/studyapplication/service/StudyApplicationConcurrencyTest.java",
+      "sha256": "b1dae19dbde739bd4a3e95d3293a0c85680a8ec4903ede9c64b004e153f0e5f1"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/studyapplication/service/StudyApplicationServiceTest.java",
+      "sha256": "fde3bbd8eddca8fc7e5099a7457cc4322946f0b2f37fe4d22930b714f8a4a5e4"
+    },
+    {
+      "path": "spring-backend/src/test/java/com/studymatching/support/PostgresTestContainerConfig.java",
+      "sha256": "21734030fe7626ecd66a95a21e11c25a05a74797fe1000c8cf5d70979c34d3e6"
+    },
+    {
+      "path": "spring-backend/src/test/resources/application-test.properties",
+      "sha256": "45d389451081a3061c6f69dfb61e63763f6bdd90635254d2da23e40971668fb2"
+    }
+  ]
+}

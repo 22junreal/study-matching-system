@@ -1,0 +1,205 @@
+{
+  "command": "DOCKER_HOST=<local Docker socket> TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock bash gradlew clean test",
+  "environment": "local Java 21 / Docker Desktop / PostgreSQL Testcontainers",
+  "checkedAt": "2026-10-27T01:24:03.486845+00:00",
+  "totals": {
+    "tests": 179,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "suites": [
+    {
+      "name": "com.studymatching.common.persistence.EntityGraphQueryTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:17.063Z"
+    },
+    {
+      "name": "com.studymatching.study.entity.StudyTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:44.198Z"
+    },
+    {
+      "name": "com.studymatching.e2e.StudyApplicationE2ETest",
+      "tests": "10",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:18.810Z"
+    },
+    {
+      "name": "com.studymatching.auth.service.AuthServiceTest",
+      "tests": "7",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:14.915Z"
+    },
+    {
+      "name": "com.studymatching.studyapplication.service.StudyApplicationConcurrencyTest",
+      "tests": "7",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:44.801Z"
+    },
+    {
+      "name": "com.studymatching.common.persistence.StudyApplicationVersionMigrationTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:18.495Z"
+    },
+    {
+      "name": "com.studymatching.common.persistence.InputNormalizationMigrationTest",
+      "tests": "7",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:17.310Z"
+    },
+    {
+      "name": "com.studymatching.auth.controller.AuthControllerTest",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:12.363Z"
+    },
+    {
+      "name": "com.studymatching.studyapplication.controller.StudyApplicationControllerTest",
+      "tests": "7",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:44.620Z"
+    },
+    {
+      "name": "com.studymatching.auth.security.CustomUserDetailsServiceTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:14.399Z"
+    },
+    {
+      "name": "com.studymatching.study.service.StudyServiceTest",
+      "tests": "19",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:44.202Z"
+    },
+    {
+      "name": "com.studymatching.common.exception.GlobalExceptionHandlerTest",
+      "tests": "17",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:16.737Z"
+    },
+    {
+      "name": "com.studymatching.studyapplication.service.StudyApplicationServiceTest",
+      "tests": "11",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:45.238Z"
+    },
+    {
+      "name": "com.studymatching.auth.security.SecurityBoundaryTest",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:14.407Z"
+    },
+    {
+      "name": "com.studymatching.StudyMatchingApiApplicationTests",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:04.765Z"
+    },
+    {
+      "name": "com.studymatching.study.controller.StudyControllerTest",
+      "tests": "19",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:43.805Z"
+    },
+    {
+      "name": "com.studymatching.auth.controller.AuthenticationBoundaryTest",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:13.055Z"
+    },
+    {
+      "name": "com.studymatching.studyapplication.entity.StudyApplicationTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:44.799Z"
+    },
+    {
+      "name": "com.studymatching.profile.service.ProfileServiceTest",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:43.656Z"
+    },
+    {
+      "name": "com.studymatching.auth.dto.AuthRequestValidationTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:14.331Z"
+    },
+    {
+      "name": "com.studymatching.common.persistence.StudyMemberMigrationTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:18.637Z"
+    },
+    {
+      "name": "com.studymatching.common.persistence.JpaAuditingTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:18.431Z"
+    },
+    {
+      "name": "com.studymatching.profile.controller.ProfileControllerTest",
+      "tests": "11",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:43.427Z"
+    },
+    {
+      "name": "com.studymatching.e2e.StudyMemberE2ETest",
+      "tests": "25",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "timestamp": "2026-10-27T01:23:28.445Z"
+    }
+  ]
+}

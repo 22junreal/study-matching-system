@@ -66,7 +66,7 @@ class JpaAuditingTest {
                         "Backend study",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.BEGINNER,
-                        "MONDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4

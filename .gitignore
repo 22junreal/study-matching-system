@@ -28,3 +28,8 @@ build/
 # OS
 .DS_Store
 Thumbs.db
+
+# Database backups and temporary verification credentials
+backups/
+*.dump
+*.dump.partial

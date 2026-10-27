@@ -50,10 +50,11 @@ public class ProfileService {
 
         profile.update(
                 request.department(),
-                request.preferredCategory(),
+                request.category(),
                 request.level(),
-                request.availableDays(),
-                request.availableTime()
+                request.days(),
+                request.startTime(),
+                request.endTime()
         );
 
         return toResponse(profile);
@@ -65,10 +66,11 @@ public class ProfileService {
                 profile.getId(),
                 profile.getMember().getUsername(),
                 profile.getDepartment(),
-                profile.getPreferredCategory(),
+                profile.getCategory(),
                 profile.getLevel(),
-                profile.getAvailableDays(),
-                profile.getAvailableTime()
+                profile.getDays(),
+                profile.getStartTime(),
+                profile.getEndTime()
         );
     }
 }

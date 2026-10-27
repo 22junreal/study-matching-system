@@ -69,7 +69,7 @@ class StudyControllerTest {
     ) throws Exception {
         StudyResponse study = new StudyResponse(
                 1L, 2L, "owner", "AI study", "Study together",
-                StudyCategory.AI, StudyLevel.BEGINNER, "MON",
+                StudyCategory.AI, StudyLevel.BEGINNER, java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
                 LocalTime.of(19, 0), LocalTime.of(21, 0), 5,
                 StudyStatus.RECRUITING, LocalDateTime.of(2026, 9, 16, 12, 0)
         );

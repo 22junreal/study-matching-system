@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-26T20:50:40.204296+00:00",
+  "host": "macOS-27.0.1-arm64-arm-64bit",
+  "environment": "local Docker Desktop, direct backend HTTP; TLS/rate-limit gateway excluded to isolate API/DB performance",
+  "fixtureStudies": 120000,
+  "fixtureStudyDays": 240000,
+  "arrivalRatePerRoute": 20,
+  "measurementDurationSeconds": 30,
+  "sql": {
+    "all_page": "SELECT s.*,m.username FROM studies s JOIN members m ON m.id=s.owner_id ORDER BY s.created_at DESC,s.id DESC LIMIT 20",
+    "filtered_page": "SELECT s.*,m.username FROM studies s JOIN members m ON m.id=s.owner_id WHERE s.category='PROGRAMMING' AND s.level='BEGINNER' AND s.status='RECRUITING' ORDER BY s.created_at DESC,s.id DESC LIMIT 20",
+    "filtered_count": "SELECT count(*) FROM studies WHERE category='PROGRAMMING' AND level='BEGINNER' AND status='RECRUITING'"
+  },
+  "baseCommit": "4072cc9a76cb7fee858b019b7375445810cdadea",
+  "sourceState": "uncommitted changes included; see final source manifest",
+  "dockerResources": {
+    "cpus": 8,
+    "memoryBytes": 4106604544
+  },
+  "indexBytes": "idx_studies_filter_newest:7897088\nidx_studies_newest:3809280",
+  "backendImageId": "sha256:8a28705cc9adb278a87324f9faca29b9746ee4a59bc616c07f7cca47574b793b"
+}

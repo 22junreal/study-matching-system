@@ -1,0 +1,11 @@
+{$SITE_ADDRESS} {
+    {$TLS_MODE}
+    header {
+        Strict-Transport-Security "max-age=31536000"
+        X-Content-Type-Options "nosniff"
+    }
+    reverse_proxy gateway:80 {
+        # Always overwrite client-provided values. Gateway is never published.
+        header_up X-Study-Client-IP {remote_host}
+    }
+}

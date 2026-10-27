@@ -1,0 +1,59 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+     execution: local
+        script: /scripts/search.js
+        output: -
+
+     scenarios: (100.00%) 2 scenarios, 40 max VUs, 40s max duration (incl. graceful stop):
+              * all: 20.00 iterations/s for 10s (maxVUs: 20, exec: all, gracefulStop: 30s)
+              * filtered: 20.00 iterations/s for 10s (maxVUs: 20, exec: filtered, gracefulStop: 30s)
+
+
+running (01.0s), 00/40 VUs, 40 complete and 0 interrupted iterations
+all        [  10% ] 00/20 VUs  01.0s/10s  20.00 iters/s
+filtered   [  10% ] 00/20 VUs  01.0s/10s  20.00 iters/s
+
+running (02.0s), 00/40 VUs, 80 complete and 0 interrupted iterations
+all        [  20% ] 00/20 VUs  02.0s/10s  20.00 iters/s
+filtered   [  20% ] 00/20 VUs  02.0s/10s  20.00 iters/s
+
+running (03.0s), 00/40 VUs, 120 complete and 0 interrupted iterations
+all        [  30% ] 00/20 VUs  03.0s/10s  20.00 iters/s
+filtered   [  30% ] 00/20 VUs  03.0s/10s  20.00 iters/s
+
+running (04.0s), 00/40 VUs, 160 complete and 0 interrupted iterations
+all        [  40% ] 00/20 VUs  04.0s/10s  20.00 iters/s
+filtered   [  40% ] 00/20 VUs  04.0s/10s  20.00 iters/s
+
+running (05.0s), 00/40 VUs, 200 complete and 0 interrupted iterations
+all        [  50% ] 00/20 VUs  05.0s/10s  20.00 iters/s
+filtered   [  50% ] 00/20 VUs  05.0s/10s  20.00 iters/s
+
+running (06.0s), 00/40 VUs, 240 complete and 0 interrupted iterations
+all        [  60% ] 00/20 VUs  06.0s/10s  20.00 iters/s
+filtered   [  60% ] 00/20 VUs  06.0s/10s  20.00 iters/s
+
+running (07.0s), 00/40 VUs, 280 complete and 0 interrupted iterations
+all        [  70% ] 00/20 VUs  07.0s/10s  20.00 iters/s
+filtered   [  70% ] 00/20 VUs  07.0s/10s  20.00 iters/s
+
+running (08.0s), 00/40 VUs, 320 complete and 0 interrupted iterations
+all        [  80% ] 00/20 VUs  08.0s/10s  20.00 iters/s
+filtered   [  80% ] 00/20 VUs  08.0s/10s  20.00 iters/s
+
+running (09.0s), 00/40 VUs, 360 complete and 0 interrupted iterations
+all        [  90% ] 00/20 VUs  09.0s/10s  20.00 iters/s
+filtered   [  90% ] 00/20 VUs  09.0s/10s  20.00 iters/s
+
+running (10.0s), 00/40 VUs, 400 complete and 0 interrupted iterations
+all        [ 100% ] 00/20 VUs  10.0s/10s  20.00 iters/s
+filtered   [ 100% ] 00/20 VUs  10.0s/10s  20.00 iters/s
+
+running (10.0s), 00/40 VUs, 400 complete and 0 interrupted iterations
+all      ✓ [ 100% ] 00/20 VUs  10s  20.00 iters/s
+filtered ✓ [ 100% ] 00/20 VUs  10s  20.00 iters/s

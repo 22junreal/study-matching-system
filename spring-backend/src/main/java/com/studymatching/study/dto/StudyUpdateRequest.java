@@ -8,6 +8,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalTime;
+import java.util.List;
+import com.studymatching.study.entity.StudyDay;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public record StudyUpdateRequest(
 
@@ -23,11 +26,13 @@ public record StudyUpdateRequest(
         @NotNull
         StudyLevel level,
 
-        String days,
+        List<StudyDay> days,
 
-        LocalTime startTime,
+        @JsonFormat(pattern = "HH:mm")
+        @tools.jackson.databind.annotation.JsonDeserialize(using = com.studymatching.common.config.MinuteTimeDeserializer.class) LocalTime startTime,
 
-        LocalTime endTime,
+        @JsonFormat(pattern = "HH:mm")
+        @tools.jackson.databind.annotation.JsonDeserialize(using = com.studymatching.common.config.MinuteTimeDeserializer.class) LocalTime endTime,
 
         @NotNull
         @Min(1)

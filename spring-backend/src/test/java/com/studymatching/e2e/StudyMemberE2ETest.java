@@ -268,6 +268,51 @@ class StudyMemberE2ETest {
         assertCapacity(2, StudyStatus.RECRUITING);
     }
 
+    @Test
+    void studyAndProfileShareCanonicalScheduleAndEnums() throws Exception {
+        var body = new java.util.HashMap<String,Object>(studyBody(3));
+        body.put("category", " ai "); body.put("level", " beginner ");
+        body.put("days", List.of("wed", " monday ")); body.put("startTime", "19:00"); body.put("endTime", "21:00");
+        var response = call("PUT", path(""), owner, body).expect(200).body();
+        assertThat(response.path("category").asString()).isEqualTo("AI");
+        assertThat(response.path("days").get(0).asString()).isEqualTo("MONDAY");
+        assertThat(response.path("days").get(1).asString()).isEqualTo("WEDNESDAY");
+        assertThat(response.path("startTime").asString()).isEqualTo("19:00");
+        var persisted = call("GET", path(""), owner, null).expect(200).body();
+        assertThat(persisted.path("days")).isEqualTo(response.path("days"));
+        var profile = new java.util.HashMap<>(body); profile.put("department", "Computer Science");
+        profile.remove("title"); profile.remove("maxMembers");
+        var savedProfile = call("PUT", "/api/profiles/me", owner, profile).expect(200).body();
+        assertThat(savedProfile.path("days")).isEqualTo(response.path("days"));
+        assertThat(savedProfile.path("endTime").asString()).isEqualTo("21:00");
+        assertThat(call("GET", "/api/profiles/me", owner, null).expect(200).body().path("days"))
+                .isEqualTo(response.path("days"));
+        var search = call("GET", "/api/studies?category=ai&level=beginner", owner, null).expect(200).body();
+        assertThat(search.path("totalElements").asLong()).isEqualTo(1);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings={"duplicate", "unknownDay", "stringDays", "partial", "reverse", "same", "seconds", "24hour", "category", "level"})
+    void invalidSchedulesCannotChangeStudy(String invalid) throws Exception {
+        var body = new java.util.HashMap<String,Object>(studyBody(3));
+        body.put("days", List.of("MONDAY")); body.put("startTime", "19:00"); body.put("endTime", "21:00");
+        switch (invalid) {
+            case "duplicate" -> body.put("days", List.of("MON", "MONDAY"));
+            case "unknownDay" -> body.put("days", List.of("SOMEDAY"));
+            case "stringDays" -> body.put("days", "MONDAY,WEDNESDAY");
+            case "partial" -> body.remove("endTime");
+            case "reverse" -> body.put("startTime", "22:00");
+            case "same" -> body.put("startTime", "21:00");
+            case "seconds" -> body.put("startTime", "19:00:30");
+            case "24hour" -> body.put("startTime", "24:00");
+            case "category" -> body.put("category", "UNKNOWN");
+            case "level" -> body.put("level", "MASTER");
+        }
+        call("PUT", path(""), owner, body).expect(400);
+        assertThat(studies.findById(studyId).orElseThrow().getCategory()).isEqualTo(com.studymatching.study.entity.StudyCategory.PROGRAMMING);
+        assertThat(studies.findById(studyId).orElseThrow().getMaxMembers()).isEqualTo(2);
+    }
+
     private List<Response> race(Callable<Response> first, Callable<Response> second) throws Exception {
         CountDownLatch bothLockAttempts = new CountDownLatch(2);
         org.aopalliance.intercept.MethodInterceptor synchronizeLockAttempts = invocation -> {

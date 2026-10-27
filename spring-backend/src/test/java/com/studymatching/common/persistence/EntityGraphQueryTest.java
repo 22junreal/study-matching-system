@@ -43,6 +43,9 @@ class EntityGraphQueryTest {
     @Autowired
     private EntityManagerFactory entityManagerFactory;
 
+    @Autowired
+    private com.studymatching.study.service.StudyService studyService;
+
     private Statistics statistics;
     private Member owner;
 
@@ -122,6 +125,18 @@ class EntityGraphQueryTest {
         assertThat(statistics.getPrepareStatementCount()).isEqualTo(1);
     }
 
+    @Test
+    void pageScheduleCollectionsAreBatchLoadedRatherThanOneQueryPerStudy() {
+        studyRepository.saveAll(List.of(createStudy("A"), createStudy("B"), createStudy("C")));
+        statistics.clear();
+        var page = studyService.getStudies(0, 2);
+        assertThat(page.content()).hasSize(2);
+        page.content().forEach(study -> assertThat(study.days())
+                .containsExactly(com.studymatching.study.entity.StudyDay.MONDAY));
+        // Page + count + one batched days query, independent of the page's number of studies.
+        assertThat(statistics.getPrepareStatementCount()).isEqualTo(3);
+    }
+
     private Study createStudy(String title) {
         return new Study(
                 owner,
@@ -129,7 +144,7 @@ class EntityGraphQueryTest {
                 "Backend study",
                 StudyCategory.PROGRAMMING,
                 StudyLevel.BEGINNER,
-                "MONDAY",
+                java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
                 LocalTime.of(19, 0),
                 LocalTime.of(21, 0),
                 4

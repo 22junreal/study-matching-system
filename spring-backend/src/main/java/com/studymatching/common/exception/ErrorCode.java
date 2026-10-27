@@ -3,6 +3,7 @@ package com.studymatching.common.exception;
 import org.springframework.http.HttpStatus;
 
 public enum ErrorCode {
+    STUDY_INVALID_DAYS(HttpStatus.BAD_REQUEST, "요일은 중복되지 않는 유효한 값이어야 합니다."),
     STUDY_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "스터디 멤버를 찾을 수 없습니다."),
     STUDY_MEMBER_NOT_ACTIVE(HttpStatus.CONFLICT, "현재 참여 중인 멤버가 아닙니다."),
     STUDY_MEMBER_ALREADY_ACTIVE(HttpStatus.CONFLICT, "이미 참여 중인 멤버입니다."),

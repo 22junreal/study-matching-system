@@ -6,6 +6,9 @@ import com.studymatching.study.exception.StudyInvalidTimeRangeException;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
+import java.util.List;
+import java.util.Set;
+import org.hibernate.annotations.BatchSize;
 
 @Entity
 @Table(name = "studies")
@@ -33,8 +36,12 @@ public class Study extends BaseTimeEntity {
     @Column(nullable = false, length = 30)
     private StudyLevel level;
 
-    @Column(length = 100)
-    private String days;
+    @ElementCollection
+    @CollectionTable(name = "study_days", joinColumns = @JoinColumn(name = "study_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "day", nullable = false, length = 9)
+    @BatchSize(size = 50)
+    private Set<StudyDay> days;
 
     private LocalTime startTime;
 
@@ -56,7 +63,7 @@ public class Study extends BaseTimeEntity {
             String description,
             StudyCategory category,
             StudyLevel level,
-            String days,
+            List<StudyDay> days,
             LocalTime startTime,
             LocalTime endTime,
             Integer maxMembers
@@ -67,7 +74,7 @@ public class Study extends BaseTimeEntity {
         this.description = description;
         this.category = category;
         this.level = level;
-        this.days = days;
+        this.days = StudySchedule.days(days);
         this.startTime = startTime;
         this.endTime = endTime;
         this.maxMembers = maxMembers;
@@ -80,7 +87,7 @@ public class Study extends BaseTimeEntity {
             String description,
             StudyCategory category,
             StudyLevel level,
-            String days,
+            List<StudyDay> days,
             LocalTime startTime,
             LocalTime endTime,
             Integer maxMembers,
@@ -91,7 +98,7 @@ public class Study extends BaseTimeEntity {
         this.description = description;
         this.category = category;
         this.level = level;
-        this.days = days;
+        this.days = StudySchedule.days(days);
         this.startTime = startTime;
         this.endTime = endTime;
         this.maxMembers = maxMembers;
@@ -105,11 +112,7 @@ public class Study extends BaseTimeEntity {
     }
 
     private void validateTimeRange(LocalTime startTime, LocalTime endTime) {
-        if (startTime != null
-                && endTime != null
-                && !startTime.isBefore(endTime)) {
-            throw new StudyInvalidTimeRangeException();
-        }
+        StudySchedule.validateTime(startTime, endTime);
     }
 
     public void transferOwnership(Member newOwner) {
@@ -144,8 +147,8 @@ public class Study extends BaseTimeEntity {
         return level;
     }
 
-    public String getDays() {
-        return days;
+    public List<StudyDay> getDays() {
+        return days.stream().sorted().toList();
     }
 
     public LocalTime getStartTime() {

@@ -87,7 +87,7 @@ class StudyServiceTest {
                         "Spring Boot backend study",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.BEGINNER,
-                        "MONDAY,WEDNESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY, com.studymatching.study.entity.StudyDay.WEDNESDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4
@@ -120,7 +120,7 @@ class StudyServiceTest {
                 .isEqualTo(StudyLevel.BEGINNER);
 
         assertThat(response.days())
-                .isEqualTo("MONDAY,WEDNESDAY");
+                .isEqualTo(java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY, com.studymatching.study.entity.StudyDay.WEDNESDAY));
 
         assertThat(response.startTime())
                 .isEqualTo(LocalTime.of(19, 0));
@@ -189,7 +189,7 @@ class StudyServiceTest {
                         "Updated description",
                         StudyCategory.AI,
                         StudyLevel.INTERMEDIATE,
-                        "TUESDAY,THURSDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.TUESDAY, com.studymatching.study.entity.StudyDay.THURSDAY),
                         LocalTime.of(20, 0),
                         LocalTime.of(22, 0),
                         6
@@ -211,7 +211,7 @@ class StudyServiceTest {
         assertThat(response.level())
                 .isEqualTo(StudyLevel.INTERMEDIATE);
         assertThat(response.days())
-                .isEqualTo("TUESDAY,THURSDAY");
+                .isEqualTo(java.util.List.of(com.studymatching.study.entity.StudyDay.TUESDAY, com.studymatching.study.entity.StudyDay.THURSDAY));
         assertThat(response.startTime())
                 .isEqualTo(LocalTime.of(20, 0));
         assertThat(response.endTime())
@@ -250,7 +250,7 @@ class StudyServiceTest {
                         "Other member should not update",
                         StudyCategory.DATA,
                         StudyLevel.ADVANCED,
-                        "FRIDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.FRIDAY),
                         LocalTime.of(18, 0),
                         LocalTime.of(20, 0),
                         5
@@ -339,7 +339,7 @@ class StudyServiceTest {
                         "Description 1",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.BEGINNER,
-                        "MONDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4
@@ -353,7 +353,7 @@ class StudyServiceTest {
                         "Description 2",
                         StudyCategory.AI,
                         StudyLevel.INTERMEDIATE,
-                        "TUESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.TUESDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4
@@ -367,7 +367,7 @@ class StudyServiceTest {
                         "Description 3",
                         StudyCategory.DATA,
                         StudyLevel.ADVANCED,
-                        "WEDNESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.WEDNESDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4
@@ -412,7 +412,7 @@ class StudyServiceTest {
                                 "Matching study",
                                 StudyCategory.PROGRAMMING,
                                 StudyLevel.BEGINNER,
-                                "MONDAY",
+                                java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
                                 LocalTime.of(19, 0),
                                 LocalTime.of(21, 0),
                                 4
@@ -426,7 +426,7 @@ class StudyServiceTest {
                         "Non matching study",
                         StudyCategory.AI,
                         StudyLevel.INTERMEDIATE,
-                        "TUESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.TUESDAY),
                         LocalTime.of(20, 0),
                         LocalTime.of(22, 0),
                         5
@@ -470,7 +470,7 @@ class StudyServiceTest {
                         "Owner study",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.BEGINNER,
-                        "MONDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4
@@ -484,7 +484,7 @@ class StudyServiceTest {
                         "Owner study",
                         StudyCategory.AI,
                         StudyLevel.INTERMEDIATE,
-                        "TUESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.TUESDAY),
                         LocalTime.of(20, 0),
                         LocalTime.of(22, 0),
                         5
@@ -498,7 +498,7 @@ class StudyServiceTest {
                         "Other member study",
                         StudyCategory.DATA,
                         StudyLevel.ADVANCED,
-                        "WEDNESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.WEDNESDAY),
                         LocalTime.of(18, 0),
                         LocalTime.of(20, 0),
                         3
@@ -534,7 +534,7 @@ class StudyServiceTest {
                         "Programming",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.BEGINNER,
-                        "MONDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4
@@ -548,7 +548,7 @@ class StudyServiceTest {
                         "AI",
                         StudyCategory.AI,
                         StudyLevel.BEGINNER,
-                        "TUESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.TUESDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4
@@ -580,7 +580,7 @@ class StudyServiceTest {
                         "Beginner",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.BEGINNER,
-                        "MONDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4
@@ -594,7 +594,7 @@ class StudyServiceTest {
                         "Advanced",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.ADVANCED,
-                        "TUESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.TUESDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4
@@ -627,7 +627,7 @@ class StudyServiceTest {
                                 "Recruiting",
                                 StudyCategory.PROGRAMMING,
                                 StudyLevel.BEGINNER,
-                                "MONDAY",
+                                java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
                                 LocalTime.of(19, 0),
                                 LocalTime.of(21, 0),
                                 4
@@ -642,7 +642,7 @@ class StudyServiceTest {
                                 "Closed",
                                 StudyCategory.PROGRAMMING,
                                 StudyLevel.BEGINNER,
-                                "TUESDAY",
+                                java.util.List.of(com.studymatching.study.entity.StudyDay.TUESDAY),
                                 LocalTime.of(19, 0),
                                 LocalTime.of(21, 0),
                                 4
@@ -677,7 +677,7 @@ class StudyServiceTest {
                         "Match",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.BEGINNER,
-                        "MONDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4
@@ -691,7 +691,7 @@ class StudyServiceTest {
                         "No match",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.ADVANCED,
-                        "TUESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.TUESDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         4
@@ -727,7 +727,7 @@ class StudyServiceTest {
                         "Second",
                         StudyCategory.AI,
                         StudyLevel.INTERMEDIATE,
-                        "TUESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.TUESDAY),
                         LocalTime.of(20, 0),
                         LocalTime.of(22, 0),
                         5
@@ -774,7 +774,7 @@ class StudyServiceTest {
                         "알고리즘 공부",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.INTERMEDIATE,
-                        "MONDAY,WEDNESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY, com.studymatching.study.entity.StudyDay.WEDNESDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         5
@@ -800,7 +800,7 @@ class StudyServiceTest {
                         "알고리즘 공부",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.INTERMEDIATE,
-                        "MONDAY,WEDNESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY, com.studymatching.study.entity.StudyDay.WEDNESDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         2
@@ -845,7 +845,7 @@ class StudyServiceTest {
                         "알고리즘 공부",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.INTERMEDIATE,
-                        "MONDAY,WEDNESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY, com.studymatching.study.entity.StudyDay.WEDNESDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         5
@@ -871,7 +871,7 @@ class StudyServiceTest {
                         "알고리즘 공부",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.INTERMEDIATE,
-                        "MONDAY,WEDNESDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY, com.studymatching.study.entity.StudyDay.WEDNESDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(21, 0),
                         3
@@ -895,7 +895,7 @@ class StudyServiceTest {
                 "Owner가 정원을 모두 차지합니다.",
                 StudyCategory.PROGRAMMING,
                 StudyLevel.BEGINNER,
-                "MONDAY",
+                java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
                 LocalTime.of(19, 0),
                 LocalTime.of(20, 0),
                 1
@@ -918,7 +918,7 @@ class StudyServiceTest {
                         "Owner가 정원을 모두 차지합니다.",
                         StudyCategory.PROGRAMMING,
                         StudyLevel.BEGINNER,
-                        "MONDAY",
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
                         LocalTime.of(19, 0),
                         LocalTime.of(20, 0),
                         1
@@ -953,7 +953,7 @@ class StudyServiceTest {
                 "Spring Boot backend study",
                 StudyCategory.PROGRAMMING,
                 StudyLevel.BEGINNER,
-                "MONDAY,WEDNESDAY",
+                java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY, com.studymatching.study.entity.StudyDay.WEDNESDAY),
                 LocalTime.of(19, 0),
                 LocalTime.of(21, 0),
                 4

@@ -1,0 +1,71 @@
+{
+  "checkedAt": "2026-10-27T01:24:08.185733+00:00",
+  "environment": "local Docker Desktop; NOT cloud production",
+  "tls": "Caddy local CA, certificate verification enabled (no insecure bypass)",
+  "httpsHealth": {
+    "status": 200,
+    "hsts": "max-age=31536000",
+    "requestId": "b0d03e89-bc5d-4876-a663-118065d3589f"
+  },
+  "authenticatedHttpsApi": true,
+  "schemaVersion": "9",
+  "rateLimit": {
+    "requestCount": 12,
+    "statuses": {
+      "401": 5,
+      "429": 7
+    },
+    "forgedClientIpDidNotBypass": true,
+    "retryAfterSeconds": 12
+  },
+  "backupRestore": {
+    "sameRowCountsAndContentHashes": true,
+    "fingerprints": {
+      "members": "3:48e1389d2386830c5acf63062e4c46c6",
+      "profiles": "1:dbe23ed6c9e6756275f1aa36594fcdcc",
+      "studies": "120001:368315d5eb996d517bed8ae72d8bf73f",
+      "study_applications": "1:3e8a3fbeaf2b87ef97ad6df081d52842",
+      "study_members": "120002:d069b1595b0ae0f98580dca02857e8b3",
+      "study_days": "240002:ab21ba7c1c0abae5848068a3d8c6cf83",
+      "profile_days": "2:451464a4bcb98aa5e0a661924b646ac3",
+      "flyway_schema_history": "9:b1c3a9e7950e1d6050d54a46a2d1b2e4"
+    },
+    "dumpBytes": 2379073,
+    "sha256": "4ccfcb2635391456df053883d386a57bb951721318dc7535647ff1b70013bb91",
+    "backupSeconds": 0.387,
+    "restoreAndVerifySeconds": 4.036,
+    "target": "new isolated database; source unchanged"
+  },
+  "restartPersistence": true,
+  "databaseOutageStatus": 503,
+  "databaseRecoveryWithoutAppRestart": true,
+  "logging": {
+    "structuredBackendRecord": {
+      "@timestamp": "2026-10-27T01:25:05.910236797Z",
+      "log": {
+        "level": "INFO",
+        "logger": "com.studymatching.common.config.RequestLoggingFilter"
+      },
+      "process": {
+        "pid": 1,
+        "thread": {
+          "name": "http-nio-18081-exec-9"
+        }
+      },
+      "service": {
+        "name": "study-matching-api",
+        "version": "0.0.1-SNAPSHOT",
+        "node": {}
+      },
+      "message": "http_request method=GET path=/actuator/health status=200 durationMs=5",
+      "requestId": "b6966e5a-21ce-4cef-8cc1-7612fd7da4b4",
+      "ecs": {
+        "version": "8.11"
+      }
+    },
+    "edgeAndAppRequestIdCorrelated": true,
+    "passwordTokenQueryMarkerAbsent": true
+  },
+  "backendImageId": "sha256:3c117f2e4f18a1e60eb4701d443714d084791122075663ea6334a3a817df4ad7",
+  "cloudDeployed": false
+}

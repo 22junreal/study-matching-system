@@ -90,7 +90,7 @@ public class StudyService {
         Pageable pageable = PageRequest.of(
                 page,
                 size,
-                Sort.by(Sort.Direction.DESC, "createdAt")
+                Sort.by(Sort.Direction.DESC, "createdAt", "id")
         );
 
         Page<Study> studyPage =
@@ -110,7 +110,7 @@ public class StudyService {
         Pageable pageable = PageRequest.of(
                 page,
                 size,
-                Sort.by(Sort.Direction.DESC, "createdAt")
+                Sort.by(Sort.Direction.DESC, "createdAt", "id")
         );
 
         Specification<Study> specification =
@@ -150,7 +150,7 @@ public class StudyService {
         Pageable pageable = PageRequest.of(
                 page,
                 size,
-                Sort.by(Sort.Direction.DESC, "createdAt")
+                Sort.by(Sort.Direction.DESC, "createdAt", "id")
         );
 
         Page<Study> studyPage =

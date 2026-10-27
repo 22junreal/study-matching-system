@@ -1,98 +1,105 @@
-# Spring Boot 운영 실행 준비
+# 운영 구성과 검증
+
+## 검증 범위
+
+실제 클라우드 생성은 사용자 요청으로 보류했다. 공개 도메인, 공인 인증서 발급, 클라우드 운영 DB, 원격 백업 저장소 및 운영 트래픽 실적은 아직 없다. 현재 증거는 **로컬 Docker Desktop에서 prod profile로 실행한 결과**다. 최신 수치는 [운영 검증 JSON](../reports/verification/operations.json)에 기록한다.
+
+이전 V5 기준 기록은 [2026-10-26 이력](history/PRODUCTION_2026-10-26.md)이다. 현재 검증과 혼동하지 않는다.
 
 ## 구성
 
-- 개발: 루트 `compose.yaml` → `infra/compose.local.yml`, `local` profile, 기존 `infra` 프로젝트/볼륨 유지.
-- 운영: `infra/compose.prod.yml` 단독 사용, `prod` profile 고정, 별도 `study-matching-prod` 프로젝트/볼륨.
-- 운영 PostgreSQL은 호스트 포트를 공개하지 않는다. backend는 기본적으로 `127.0.0.1`에 바인딩한다.
-- 실제 외부 공개 시 배포 환경에 맞는 HTTPS 진입점, 방화벽, DB 백업/복원 절차를 설정한다. 이번 구성에는 서버 생성이나 프록시 설치를 포함하지 않는다.
+`infra/compose.prod.yml`에 `infra/compose.edge.yml`을 병합한다.
 
-## 환경변수와 실행
+```text
+HTTPS client → Caddy → Nginx → Spring Boot → PostgreSQL
+               TLS     제한/접근로그  JWT/도메인/JSON 로그
+```
 
-저장소 루트에서 실행한다. `.env.prod`에는 개발용과 다른 자격 증명을 사용한다.
+- Caddy만 외부 80/443을 연다. Nginx는 호스트 포트를 열지 않는다.
+- backend의 직접 포트는 기본 127.0.0.1, PostgreSQL은 호스트 포트를 열지 않는다. 직접 backend 포트는 프록시의 Rate Limit을 거치지 않으므로 외부 공개하지 않는다.
+- Caddy는 X-Study-Client-IP를 실제 접속 주소로 덮어쓴다. Nginx는 이 값으로 요청을 제한한다. 이 신뢰 모델은 단독 Caddy 진입점 기준이다. 앞단에 CDN/LB를 추가할 때는 신뢰할 프록시를 별도로 설계해야 한다.
+- 현재는 단일 앱·단일 PostgreSQL 인스턴스다. HA, 멀티 리전, 외부 로그 수집기는 포함하지 않는다.
+
+## 환경과 실행
 
 ```bash
-cd /Users/euijun/IdeaProjects/study-matching-system
 cp -n .env.prod.example .env.prod
 chmod 600 .env.prod
 openssl rand -base64 32
 ```
 
-`.env.prod`의 빈 `POSTGRES_PASSWORD`, `JWT_SECRET`, `CORS_ALLOWED_ORIGINS` 값을 입력한다. JWT는 위 명령으로 생성한 Base64 문자열, CORS는 실제 프런트엔드 origin을 쉼표로 구분해 지정한다(예: `https://study.example.com`, 경로·와일드카드 없이).
-
-- Compose가 `POSTGRES_*`로 `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`를 전달한다.
-- `PORT`는 컨테이너와 호스트의 backend 포트다. 개발 서버가 8080을 사용 중이면 검증용으로 `PORT=18080`을 사용한다.
-- 호스트/JAR 직접 실행 시 `SPRING_PROFILES_ACTIVE=prod`, `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `JWT_SECRET`, `CORS_ALLOWED_ORIGINS`를 환경변수로 전달한다. `.env.prod`는 Java/Gradle이 자동으로 읽지 않는다.
-- 공통 설정의 포트 우선순위는 `PORT` → 기존 `SERVER_PORT` → `8080`이다. 개발 Compose의 `SERVER_PORT`는 기존처럼 호스트 포트로 사용한다.
-- 같은 호스트의 프록시는 `127.0.0.1:PORT`로 연결한다. 다른 호스트/컨테이너의 프록시를 사용할 때는 네트워크 연결 방식과 `BACKEND_BIND_ADDRESS`를 해당 환경에 맞춰 조정한다.
+.env.prod에 POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, JWT_SECRET, CORS_ALLOWED_ORIGINS를 설정한다. PUBLIC 배포 시 SITE_ADDRESS에 보유 도메인을 넣고 TLS_MODE는 비운다. DNS와 방화벽이 80/443을 해당 서버로 연결해야 공인 ACME 인증서 발급을 시도할 수 있다. 이 외부 발급은 아직 검증하지 않았다.
 
 ```bash
-docker compose --env-file .env.prod -f infra/compose.prod.yml config -q
-docker compose --env-file .env.prod -f infra/compose.prod.yml build backend
-docker compose --env-file .env.prod -f infra/compose.prod.yml up -d --wait --wait-timeout 180
-docker compose --env-file .env.prod -f infra/compose.prod.yml ps
-curl -fsS http://127.0.0.1:8080/actuator/health
+docker compose --env-file .env.prod -f infra/compose.prod.yml -f infra/compose.edge.yml config -q
+docker compose --env-file .env.prod -f infra/compose.prod.yml -f infra/compose.edge.yml up -d --build --wait --wait-timeout 180
 ```
 
-`PORT`가 다르면 확인 URL도 변경한다. 성공 응답에는 `"status":"UP"`이 포함되며 DB 세부 정보는 표시하지 않는다. `config -q`는 값 출력 없이 구문/필수 변수만 검사한다. `config` 전체 출력이나 `docker inspect` 전체 출력에는 비밀값이 포함될 수 있으므로 공유하지 않는다.
+`config -q`는 비밀값을 출력하지 않는다. 전체 config/inspect 출력은 환경변수를 포함하므로 공유하지 않는다. 비밀값은 실행 시 주입하며 .env 파일은 Git에서 제외된다.
 
-## Health / API / 종료
+## 로컬 증거 재현
 
-- 인증 없이 공개하는 Actuator 경로는 `/actuator/health`다. DB health를 포함하고 세부 정보와 구성 요소를 숨긴다.
-- 이미지의 healthcheck는 15초마다 실제 앱 포트의 `/actuator/health`를 조회한다. 시작 유예 60초, 3회 실패 시 unhealthy다.
-- DB가 중단되면 health는 DOWN/HTTP 503 또는 연결 풀 대기 중 타임아웃이 되며 Docker도 unhealthy가 된다. DB가 복구되면 다시 healthy가 된다.
-- `restart: unless-stopped`는 프로세스 종료에 대한 재시작 정책이다. unhealthy 표시만으로 자동 재시작하지 않는다.
-- `prod`에서는 Swagger와 OpenAPI 생성을 비활성화한다. API 검증은 회원가입/로그인 후 JWT로 보호된 API를 호출한다. 개발 profile의 Swagger는 유지한다.
-- Spring 종료 대기는 phase당 30초, Compose 종료 유예는 60초다. SIGTERM이 Java 프로세스로 직접 전달되도록 exec 형식의 ENTRYPOINT를 유지한다.
+Docker Desktop, Java 21(테스트), Python 3, Bash가 필요하다. macOS/Linux 경로를 사용하는 보조 스크립트다. 스크립트는 `/private/tmp/study-proof.env`에 임시 자격 증명을 권한 600으로 생성하고, 고정된 `study-proof` 프로젝트만 사용한다.
 
 ```bash
-docker compose --env-file .env.prod -f infra/compose.prod.yml logs --tail=100 backend
-docker compose --env-file .env.prod -f infra/compose.prod.yml down
+python3 scripts/prepare-proof.py
+python3 scripts/measure-performance.py --seed-only
+python3 scripts/verify-operations.py
 ```
 
-`down`은 DB 볼륨을 유지한다. 운영 DB 보존을 위해 `down -v`는 사용하지 않는다. 기존 볼륨의 DB 비밀번호는 환경변수 변경만으로 갱신되지 않는다.
+- HTTPS localhost:18443, HTTP 리다이렉트 18080, 직접 backend 18081은 모두 loopback에만 바인딩된다.
+- Caddy의 로컬 CA를 `/private/tmp/study-proof-ca.crt`로 추출한다. 시스템 신뢰 저장소에는 설치하지 않으며 스크립트가 명시적으로 신뢰한다. TLS 검증을 끄지 않는다.
+- `--seed-only`는 검증용 스터디 12만 건과 요일 24만 행을 생성한다. 이미 있는 `bench-fixture-*` 행만 교체한다. 운영 DB에 실행하는 도구가 아니다.
+- 운영 검증은 HTTPS 로그인·인증 API, 헤더 위조를 동반한 인증 Rate Limit, 새 DB 복원 및 내용 해시, 앱 재시작 후 데이터 유지, DB 중단 시 503과 복구 후 200, 로그 상관관계와 비밀값 미노출을 확인한다.
+- 검증 과정에서 `study-proof`의 backend와 PostgreSQL을 재시작/중단한다. 개발용 `infra` 프로젝트와 운영 프로젝트에는 사용하지 않는다.
 
-## Flyway / 비밀값
-
-Flyway가 버전 순서대로 migration을 적용하고, Hibernate는 `ddl-auto=validate`로 결과를 검증한다. prod에서는 clean을 차단하고 checksum 검증을 켜며 자동 baseline과 out-of-order migration을 끈다. 기존 migration SQL은 수정하지 않고 새 버전을 추가한다. 배포 전 백업과 migration 내용을 확인한다. 애플리케이션 이미지를 되돌리는 것만으로 DB migration이 되돌아가지는 않는다.
-
-`.env`, `.env.prod` 등은 Git에서 제외한다. 예제 파일만 추적한다. backend 빌드 context는 `spring-backend`로 제한하고 `.dockerignore`로 중첩 `.env*`도 제외한다. Dockerfile은 빌드 파일과 `src/main`만 복사하며 최종 이미지에는 빌드한 JAR만 복사한다. 비밀값은 실행 시 환경변수로 주입하고 소스/리소스/빌드 인자에 넣지 않는다.
-
-## 기존 테스트
-
-Docker Desktop을 실행한 상태에서:
+수동 HTTPS 확인:
 
 ```bash
-cd /Users/euijun/IdeaProjects/study-matching-system/spring-backend
-export DOCKER_HOST="$(docker context inspect --format '{{.Endpoints.docker.Host}}')"
-export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
-bash gradlew clean test
+curl --cacert /private/tmp/study-proof-ca.crt https://localhost:18443/actuator/health
 ```
 
-## 실행 검증 기록 (2026-10-26)
+검증 스택 종료(데이터 볼륨 유지):
 
-macOS / Java 21 / Docker Desktop에서 별도 `study-readiness-check` 프로젝트와 새 DB 볼륨, 임시 자격 증명, `PORT=18080`으로 검증했다. 기존 개발 컨테이너와 DB는 유지했다.
+```bash
+docker compose --env-file /private/tmp/study-proof.env -p study-proof -f infra/compose.prod.yml -f infra/compose.edge.yml down
+```
 
-| 항목 | 결과 |
-|---|---|
-| `bash gradlew clean test` | 105개 통과, 실패/오류/건너뜀 0 |
-| Docker 이미지 빌드 / prod 기동 | 성공, backend와 PostgreSQL healthy |
-| Flyway | 빈 DB에 V1~V5 적용 성공, 재기동 시 검증 성공 및 추가 migration 없음 |
-| Health | HTTP 200 UP, DB 세부 정보/구성 요소 미노출 |
-| DB 장애 / 복구 | 중지 시 HTTP 503 DOWN 및 Docker unhealthy, 복구 후 앱 재시작 없이 healthy |
-| API 인증 | 회원가입 201, 로그인 200, 인증된 스터디 조회 200, 미인증 조회 401 |
-| CORS | 지정 origin preflight 200, 미허용 origin 403 |
-| prod 문서 / 관리 경로 | JWT 인증 상태에서도 Swagger, OpenAPI, actuator/env, actuator/info는 404 |
-| 정상 종료 | SIGTERM 후 graceful shutdown 및 연결 풀 종료 완료 로그, 종료 코드 143, OOM 없음 |
-| local 호환성 | 새 이미지에서 SERVER_PORT=8080 적용, health/Swagger/OpenAPI 200 |
-| 필수값 누락 | DB 비밀번호, JWT, CORS 빈값 각각 Compose에서 차단 |
-| 비밀값 | Git env 제외 확인, JAR의 .env 미포함, 알려진 비밀값이 JAR 리소스/이미지 메타데이터에 없는 것 확인 |
-| 설정 검사 | 개발/운영 Compose 검증 및 git diff --check 통과 |
+## Backup / Restore
 
-장시간 진행 중인 요청을 이용한 종료 부하 테스트와 실제 외부 HTTPS 접속은 이번 검증에 포함하지 않았다. 비밀값 점검은 현재 파일 및 알려진 값 기준이며 Git 전체 이력에 대한 감사는 아니다. 현재 개발용 DB 비밀번호는 공개 예제와 같은 값이므로 운영에 재사용하지 않는다.
+```bash
+bash scripts/backup-db.sh .env.prod study-matching-prod backups/snapshot.dump
+bash scripts/restore-db.sh .env.prod study-matching-prod backups/snapshot.dump restore_check
+```
 
-## 참고
+- pg_dump custom format, 소유자/ACL 제외. 기존 백업 파일은 덮어쓰지 않고 완료 후 partial 파일을 최종 경로로 이동한다.
+- 복원 대상은 **존재하지 않는 새 DB**여야 한다. 원본 DB 및 이미 존재하는 DB에 대한 덮어쓰기를 차단한다.
+- 검증 스크립트는 모든 애플리케이션 테이블과 Flyway 이력의 행 수·내용 해시를 비교한다. 측정한 복원 시간은 이 로컬 장비에서의 실행 시간이며 운영 RTO 보장이 아니다.
+- custom format은 암호화가 아니다. 운영 시작 전 백업 암호화·외부 보관·보존 기간·정기 실행·복구 훈련 정책을 결정해야 한다. 현재는 수동 스크립트와 로컬 복원 증거만 있다.
 
-- [Spring Boot graceful shutdown](https://docs.spring.io/spring-boot/reference/web/graceful-shutdown.html)
-- [Spring Boot Actuator health](https://docs.spring.io/spring-boot/reference/actuator/endpoints.html)
-- [Docker Compose 서비스 설정](https://docs.docker.com/reference/compose-file/services/)
+## Rate Limit
+
+- 로그인/회원가입: IP 기준 5 requests/minute, burst 5, 초과 429.
+- 일반 경로: IP 기준 30 requests/second, burst 60, 초과 429.
+- 응답은 JSON `RATE_LIMITED`, Retry-After: 12, X-Request-ID다. 일반 경로에도 보수적으로 12초 재시도 대기를 반환한다.
+- limit 상태는 Nginx 메모리이므로 재시작 시 초기화되고 여러 Nginx 인스턴스 사이에서 공유되지 않는다. NAT를 공유하는 사용자에게 같은 IP 제한이 적용된다.
+- rate-limit 응답은 Nginx가 생성한다. 별도 origin의 브라우저에서 429 본문을 읽게 하려면 프록시 CORS 정책을 추가 검증해야 한다. 현재 API의 일반 CORS 처리는 Spring 설정을 따른다.
+
+## Logging / Health
+
+- prod 앱 로그는 ECS JSON이다. 요청마다 서버가 생성한 X-Request-ID를 반환하고 MDC에 포함한다.
+- 접근 로그는 method, path, status, elapsed time만 기록한다. 인증 헤더·본문·query string은 기록하지 않는다. Nginx JSON 로그에는 앱 requestId와 edgeRequestId가 있다.
+- Nginx 오류 로그는 raw request line에 query가 섞일 수 있어 crit 레벨로 제한했다. 4xx/5xx 추적은 접근 로그와 앱 로그로 수행한다.
+- Docker 로그는 서비스당 10MB × 5파일로 회전한다. 중앙 수집·장기 보존·알림은 미구현이다.
+- health에는 DB 상태를 포함하고 세부 연결 정보는 숨긴다. prod에서는 Swagger/OpenAPI가 비활성화된다.
+- `restart: unless-stopped`는 프로세스 종료 시 재시작하며 unhealthy 상태만으로 재시작하지 않는다. shutdown phase 대기 30초, Compose 종료 유예 60초다.
+
+## Migration 배포 조건
+
+V8은 API/DB 구조 변경이며 V9는 검색 인덱스 추가다. 기존 DB의 비표준 데이터를 V8이 발견하면 적용을 중단한다. [입력 계약](INPUT_CONTRACT.md)과 백업을 확인하고 앱·클라이언트를 함께 변경해야 한다. 구버전 앱과 혼합 운영하지 않는다. V9의 일반 CREATE INDEX는 쓰기를 막을 수 있으므로 실제 데이터 규모를 확인하고 점검 시간을 잡는다. 앱 이미지만 되돌려 DB 구조까지 복구할 수는 없다.
+
+## 공식 참고
+
+- [Caddy Automatic HTTPS](https://caddyserver.com/docs/automatic-https)
+- [Caddy reverse_proxy와 헤더](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy)
+- [Nginx limit_req](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html)

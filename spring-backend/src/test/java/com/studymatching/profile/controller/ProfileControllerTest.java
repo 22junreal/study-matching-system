@@ -1,252 +1,62 @@
 package com.studymatching.profile.controller;
-
-import tools.jackson.databind.ObjectMapper;
 import com.studymatching.common.exception.GlobalExceptionHandler;
-import com.studymatching.profile.dto.ProfileResponse;
-import com.studymatching.profile.dto.ProfileUpdateRequest;
+import com.studymatching.profile.dto.*;
 import com.studymatching.profile.service.ProfileService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.studymatching.study.entity.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.security.Principal;
-
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import tools.jackson.databind.ObjectMapper;
+import java.time.LocalTime;
+import java.util.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class ProfileControllerTest {
-
-    private MockMvc mockMvc;
-    private ProfileService profileService;
-    private ObjectMapper objectMapper;
-
-    @BeforeEach
-    void setUp() {
-        profileService = mock(ProfileService.class);
-
-        ProfileController profileController =
-                new ProfileController(profileService);
-
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(profileController)
-                .setControllerAdvice(new GlobalExceptionHandler())
-                .build();
-
-        objectMapper = new ObjectMapper();
+    MockMvc mvc;
+    ProfileService service;
+    ObjectMapper json = new ObjectMapper();
+    @BeforeEach void setUp() {
+        service = mock(ProfileService.class);
+        mvc = MockMvcBuilders.standaloneSetup(new ProfileController(service))
+                .setControllerAdvice(new GlobalExceptionHandler()).build();
     }
-
-    @Test
-    void updateProfileSuccess() throws Exception {
-
-        ProfileUpdateRequest request =
-                new ProfileUpdateRequest(
-                        "인공지능학과",
-                        "AI",
-                        "INTERMEDIATE",
-                        "MONDAY,WEDNESDAY",
-                        "19:00-21:00"
-                );
-
-        ProfileResponse response =
-                new ProfileResponse(
-                        1L,
-                        "testuser",
-                        "인공지능학과",
-                        "AI",
-                        "INTERMEDIATE",
-                        "MONDAY,WEDNESDAY",
-                        "19:00-21:00"
-                );
-
-        when(profileService.updateMyProfile(
-                eq("testuser"),
-                eq(request)
-        )).thenReturn(response);
-
-        Principal principal =
-                new UsernamePasswordAuthenticationToken(
-                        "testuser",
-                        "password"
-                );
-
-        mockMvc.perform(
-                        put("/api/profiles/me")
-                                .principal(principal)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request))
-                )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username")
-                        .value("testuser"))
-                .andExpect(jsonPath("$.department")
-                        .value("인공지능학과"))
-                .andExpect(jsonPath("$.preferredCategory")
-                        .value("AI"))
-                .andExpect(jsonPath("$.level")
-                        .value("INTERMEDIATE"));
-
-        verify(profileService)
-                .updateMyProfile(
-                        eq("testuser"),
-                        eq(request)
-                );
+    private Map<String,Object> valid() {
+        return new HashMap<>(Map.of("department", "AI", "category", "AI", "level", "BEGINNER",
+                "days", List.of("MONDAY"), "startTime", "19:00", "endTime", "21:00"));
     }
-
-    @Test
-    void updateProfileFailsWhenDepartmentIsBlank() throws Exception {
-
-        ProfileUpdateRequest request =
-                new ProfileUpdateRequest(
-                        "",
-                        "AI",
-                        "BEGINNER",
-                        "MONDAY",
-                        "19:00-21:00"
-                );
-
-        Principal principal =
-                new UsernamePasswordAuthenticationToken(
-                        "testuser",
-                        "password"
-                );
-
-        mockMvc.perform(
-                        put("/api/profiles/me")
-                                .principal(principal)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request))
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.status")
-                        .value(400))
-                .andExpect(jsonPath("$.errors.department")
-                        .value("학과는 필수입니다."));
+    @Test void updateUsesTypedInputAndCanonicalResponse() throws Exception {
+        var request = new ProfileUpdateRequest("AI", StudyCategory.AI, StudyLevel.BEGINNER,
+                List.of(StudyDay.MONDAY), LocalTime.of(19,0), LocalTime.of(21,0));
+        when(service.updateMyProfile("user", request)).thenReturn(new ProfileResponse(1L, "user", "AI",
+                StudyCategory.AI, StudyLevel.BEGINNER, List.of(StudyDay.MONDAY), LocalTime.of(19,0), LocalTime.of(21,0)));
+        mvc.perform(put("/api/profiles/me").principal(new UsernamePasswordAuthenticationToken("user", "unused"))
+                .contentType(MediaType.APPLICATION_JSON).content(json.writeValueAsString(valid())))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.category").value("AI"))
+                .andExpect(jsonPath("$.days[0]").value("MONDAY"))
+                .andExpect(jsonPath("$.startTime").value("19:00"));
+        verify(service).updateMyProfile("user", request);
     }
-
-    @Test
-    void updateProfileFailsWhenPreferredCategoryIsInvalid()
-            throws Exception {
-
-        ProfileUpdateRequest request =
-                new ProfileUpdateRequest(
-                        "인공지능학과",
-                        "INVALID",
-                        "BEGINNER",
-                        "MONDAY",
-                        "19:00-21:00"
-                );
-
-        Principal principal =
-                new UsernamePasswordAuthenticationToken(
-                        "testuser",
-                        "password"
-                );
-
-        mockMvc.perform(
-                        put("/api/profiles/me")
-                                .principal(principal)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request))
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errors.preferredCategory")
-                        .value("선호 카테고리 값이 올바르지 않습니다."));
+    @ParameterizedTest
+    @ValueSource(strings={"department", "category", "level", "days", "startTime", "endTime"})
+    void missingRequiredFieldsAre400(String field) throws Exception {
+        var body = valid(); body.remove(field);
+        mvc.perform(put("/api/profiles/me").principal(new UsernamePasswordAuthenticationToken("user", "unused"))
+                .contentType(MediaType.APPLICATION_JSON).content(json.writeValueAsString(body))).andExpect(status().isBadRequest());
+        verifyNoInteractions(service);
     }
-
-    @Test
-    void updateProfileFailsWhenLevelIsInvalid() throws Exception {
-
-        ProfileUpdateRequest request =
-                new ProfileUpdateRequest(
-                        "인공지능학과",
-                        "AI",
-                        "MASTER",
-                        "MONDAY",
-                        "19:00-21:00"
-                );
-
-        Principal principal =
-                new UsernamePasswordAuthenticationToken(
-                        "testuser",
-                        "password"
-                );
-
-        mockMvc.perform(
-                        put("/api/profiles/me")
-                                .principal(principal)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request))
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errors.level")
-                        .value("레벨 값이 올바르지 않습니다."));
-    }
-
-    @Test
-    void updateProfileFailsWhenAvailableDaysIsInvalid()
-            throws Exception {
-
-        ProfileUpdateRequest request =
-                new ProfileUpdateRequest(
-                        "인공지능학과",
-                        "AI",
-                        "BEGINNER",
-                        "SOMEDAY",
-                        "19:00-21:00"
-                );
-
-        Principal principal =
-                new UsernamePasswordAuthenticationToken(
-                        "testuser",
-                        "password"
-                );
-
-        mockMvc.perform(
-                        put("/api/profiles/me")
-                                .principal(principal)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request))
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errors.availableDays")
-                        .value("가능 요일 형식이 올바르지 않습니다."));
-    }
-
-    @Test
-    void updateProfileFailsWhenAvailableTimeIsInvalid()
-            throws Exception {
-
-        ProfileUpdateRequest request =
-                new ProfileUpdateRequest(
-                        "인공지능학과",
-                        "AI",
-                        "BEGINNER",
-                        "MONDAY",
-                        "25:99-30:00"
-                );
-
-        Principal principal =
-                new UsernamePasswordAuthenticationToken(
-                        "testuser",
-                        "password"
-                );
-
-        mockMvc.perform(
-                        put("/api/profiles/me")
-                                .principal(principal)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request))
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errors.availableTime")
-                        .value("가능 시간 형식은 HH:mm-HH:mm 이어야 합니다."));
+    @ParameterizedTest
+    @ValueSource(strings={"category", "level", "days", "startTime"})
+    void invalidTypedInputsAre400(String field) throws Exception {
+        var body = valid(); body.put(field, field.equals("days") ? List.of("SOMEDAY") : "INVALID");
+        mvc.perform(put("/api/profiles/me").principal(new UsernamePasswordAuthenticationToken("user", "unused"))
+                .contentType(MediaType.APPLICATION_JSON).content(json.writeValueAsString(body))).andExpect(status().isBadRequest());
+        verifyNoInteractions(service);
     }
 }

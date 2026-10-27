@@ -97,7 +97,7 @@ class StudyApplicationConcurrencyTest {
                 "동시 승인 테스트",
                 StudyCategory.PROGRAMMING,
                 StudyLevel.BEGINNER,
-                "MON,WED",
+                java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY, com.studymatching.study.entity.StudyDay.WEDNESDAY),
                 LocalTime.of(19, 0),
                 LocalTime.of(21, 0),
                 3

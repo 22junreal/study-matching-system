@@ -82,7 +82,7 @@ class StudyTest {
                 "Spring Boot backend study",
                 StudyCategory.PROGRAMMING,
                 StudyLevel.BEGINNER,
-                "MONDAY,WEDNESDAY",
+                java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY, com.studymatching.study.entity.StudyDay.WEDNESDAY),
                 startTime,
                 endTime,
                 maxMembers

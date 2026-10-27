@@ -1,3 +1,5 @@
+> 이 문서는 초기 설계·계획 또는 과거 구현 이력을 포함합니다. 현재 구현과 검증 상태는 [README](../README.md), [입력 계약](INPUT_CONTRACT.md), [운영 가이드](PRODUCTION.md)를 기준으로 확인하세요.
+
 ## 시스템 아키텍처
 
 본 시스템은 웹 기반 Client–Server 구조로 설계된다.

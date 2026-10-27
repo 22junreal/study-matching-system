@@ -25,6 +25,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringBootTest
 @Import(PostgresTestContainerConfig.class)
 class ProfileServiceTest {
+    @Autowired
+    private org.springframework.jdbc.core.JdbcTemplate jdbc;
 
     @Autowired
     private ProfileService profileService;
@@ -66,10 +68,10 @@ class ProfileServiceTest {
         ProfileUpdateRequest request =
                 new ProfileUpdateRequest(
                         "인공지능학과",
-                        "AI",
-                        "INTERMEDIATE",
-                        "MONDAY,WEDNESDAY",
-                        "19:00-21:00"
+                        com.studymatching.study.entity.StudyCategory.AI,
+                        com.studymatching.study.entity.StudyLevel.INTERMEDIATE,
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY, com.studymatching.study.entity.StudyDay.WEDNESDAY),
+                        java.time.LocalTime.of(19, 0), java.time.LocalTime.of(21, 0)
                 );
 
         ProfileResponse response =
@@ -87,17 +89,17 @@ class ProfileServiceTest {
         assertThat(response.department())
                 .isEqualTo("인공지능학과");
 
-        assertThat(response.preferredCategory())
-                .isEqualTo("AI");
+        assertThat(response.category())
+                .isEqualTo(com.studymatching.study.entity.StudyCategory.AI);
 
         assertThat(response.level())
-                .isEqualTo("INTERMEDIATE");
+                .isEqualTo(com.studymatching.study.entity.StudyLevel.INTERMEDIATE);
 
-        assertThat(response.availableDays())
-                .isEqualTo("MONDAY,WEDNESDAY");
+        assertThat(response.days())
+                .isEqualTo(java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY, com.studymatching.study.entity.StudyDay.WEDNESDAY));
 
-        assertThat(response.availableTime())
-                .isEqualTo("19:00-21:00");
+        assertThat(response.startTime())
+                .isEqualTo(java.time.LocalTime.of(19, 0));
 
         assertThat(
                 profileRepository.findByMemberUsername("testuser")
@@ -112,10 +114,10 @@ class ProfileServiceTest {
 
         profile.update(
                 "컴퓨터공학과",
-                "PROGRAMMING",
-                "BEGINNER",
-                "TUESDAY,THURSDAY",
-                "18:00-20:00"
+                com.studymatching.study.entity.StudyCategory.PROGRAMMING,
+                com.studymatching.study.entity.StudyLevel.BEGINNER,
+                java.util.List.of(com.studymatching.study.entity.StudyDay.TUESDAY, com.studymatching.study.entity.StudyDay.THURSDAY),
+                java.time.LocalTime.of(18, 0), java.time.LocalTime.of(20, 0)
         );
 
         profileRepository.save(profile);
@@ -134,17 +136,17 @@ class ProfileServiceTest {
         assertThat(response.department())
                 .isEqualTo("컴퓨터공학과");
 
-        assertThat(response.preferredCategory())
-                .isEqualTo("PROGRAMMING");
+        assertThat(response.category())
+                .isEqualTo(com.studymatching.study.entity.StudyCategory.PROGRAMMING);
 
         assertThat(response.level())
-                .isEqualTo("BEGINNER");
+                .isEqualTo(com.studymatching.study.entity.StudyLevel.BEGINNER);
 
-        assertThat(response.availableDays())
-                .isEqualTo("TUESDAY,THURSDAY");
+        assertThat(response.days())
+                .isEqualTo(java.util.List.of(com.studymatching.study.entity.StudyDay.TUESDAY, com.studymatching.study.entity.StudyDay.THURSDAY));
 
-        assertThat(response.availableTime())
-                .isEqualTo("18:00-20:00");
+        assertThat(response.startTime())
+                .isEqualTo(java.time.LocalTime.of(18, 0));
     }
 
     @Test
@@ -155,10 +157,10 @@ class ProfileServiceTest {
 
         profile.update(
                 "컴퓨터공학과",
-                "PROGRAMMING",
-                "BEGINNER",
-                "MONDAY",
-                "18:00-20:00"
+                com.studymatching.study.entity.StudyCategory.PROGRAMMING,
+                com.studymatching.study.entity.StudyLevel.BEGINNER,
+                java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
+                java.time.LocalTime.of(18, 0), java.time.LocalTime.of(20, 0)
         );
 
         Profile savedProfile =
@@ -169,10 +171,10 @@ class ProfileServiceTest {
         ProfileUpdateRequest request =
                 new ProfileUpdateRequest(
                         "인공지능학과",
-                        "AI",
-                        "ADVANCED",
-                        "SATURDAY",
-                        "14:00-17:00"
+                        com.studymatching.study.entity.StudyCategory.AI,
+                        com.studymatching.study.entity.StudyLevel.ADVANCED,
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.SATURDAY),
+                        java.time.LocalTime.of(14, 0), java.time.LocalTime.of(17, 0)
                 );
 
         ProfileResponse response =
@@ -187,17 +189,17 @@ class ProfileServiceTest {
         assertThat(response.department())
                 .isEqualTo("인공지능학과");
 
-        assertThat(response.preferredCategory())
-                .isEqualTo("AI");
+        assertThat(response.category())
+                .isEqualTo(com.studymatching.study.entity.StudyCategory.AI);
 
         assertThat(response.level())
-                .isEqualTo("ADVANCED");
+                .isEqualTo(com.studymatching.study.entity.StudyLevel.ADVANCED);
 
-        assertThat(response.availableDays())
-                .isEqualTo("SATURDAY");
+        assertThat(response.days())
+                .isEqualTo(java.util.List.of(com.studymatching.study.entity.StudyDay.SATURDAY));
 
-        assertThat(response.availableTime())
-                .isEqualTo("14:00-17:00");
+        assertThat(response.startTime())
+                .isEqualTo(java.time.LocalTime.of(14, 0));
 
         Profile updatedProfile =
                 profileRepository.findById(profileId)
@@ -206,17 +208,17 @@ class ProfileServiceTest {
         assertThat(updatedProfile.getDepartment())
                 .isEqualTo("인공지능학과");
 
-        assertThat(updatedProfile.getPreferredCategory())
-                .isEqualTo("AI");
+        assertThat(updatedProfile.getCategory())
+                .isEqualTo(com.studymatching.study.entity.StudyCategory.AI);
 
         assertThat(updatedProfile.getLevel())
-                .isEqualTo("ADVANCED");
+                .isEqualTo(com.studymatching.study.entity.StudyLevel.ADVANCED);
 
-        assertThat(updatedProfile.getAvailableDays())
-                .isEqualTo("SATURDAY");
+        assertThat(jdbc.queryForList("select day from profile_days where profile_id = ?", String.class, profileId))
+                .containsExactly("SATURDAY");
 
-        assertThat(updatedProfile.getAvailableTime())
-                .isEqualTo("14:00-17:00");
+        assertThat(updatedProfile.getStartTime())
+                .isEqualTo(java.time.LocalTime.of(14, 0));
     }
 
     @Test
@@ -230,10 +232,10 @@ class ProfileServiceTest {
         ProfileUpdateRequest firstRequest =
                 new ProfileUpdateRequest(
                         "인공지능학과",
-                        "AI",
-                        "BEGINNER",
-                        "MONDAY",
-                        "19:00-21:00"
+                        com.studymatching.study.entity.StudyCategory.AI,
+                        com.studymatching.study.entity.StudyLevel.BEGINNER,
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
+                        java.time.LocalTime.of(19, 0), java.time.LocalTime.of(21, 0)
                 );
 
         profileService.updateMyProfile(
@@ -244,10 +246,10 @@ class ProfileServiceTest {
         ProfileUpdateRequest secondRequest =
                 new ProfileUpdateRequest(
                         "인공지능학과",
-                        "DATA",
-                        "INTERMEDIATE",
-                        "WEDNESDAY",
-                        "20:00-22:00"
+                        com.studymatching.study.entity.StudyCategory.DATA,
+                        com.studymatching.study.entity.StudyLevel.INTERMEDIATE,
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.WEDNESDAY),
+                        java.time.LocalTime.of(20, 0), java.time.LocalTime.of(22, 0)
                 );
 
         profileService.updateMyProfile(
@@ -263,11 +265,11 @@ class ProfileServiceTest {
                         member.getUsername()
                 ).orElseThrow();
 
-        assertThat(savedProfile.getPreferredCategory())
-                .isEqualTo("DATA");
+        assertThat(savedProfile.getCategory())
+                .isEqualTo(com.studymatching.study.entity.StudyCategory.DATA);
 
         assertThat(savedProfile.getLevel())
-                .isEqualTo("INTERMEDIATE");
+                .isEqualTo(com.studymatching.study.entity.StudyLevel.INTERMEDIATE);
     }
 
     @Test
@@ -276,10 +278,10 @@ class ProfileServiceTest {
         ProfileUpdateRequest request =
                 new ProfileUpdateRequest(
                         "인공지능학과",
-                        "AI",
-                        "BEGINNER",
-                        "MONDAY",
-                        "19:00-21:00"
+                        com.studymatching.study.entity.StudyCategory.AI,
+                        com.studymatching.study.entity.StudyLevel.BEGINNER,
+                        java.util.List.of(com.studymatching.study.entity.StudyDay.MONDAY),
+                        java.time.LocalTime.of(19, 0), java.time.LocalTime.of(21, 0)
                 );
 
         assertThatThrownBy(() ->
