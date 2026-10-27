@@ -1,0 +1,11 @@
+apiVersion: 1
+providers:
+  - name: Study Matching
+    orgId: 1
+    folder: Study Matching
+    type: file
+    disableDeletion: false
+    editable: false
+    updateIntervalSeconds: 30
+    options:
+      path: /var/lib/grafana/dashboards

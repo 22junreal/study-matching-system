@@ -1,0 +1,172 @@
+{
+  "rule_files": [
+    "alerts.yml"
+  ],
+  "evaluation_interval": "15s",
+  "tests": [
+    {
+      "name": "scrape failure fires after one minute and resolves",
+      "interval": "15s",
+      "input_series": [
+        {
+          "series": "up{job=\"study-backend\",instance=\"backend:8080\"}",
+          "values": "0x8 1x8"
+        }
+      ],
+      "alert_rule_test": [
+        {
+          "eval_time": "45s",
+          "alertname": "StudyBackendDown",
+          "exp_alerts": []
+        },
+        {
+          "eval_time": "1m",
+          "alertname": "StudyBackendDown",
+          "exp_alerts": [
+            {
+              "exp_labels": {
+                "severity": "critical",
+                "job": "study-backend",
+                "instance": "backend:8080"
+              },
+              "exp_annotations": {
+                "summary": "Backend metrics cannot be scraped",
+                "description": "Check backend availability, metrics credentials and container networking. This is not a database health check."
+              }
+            }
+          ]
+        },
+        {
+          "eval_time": "3m",
+          "alertname": "StudyBackendDown",
+          "exp_alerts": []
+        }
+      ]
+    },
+    {
+      "name": "pool wait persists for two minutes",
+      "interval": "15s",
+      "input_series": [
+        {
+          "series": "hikaricp_connections_pending{job=\"study-backend\",pool=\"StudyPool\"}",
+          "values": "1x20"
+        }
+      ],
+      "alert_rule_test": [
+        {
+          "eval_time": "1m",
+          "alertname": "StudyDatabasePoolWaiting",
+          "exp_alerts": []
+        },
+        {
+          "eval_time": "2m",
+          "alertname": "StudyDatabasePoolWaiting",
+          "exp_alerts": [
+            {
+              "exp_labels": {
+                "severity": "warning",
+                "job": "study-backend",
+                "pool": "StudyPool"
+              },
+              "exp_annotations": {
+                "summary": "Requests are waiting for database connections",
+                "description": "Check active/max connections and long-running transactions."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ten percent failures at ten rps fires",
+      "interval": "1m",
+      "input_series": [
+        {
+          "series": "http_server_requests_seconds_count{job=\"study-backend\",uri=\"/api/studies\",status=\"200\"}",
+          "values": "0+540x10"
+        },
+        {
+          "series": "http_server_requests_seconds_count{job=\"study-backend\",uri=\"/api/studies\",status=\"500\"}",
+          "values": "0+60x10"
+        }
+      ],
+      "alert_rule_test": [
+        {
+          "eval_time": "7m",
+          "alertname": "StudyHigh5xxRate",
+          "exp_alerts": [
+            {
+              "exp_labels": {
+                "severity": "warning"
+              },
+              "exp_annotations": {
+                "summary": "API 5xx ratio exceeds 5 percent",
+                "description": "Requires at least 1 request per second. Inspect requestId logs and database availability."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "one isolated failure per minute is below traffic floor",
+      "interval": "1m",
+      "input_series": [
+        {
+          "series": "http_server_requests_seconds_count{job=\"study-backend\",uri=\"/api/studies\",status=\"500\"}",
+          "values": "0+1x10"
+        }
+      ],
+      "alert_rule_test": [
+        {
+          "eval_time": "7m",
+          "alertname": "StudyHigh5xxRate",
+          "exp_alerts": []
+        }
+      ]
+    },
+    {
+      "name": "slow traffic fires latency alert",
+      "interval": "1m",
+      "input_series": [
+        {
+          "series": "http_server_requests_seconds_bucket{job=\"study-backend\",uri=\"/api/studies\",le=\"0.5\"}",
+          "values": "0+60x12"
+        },
+        {
+          "series": "http_server_requests_seconds_bucket{job=\"study-backend\",uri=\"/api/studies\",le=\"1\"}",
+          "values": "0+120x12"
+        },
+        {
+          "series": "http_server_requests_seconds_bucket{job=\"study-backend\",uri=\"/api/studies\",le=\"2\"}",
+          "values": "0+600x12"
+        },
+        {
+          "series": "http_server_requests_seconds_bucket{job=\"study-backend\",uri=\"/api/studies\",le=\"+Inf\"}",
+          "values": "0+600x12"
+        },
+        {
+          "series": "http_server_requests_seconds_count{job=\"study-backend\",uri=\"/api/studies\",status=\"200\"}",
+          "values": "0+600x12"
+        }
+      ],
+      "alert_rule_test": [
+        {
+          "eval_time": "9m",
+          "alertname": "StudyHighLatency",
+          "exp_alerts": [
+            {
+              "exp_labels": {
+                "severity": "warning"
+              },
+              "exp_annotations": {
+                "summary": "API p95 exceeds one second",
+                "description": "Requires at least 1 request per second. Check pool contention, GC and slow queries."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

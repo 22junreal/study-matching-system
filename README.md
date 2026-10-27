@@ -8,7 +8,7 @@
 
 | 항목 | 확인 결과 | 근거 |
 |---|---|---|
-| 전체 테스트 | 198개, 실패/오류/건너뜀 0 | [테스트 요약](reports/verification/tests.json) |
+| 전체 테스트 | 205개, 실패/오류/건너뜀 0 | [테스트 요약](reports/verification/tests.json) |
 | 입력 정규화 | 공통 enum·요일 배열·HH:mm, V8 변환 및 오류 시 롤백 | [입력 계약](docs/INPUT_CONTRACT.md) |
 | 참여자 관리 | 탈퇴·강퇴·위임·재가입 정책 및 경쟁 조건 검증 | [Lifecycle](docs/STUDY_MEMBER_LIFECYCLE.md) |
 | HTTPS | 로컬 CA를 명시적으로 신뢰해 인증서 검증 및 인증 API 호출 성공 | [운영 원자료](reports/verification/operations.json) |
@@ -154,6 +154,10 @@ bash gradlew clean test
 ## CI 이미지 빌드 · GHCR
 
 `Backend Test` workflow는 테스트 성공 후 Docker 이미지를 빌드한다. PR에서는 빌드만 확인하고 main push에서는 `ghcr.io/22junreal/study-matching-system:sha-<전체 커밋 SHA>`로 업로드한다. Actions 수동 실행도 가능하다. 서버 배포는 포함하지 않는다. 이미지 digest와 pull 명령은 해당 실행 Summary에 기록한다. 권한·패키지 접근·실행 조건은 [CI 이미지 가이드](docs/CI_IMAGES.md)를 참고한다.
+
+## 모니터링
+
+Actuator → Micrometer → Prometheus → Grafana 구성을 추가했다. `python3 scripts/prepare-monitoring.py`로 별도 로컬 스택을 실행하면 Grafana(http://localhost:13000)에 HTTP 요청·오류율·p95/p99·JVM·DB 풀 대시보드가 자동 등록된다. 지표 API는 전용 인증으로 보호한다. 경보는 Prometheus에서 평가하며 외부 알림 전송과 분산 추적은 포함하지 않는다. 로그인·실행·검증 방법은 [모니터링 가이드](docs/MONITORING.md)에 있다.
 
 ## 운영·성능 재현
 

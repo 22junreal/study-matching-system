@@ -1,0 +1,79 @@
+# Merge with compose.prod.yml; uses the same configurable backend PORT.
+services:
+  backend:
+    environment:
+      SPRING_PROFILES_ACTIVE: prod,monitoring
+    secrets:
+      - source: metrics_password
+        target: monitoring.password
+  prometheus:
+    image: prom/prometheus:v3.15.1
+    restart: unless-stopped
+    environment:
+      BACKEND_PORT: ${PORT:-8080}
+    entrypoint:
+      - /bin/sh
+      - -ec
+      - |
+        case "$$BACKEND_PORT" in ''|*[!0-9]*) echo 'Invalid backend port' >&2; exit 1;; esac
+        sed "s/BACKEND_PORT/$$BACKEND_PORT/g" /etc/prometheus/prometheus.template.yml > /tmp/prometheus.yml
+        exec /bin/prometheus --config.file=/tmp/prometheus.yml --storage.tsdb.path=/prometheus --storage.tsdb.retention.time=7d --storage.tsdb.retention.size=512MB
+    ports:
+      - "127.0.0.1:${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.template.yml:ro
+      - ./monitoring/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus_data:/prometheus
+    secrets:
+      - source: metrics_password
+        target: monitoring.password
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:9090/-/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    logging: &monitoring_logs
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  grafana:
+    image: grafana/grafana:13.2.4
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${GRAFANA_PORT:-3001}:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD__FILE: /run/secrets/grafana.password
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: "false"
+    secrets:
+      - source: grafana_password
+        target: grafana.password
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      prometheus:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    logging: *monitoring_logs
+secrets:
+  metrics_password:
+    file: ${MONITORING_SECRETS_DIR:?Set MONITORING_SECRETS_DIR}/monitoring.password
+  grafana_password:
+    file: ${MONITORING_SECRETS_DIR:?Set MONITORING_SECRETS_DIR}/grafana.password
+volumes:
+  prometheus_data:
+  grafana_data:

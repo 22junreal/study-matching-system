@@ -33,3 +33,6 @@ Thumbs.db
 backups/
 *.dump
 *.dump.partial
+
+# Local monitoring credential files
+.secrets/

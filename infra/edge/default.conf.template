@@ -27,6 +27,9 @@ server {
         proxy_pass http://backend:${PORT};
         proxy_set_header Host $host;
     }
+    # Metrics are scraped internally with dedicated credentials, never via the edge.
+    location = /actuator/prometheus { return 404; }
+    location ^~ /actuator/prometheus/ { return 404; }
     location / {
         limit_req zone=api burst=60 nodelay;
         proxy_pass http://backend:${PORT};

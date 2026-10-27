@@ -1,0 +1,113 @@
+{
+  "checkedAt": "2026-10-27T10:11:21.604789+00:00",
+  "environment": "isolated local Docker Compose, NOT cloud production",
+  "backendScrapeUp": true,
+  "anonymousMetricsStatus": 401,
+  "wrongPasswordStatus": 401,
+  "businessJwtMetricsStatus": 401,
+  "metricsCredentialsBusinessApiStatus": 401,
+  "edgeMetricsStatus": 404,
+  "grafanaDatasourceHealthy": true,
+  "grafanaProxyQuerySucceeded": true,
+  "dashboardUid": "study-backend",
+  "dashboardPanelCount": 12,
+  "queries": [
+    {
+      "panel": "Backend scrape availability",
+      "expression": "up{job=\"study-backend\"}",
+      "seriesCount": 1
+    },
+    {
+      "panel": "API throughput",
+      "expression": "sum(rate(http_server_requests_seconds_count{job=\"study-backend\",uri!~\"/actuator.*\"}[$__rate_interval]))",
+      "seriesCount": 1
+    },
+    {
+      "panel": "API 5xx ratio",
+      "expression": "(sum(rate(http_server_requests_seconds_count{job=\"study-backend\",uri!~\"/actuator.*\",status=~\"5..\"}[$__rate_interval])) or vector(0)) / clamp_min(sum(rate(http_server_requests_seconds_count{job=\"study-backend\",uri!~\"/actuator.*\"}[$__rate_interval])), 0.001)",
+      "seriesCount": 1
+    },
+    {
+      "panel": "API latency p95 / p99",
+      "expression": "histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job=\"study-backend\",uri!~\"/actuator.*\"}[$__rate_interval])))",
+      "seriesCount": 1
+    },
+    {
+      "panel": "API latency p95 / p99",
+      "expression": "histogram_quantile(0.99, sum by (le) (rate(http_server_requests_seconds_bucket{job=\"study-backend\",uri!~\"/actuator.*\"}[$__rate_interval])))",
+      "seriesCount": 1
+    },
+    {
+      "panel": "JVM heap usage",
+      "expression": "sum(jvm_memory_used_bytes{job=\"study-backend\",area=\"heap\"}) / sum(jvm_memory_max_bytes{job=\"study-backend\",area=\"heap\"})",
+      "seriesCount": 1
+    },
+    {
+      "panel": "Process CPU",
+      "expression": "process_cpu_usage{job=\"study-backend\"}",
+      "seriesCount": 1
+    },
+    {
+      "panel": "GC pause p95",
+      "expression": "histogram_quantile(0.95, sum by (le) (rate(jvm_gc_pause_seconds_bucket{job=\"study-backend\"}[$__rate_interval])))",
+      "seriesCount": 1
+    },
+    {
+      "panel": "JVM threads",
+      "expression": "jvm_threads_live_threads{job=\"study-backend\"}",
+      "seriesCount": 1
+    },
+    {
+      "panel": "JVM threads",
+      "expression": "jvm_threads_daemon_threads{job=\"study-backend\"}",
+      "seriesCount": 1
+    },
+    {
+      "panel": "Database connections",
+      "expression": "hikaricp_connections_active{job=\"study-backend\"}",
+      "seriesCount": 1
+    },
+    {
+      "panel": "Database connections",
+      "expression": "hikaricp_connections_idle{job=\"study-backend\"}",
+      "seriesCount": 1
+    },
+    {
+      "panel": "Database connections",
+      "expression": "hikaricp_connections_max{job=\"study-backend\"}",
+      "seriesCount": 1
+    },
+    {
+      "panel": "Database waiting / timeouts",
+      "expression": "hikaricp_connections_pending{job=\"study-backend\"}",
+      "seriesCount": 1
+    },
+    {
+      "panel": "Database waiting / timeouts",
+      "expression": "increase(hikaricp_connections_timeout_total{job=\"study-backend\"}[$__rate_interval])",
+      "seriesCount": 1
+    },
+    {
+      "panel": "Backend uptime",
+      "expression": "process_uptime_seconds{job=\"study-backend\"}",
+      "seriesCount": 1
+    },
+    {
+      "panel": "Prometheus alerts",
+      "expression": "ALERTS{alertname=~\"Study.*\",alertstate=\"firing\"}",
+      "seriesCount": 0
+    }
+  ],
+  "externalNotificationsConfigured": false,
+  "distributedTracingConfigured": false,
+  "backendDownAlertFired": true,
+  "secondsUntilDownAlert": 76.0,
+  "apiP95SecondsAfterRecovery": 0.3097189180198258,
+  "backendRecovered": true,
+  "backendDownAlertResolved": true,
+  "images": {
+    "backend": "sha256:8a5b7a46aad7951e3bc2a470fcc12c37749950bdb67ab1e2c7c727aeb230086d",
+    "prometheus": "sha256:fa3302279710be2f21a8301ec17a8b4f2301fd829bd113839b3b6b02b6f191a2",
+    "grafana": "sha256:dbbc38ea21103cefb50396340cd88afec779c7e070b0a7bf5a75b4ce46651d3f"
+  }
+}
