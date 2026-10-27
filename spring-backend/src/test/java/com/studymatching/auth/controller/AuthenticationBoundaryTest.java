@@ -31,6 +31,7 @@ class AuthenticationBoundaryTest {
     @Autowired PasswordEncoder passwordEncoder;
     @MockitoBean MemberRepository members;
     @MockitoBean JwtTokenService tokens;
+    @MockitoBean com.studymatching.auth.service.RefreshTokenService refreshTokens;
     @MockitoBean JwtDecoder decoder;
 
     @Test

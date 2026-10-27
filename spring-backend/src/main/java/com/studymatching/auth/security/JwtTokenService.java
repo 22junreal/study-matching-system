@@ -22,8 +22,11 @@ public class JwtTokenService {
             long expirationSeconds
     ) {
         this.jwtEncoder = jwtEncoder;
+        if (expirationSeconds <= 0) throw new IllegalArgumentException("Access lifetime must be positive");
         this.expirationSeconds = expirationSeconds;
     }
+
+    public long getExpirationSeconds() { return expirationSeconds; }
 
     public String createAccessToken(String username) {
 
@@ -32,6 +35,7 @@ public class JwtTokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("study-matching-api")
                 .subject(username)
+                .id(java.util.UUID.randomUUID().toString())
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expirationSeconds))
                 .build();

@@ -103,3 +103,7 @@ V8은 API/DB 구조 변경이며 V9는 검색 인덱스 추가다. 기존 DB의 
 - [Caddy Automatic HTTPS](https://caddyserver.com/docs/automatic-https)
 - [Caddy reverse_proxy와 헤더](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy)
 - [Nginx limit_req](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html)
+
+## V10 인증 세션 추가
+
+Refresh Token Rotation/Logout은 [인증 계약](AUTH_SESSIONS.md)을 따른다. V10은 세션·토큰 해시 테이블을 추가하며 백업/복원 검증 스크립트의 비교 대상에도 두 테이블을 포함했다. 기존 운영 원자료는 V9 검증 기록이므로 V10 프록시 경유 인증 검증 결과는 아니다. 인증 Rate Limit 대상에 refresh/logout도 포함된다. Access 기본 15분, Refresh 기본 14일이지만 기존 환경 설정값이 우선한다.

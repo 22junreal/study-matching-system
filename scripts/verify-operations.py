@@ -27,7 +27,7 @@ def sql(query, database='study_proof'):
     return run(COMPOSE + ['exec','-T','postgres','psql','-X','-v','ON_ERROR_STOP=1','-U','proof_user','-d',database,'-At','-c',query]).strip()
 
 def fingerprint(database):
-    tables = ['members','profiles','studies','study_applications','study_members','study_days','profile_days','flyway_schema_history']
+    tables = ['members','profiles','studies','study_applications','study_members','study_days','profile_days','refresh_sessions','refresh_tokens','flyway_schema_history']
     return {table:sql(f"SELECT count(*) || ':' || coalesce(md5(string_agg(row_to_json(t)::text, '' ORDER BY row_to_json(t)::text)), '') FROM {table} t",database) for table in tables}
 
 def main():

@@ -8,7 +8,7 @@
 
 | 항목 | 확인 결과 | 근거 |
 |---|---|---|
-| 전체 테스트 | 179개, 실패/오류/건너뜀 0 | [테스트 요약](reports/verification/tests.json) |
+| 전체 테스트 | 198개, 실패/오류/건너뜀 0 | [테스트 요약](reports/verification/tests.json) |
 | 입력 정규화 | 공통 enum·요일 배열·HH:mm, V8 변환 및 오류 시 롤백 | [입력 계약](docs/INPUT_CONTRACT.md) |
 | 참여자 관리 | 탈퇴·강퇴·위임·재가입 정책 및 경쟁 조건 검증 | [Lifecycle](docs/STUDY_MEMBER_LIFECYCLE.md) |
 | HTTPS | 로컬 CA를 명시적으로 신뢰해 인증서 검증 및 인증 API 호출 성공 | [운영 원자료](reports/verification/operations.json) |
@@ -19,10 +19,12 @@
 
 테스트와 운영 검증은 임시 PostgreSQL 컨테이너에서 실행했다. GitHub Actions workflow는 저장소에 있으나 위 표는 로컬 실행 결과이며 원격 CI 성공을 주장하지 않는다. 성능 수치는 로컬 40 requests/s 단기 비교로, 운영 SLA나 최대 처리량이 아니다.
 
+운영·성능 원자료와 소스 해시는 V9 작업 당시의 기록이다. 이후 V10 인증 변경은 [인증 계약과 통합 테스트](docs/AUTH_SESSIONS.md)로 검증하며, 프록시 운영 검증을 다시 실행한 결과로 해석하지 않는다.
+
 ## 기술과 구조
 
 - Java 21, Spring Boot 4.1.0, Spring Security/JWT, Spring Data JPA
-- PostgreSQL 17, Flyway V1~V9, Hibernate schema validate
+- PostgreSQL 17, Flyway V1~V10, Hibernate schema validate
 - JUnit 5, Testcontainers, 실제 HTTP E2E 테스트
 - Docker Compose, Caddy 2.10.2, Nginx 1.28.0, k6 1.3.0
 
@@ -61,12 +63,14 @@ bash gradlew bootRun --args='--spring.profiles.active=local'
 
 ## API
 
-회원가입·로그인과 health를 제외한 아래 API에는 `Authorization: Bearer <accessToken>`이 필요하다. local 문서 경로는 공개되어 있고 prod에서는 문서 기능이 비활성화된다.
+회원가입·로그인·갱신·로그아웃과 health를 제외한 아래 API에는 `Authorization: Bearer <accessToken>`이 필요하다. local 문서 경로는 공개되어 있고 prod에서는 문서 기능이 비활성화된다.
 
 | 메서드 | 경로 | 동작 / 권한 |
 |---|---|---|
 | POST | `/api/auth/register` | username/password/email 회원가입, 201 |
-| POST | `/api/auth/login` | accessToken/tokenType 반환, 200 |
+| POST | `/api/auth/login` | Access/Refresh Token 쌍 발급, 200 |
+| POST | `/api/auth/refresh` | 기존 Refresh 폐기 + 새 토큰 쌍 발급, 200 |
+| POST | `/api/auth/logout` | 해당 Refresh 세션 폐기, 204 |
 | GET | `/api/members/me` | 내 계정 |
 | GET / PUT | `/api/profiles/me` | 내 프로필 조회/수정 |
 | POST | `/api/studies` | 스터디 생성, 생성자가 방장·ACTIVE 참여자 |
@@ -87,6 +91,10 @@ bash gradlew bootRun --args='--spring.profiles.active=local'
 | GET | `/actuator/health` | 공개 health |
 
 검색 기본값은 page=0, size=10이며 size는 1~100이다. createdAt DESC, id DESC로 정렬한다. 응답은 content/page/size/totalElements/totalPages/first/last다.
+
+## 로그인 세션
+
+로그인·갱신 응답은 accessToken/tokenType/refreshToken/expiresIn/refreshExpiresIn이다. 갱신·로그아웃 본문은 `{ "refreshToken": "<token>" }`이며 Authorization 헤더 없이 요청한다. 기본 수명은 Access 15분, Refresh 세션 14일이고 기존 환경변수가 우선한다. 사용한 Refresh Token이 다시 제출되면 해당 로그인 세션 전체를 폐기한다. 로그아웃 후 기존 Access Token은 자체 만료까지 유효하다. 병렬 갱신을 막는 클라이언트 처리와 자세한 정책은 [인증 계약](docs/AUTH_SESSIONS.md)을 따른다.
 
 ## 입력 계약
 
@@ -141,7 +149,7 @@ export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
 bash gradlew clean test
 ```
 
-전체 실행에는 Service/Controller/Entity, V6~V8 데이터 이전, DB 제약, 정원·신청·위임 동시성, 실제 JWT/HTTP E2E, 입력 정규화, 조회 쿼리 수 검증이 포함된다. 빈 DB에는 V1~V9를 실제 적용한다. Docker 이미지 빌드는 bootJar만 수행하므로 테스트는 별도 실행해야 한다.
+전체 실행에는 Service/Controller/Entity, V6~V8 데이터 이전, DB 제약, 정원·신청·위임 동시성, 실제 JWT/HTTP E2E, 입력 정규화, 조회 쿼리 수 검증이 포함된다. Refresh 회전·재사용 탐지·로그아웃·동시 요청·오류 롤백과 V9→V10 이전도 검증한다. 빈 DB에는 V1~V10을 실제 적용한다. Docker 이미지 빌드는 bootJar만 수행하므로 테스트는 별도 실행해야 한다.
 
 ## 운영·성능 재현
 
@@ -154,6 +162,6 @@ python3 scripts/verify-operations.py
 
 - [운영 가이드](docs/PRODUCTION.md): prod 환경, Caddy HTTPS, Nginx 요청 제한, JSON 로그, 백업/새 DB 복원, 종료 방법.
 - [성능 보고서](docs/PERFORMANCE.md): k6 p95/p99, 5회 실행계획, V9 인덱스 개선과 한계.
-- [운영 원자료](reports/verification/operations.json), [성능 원자료](reports/performance/metadata.json), [최종 소스 해시](reports/verification/source-manifest.json).
+- [운영 원자료](reports/verification/operations.json), [성능 원자료](reports/performance/metadata.json), [V9 검증 당시 소스 해시](reports/verification/source-manifest.json).
 
 실제 클라우드·도메인·공인 TLS·운영 DB·외부 암호화 백업·상시 모니터링은 향후 작업이다. 현재 구현 및 로컬 측정 결과와 구분한다.

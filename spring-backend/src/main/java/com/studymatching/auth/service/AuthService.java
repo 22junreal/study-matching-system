@@ -4,7 +4,6 @@ import com.studymatching.auth.dto.LoginRequest;
 import com.studymatching.auth.dto.LoginResponse;
 import com.studymatching.auth.dto.RegisterRequest;
 import com.studymatching.auth.dto.RegisterResponse;
-import com.studymatching.auth.security.JwtTokenService;
 import com.studymatching.common.exception.DuplicateMemberException;
 import com.studymatching.common.exception.ErrorCode;
 import com.studymatching.member.entity.Member;
@@ -22,18 +21,18 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final JwtTokenService jwtTokenService;
+    private final RefreshTokenService refreshTokenService;
 
     public AuthService(
             MemberRepository memberRepository,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
-            JwtTokenService jwtTokenService
+            RefreshTokenService refreshTokenService
     ) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
-        this.jwtTokenService = jwtTokenService;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @Transactional
@@ -75,14 +74,16 @@ public class AuthService {
                         )
                 );
 
-        String accessToken =
-                jwtTokenService.createAccessToken(
-                        authentication.getName()
-                );
+        Member member = memberRepository.findByUsername(authentication.getName()).orElseThrow(
+                () -> new org.springframework.security.authentication.AuthenticationServiceException("Authenticated member missing"));
+        return refreshTokenService.issue(member);
+    }
 
-        return new LoginResponse(
-                accessToken,
-                "Bearer"
-        );
+    public LoginResponse refresh(String refreshToken) {
+        return refreshTokenService.rotate(refreshToken);
+    }
+
+    public void logout(String refreshToken) {
+        refreshTokenService.logout(refreshToken);
     }
 }
