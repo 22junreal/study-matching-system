@@ -1,0 +1,116 @@
+{
+  "status": "passed",
+  "startedAt": "2026-10-28T12:10:33.724550+00:00",
+  "environment": "isolated local study-monitoring; NOT cloud production",
+  "phases": [
+    {
+      "name": "logged_in",
+      "at": "2026-10-28T12:10:35.269770+00:00",
+      "httpStatus": 200,
+      "refreshTokenIssued": true,
+      "refreshTokenHashPersisted": true
+    },
+    {
+      "name": "database_baseline_recorded",
+      "at": "2026-10-28T12:10:35.580287+00:00",
+      "fingerprints": {
+        "members": {
+          "rows": 6,
+          "contentMd5": "bbe0b7e63b8290e0d1bd65e5c6b59cf6"
+        },
+        "profiles": {
+          "rows": 2,
+          "contentMd5": "ccc036dc9391d30910d05d91e93bb976"
+        },
+        "studies": {
+          "rows": 2,
+          "contentMd5": "bbcf09bc4230436126587fc603cb1811"
+        },
+        "study_applications": {
+          "rows": 0,
+          "contentMd5": ""
+        },
+        "study_members": {
+          "rows": 2,
+          "contentMd5": "873fae407f1482720c77066d1992f4eb"
+        },
+        "study_days": {
+          "rows": 2,
+          "contentMd5": "21df30002966a4c8c13862b9333995f6"
+        },
+        "profile_days": {
+          "rows": 2,
+          "contentMd5": "b6705e4c529e444e29a287084071895d"
+        },
+        "refresh_sessions": {
+          "rows": 6,
+          "contentMd5": "c1eb99e5bf8ffca73d59519c2f8163f3"
+        },
+        "refresh_tokens": {
+          "rows": 6,
+          "contentMd5": "8824790583c9d826a549d5bddabb7b92"
+        },
+        "flyway_schema_history": {
+          "rows": 10,
+          "contentMd5": "b3ef5378a196a542d27119811b3f2432"
+        }
+      }
+    },
+    {
+      "name": "backend_stopped",
+      "at": "2026-10-28T12:10:35.955830+00:00",
+      "apiReachable": false,
+      "postgresStillRunning": true
+    },
+    {
+      "name": "backend_restarted",
+      "at": "2026-10-28T12:10:42.238082+00:00",
+      "healthHttpStatus": 200,
+      "health": "UP"
+    },
+    {
+      "name": "database_preserved",
+      "at": "2026-10-28T12:10:42.815327+00:00",
+      "tablesCompared": 10,
+      "allRowCountsAndHashesMatch": true,
+      "existingApiDataMatches": true,
+      "postgresIdentityUnchanged": true,
+      "refreshSessionUnchanged": true
+    },
+    {
+      "name": "original_refresh_token_rotated",
+      "at": "2026-10-28T12:10:43.172025+00:00",
+      "httpStatus": 200,
+      "requestId": "0b931a02-e1de-40bb-9c0c-99f51abe4faf",
+      "newTokenPairIssued": true,
+      "oldRefreshConsumed": true,
+      "sameSession": true,
+      "absoluteExpiryPreserved": true,
+      "newAccessTokenWorks": true
+    },
+    {
+      "name": "verification_session_logged_out",
+      "at": "2026-10-28T12:10:43.183676+00:00",
+      "httpStatus": 204
+    }
+  ],
+  "completedAt": "2026-10-28T12:10:43.184333+00:00",
+  "backendBefore": {
+    "id": "ac93deb0b7acd020a6e22a5330b29aed3eab0481c993dd8fa8ae05aa12998952",
+    "startedAt": "2026-10-28T12:08:09.761915884Z",
+    "restartCount": 0
+  },
+  "backendAfter": {
+    "id": "ac93deb0b7acd020a6e22a5330b29aed3eab0481c993dd8fa8ae05aa12998952",
+    "startedAt": "2026-10-28T12:10:36.118817715Z",
+    "restartCount": 0
+  },
+  "postgresUnchanged": {
+    "id": "f59f18e31ccf7623892fb0b8ca1c6d7922613b52f46cd3e541bdb362913628d3",
+    "startedAt": "2026-10-28T12:00:40.773885009Z",
+    "restartCount": 0
+  },
+  "backendImage": "sha256:fcc2a56c963f9edb483208c6797776ba746082ac337a933a248dd4c65d8642e5",
+  "tokenValuesSaved": false,
+  "applicationCodeChanged": false
+}

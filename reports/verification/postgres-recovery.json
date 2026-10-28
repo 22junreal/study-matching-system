@@ -1,0 +1,128 @@
+{
+  "status": "passed",
+  "startedAt": "2026-10-28T11:59:01.074585+00:00",
+  "environment": "isolated local study-monitoring Docker Compose; NOT cloud production",
+  "phases": [
+    {
+      "name": "normal",
+      "at": "2026-10-28T11:59:38.900132+00:00",
+      "apiStatus": 200,
+      "healthStatus": 200,
+      "health": "UP",
+      "grafanaMetrics": {
+        "scrapeUp": 1.0,
+        "databaseAvailable": 1.0,
+        "poolTotal": 10.0,
+        "poolPending": 0.0,
+        "poolTimeouts": 65.0,
+        "apiErrorRatio": 0.0
+      }
+    },
+    {
+      "name": "postgres_killed",
+      "at": "2026-10-28T11:59:40.161939+00:00",
+      "signal": "SIGKILL",
+      "exitCode": 137
+    },
+    {
+      "name": "api_failed",
+      "at": "2026-10-28T11:59:46.183748+00:00",
+      "httpStatus": 500,
+      "code": "INTERNAL_SERVER_ERROR",
+      "requestId": "2f94b494-8db0-415d-ab7b-2f150591571a"
+    },
+    {
+      "name": "health_down",
+      "at": "2026-10-28T11:59:51.236462+00:00",
+      "httpStatus": 503,
+      "health": "DOWN",
+      "durationSeconds": 5.052
+    },
+    {
+      "name": "database_alert_firing",
+      "at": "2026-10-28T12:00:40.248383+00:00",
+      "secondsAfterKill": 61.0,
+      "failedRequests": 40,
+      "grafanaMetrics": {
+        "scrapeUp": 1.0,
+        "databaseAvailable": 0.0,
+        "poolTotal": 0.0,
+        "poolPending": 5.0,
+        "poolTimeouts": 110.0,
+        "apiErrorRatio": 1.0
+      },
+      "poolPendingMaximum": 6.0
+    },
+    {
+      "name": "database_errors_logged",
+      "at": "2026-10-28T12:00:40.699209+00:00",
+      "matchingEvents": 40,
+      "samples": [
+        {
+          "timestamp": "2026-10-28T11:59:45.291691220Z",
+          "requestId": "19291196-9a03-4904-8e23-36679e41be5b",
+          "logger": "com.studymatching.common.exception.GlobalExceptionHandler",
+          "hasDatabaseExceptionStack": true
+        },
+        {
+          "timestamp": "2026-10-28T11:59:45.291695178Z",
+          "requestId": "90e4787e-cc0b-4fdd-90dd-85eb6d9e3f15",
+          "logger": "com.studymatching.common.exception.GlobalExceptionHandler",
+          "hasDatabaseExceptionStack": true
+        },
+        {
+          "timestamp": "2026-10-28T11:59:45.291732845Z",
+          "requestId": "d2df6222-9532-426a-81e5-1ab443010ab3",
+          "logger": "com.studymatching.common.exception.GlobalExceptionHandler",
+          "hasDatabaseExceptionStack": true
+        }
+      ]
+    },
+    {
+      "name": "postgres_restarted",
+      "at": "2026-10-28T12:00:47.168289+00:00",
+      "originalRestartPolicyRestored": "unless-stopped"
+    },
+    {
+      "name": "recovered",
+      "at": "2026-10-28T12:01:08.793518+00:00",
+      "apiStatus": 200,
+      "healthStatus": 200,
+      "health": "UP",
+      "backendRestarted": false,
+      "databaseAlertResolved": true,
+      "grafanaMetrics": {
+        "scrapeUp": 1.0,
+        "databaseAvailable": 1.0,
+        "poolTotal": 10.0,
+        "poolPending": 0.0,
+        "poolTimeouts": 115.0,
+        "apiErrorRatio": 0.9411764705882354
+      },
+      "secondsSincePostgresHealthy": 21.6
+    },
+    {
+      "name": "normal_again",
+      "at": "2026-10-28T12:02:14.933958+00:00",
+      "grafanaMetrics": {
+        "scrapeUp": 1.0,
+        "databaseAvailable": 1.0,
+        "poolTotal": 10.0,
+        "poolPending": 0.0,
+        "poolTimeouts": 115.0,
+        "apiErrorRatio": 0.0
+      },
+      "databaseAlertResolved": true
+    }
+  ],
+  "completedAt": "2026-10-28T12:02:14.935219+00:00",
+  "backendIdentityUnchanged": true,
+  "originalBackend": {
+    "id": "ac93deb0b7acd020a6e22a5330b29aed3eab0481c993dd8fa8ae05aa12998952",
+    "startedAt": "2026-10-28T11:50:55.257794128Z",
+    "restartCount": 0
+  },
+  "backendImage": "sha256:fcc2a56c963f9edb483208c6797776ba746082ac337a933a248dd4c65d8642e5",
+  "grafanaUrl": "http://localhost:13000/d/study-backend?from=1793188711074&to=1793188950184",
+  "externalNotificationsSent": false
+}

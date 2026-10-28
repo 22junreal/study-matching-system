@@ -4,17 +4,19 @@
 
 ## 현재 상태와 증거
 
-2026-10-27 기준 로컬 검증 결과다. **클라우드 생성은 보류했으며 공개 서비스 운영 실적은 없다.**
+각 원자료에 기록된 실행 시점의 로컬 검증 결과다. **클라우드 생성은 보류했으며 공개 서비스 운영 실적은 없다.**
 
 | 항목 | 확인 결과 | 근거 |
 |---|---|---|
-| 전체 테스트 | 205개, 실패/오류/건너뜀 0 | [테스트 요약](reports/verification/tests.json) |
+| 전체 테스트 | 208개, 실패/오류/건너뜀 0 | [테스트 요약](reports/verification/tests.json) |
 | 입력 정규화 | 공통 enum·요일 배열·HH:mm, V8 변환 및 오류 시 롤백 | [입력 계약](docs/INPUT_CONTRACT.md) |
 | 참여자 관리 | 탈퇴·강퇴·위임·재가입 정책 및 경쟁 조건 검증 | [Lifecycle](docs/STUDY_MEMBER_LIFECYCLE.md) |
 | HTTPS | 로컬 CA를 명시적으로 신뢰해 인증서 검증 및 인증 API 호출 성공 | [운영 원자료](reports/verification/operations.json) |
 | Rate Limit | 인증 요청 12개 중 7개 429, 위조 IP 헤더 우회 차단 | [운영 원자료](reports/verification/operations.json) |
 | Backup/Restore | 12만 건 스터디 포함, 새 DB의 테이블별 행 수·내용 해시 일치 | [운영 원자료](reports/verification/operations.json) |
 | 장애·로그 | DB 중단 503 / 복구 200, requestId 상관관계, 비밀값 미노출 확인 | [운영 가이드](docs/PRODUCTION.md) |
+| PostgreSQL 장애·복구 | DB SIGKILL → API 500/health DOWN → 앱 재시작 없이 복구, DB 경보 해제 | [검증 원자료](reports/verification/postgres-recovery.json) |
+| k6·Grafana 부하 관측 | 60 VU에서 p95 105ms·pool 10/10·대기 33, 1 VU 복귀 시 p95 23ms·대기 0 | [측정 조건·원자료](docs/LOAD_OBSERVABILITY.md) |
 | 성능 | 필터 검색 p95 28.38 → 7.09ms, p99 41.84 → 21.85ms | [측정 조건·한계·실행계획](docs/PERFORMANCE.md) |
 
 테스트와 운영 검증은 임시 PostgreSQL 컨테이너에서 실행했다. GitHub Actions workflow는 저장소에 있으나 위 표는 로컬 실행 결과이며 원격 CI 성공을 주장하지 않는다. 성능 수치는 로컬 40 requests/s 단기 비교로, 운영 SLA나 최대 처리량이 아니다.
@@ -158,6 +160,18 @@ bash gradlew clean test
 ## 모니터링
 
 Actuator → Micrometer → Prometheus → Grafana 구성을 추가했다. `python3 scripts/prepare-monitoring.py`로 별도 로컬 스택을 실행하면 Grafana(http://localhost:13000)에 HTTP 요청·오류율·p95/p99·JVM·DB 풀 대시보드가 자동 등록된다. 지표 API는 전용 인증으로 보호한다. 경보는 Prometheus에서 평가하며 외부 알림 전송과 분산 추적은 포함하지 않는다. 로그인·실행·검증 방법은 [모니터링 가이드](docs/MONITORING.md)에 있다.
+
+### PostgreSQL 장애·복구 검증
+
+`python3 scripts/verify-postgres-recovery.py`는 별도 `study-monitoring` DB만 강제 중단하고 API 500·health DOWN·pool/오류율·DB 로그·DB 경보를 확인한다. DB 재시작 후 앱 재시작 없이 API/health/pool과 경보가 복구되는지 검증한다. 먼저 모니터링 환경을 최신 코드로 실행해야 한다. [시나리오와 복구 절차](docs/POSTGRES_RECOVERY.md)를 확인한다.
+
+### Backend 재시작·Refresh Token 유지 검증
+
+`python3 scripts/verify-backend-restart.py`는 로그인 후 검증용 backend만 중단·재시작한다. health UP, 10개 DB 테이블의 행 수·내용 일치, 기존 Refresh Token으로 새 토큰 발급을 확인한다. [실행 순서와 범위](docs/BACKEND_RESTART.md)를 참고한다.
+
+### k6·Grafana 부하 관측
+
+`python3 scripts/verify-load-observability.py`로 동시 VU를 1→10→30→60→1로 바꾸며 서버 p95/p99, Hikari active/max·대기 수, CPU와 GC를 함께 측정한다. 별도 Grafana 부하 대시보드와 실행별 원자료를 제공한다. [측정 조건과 해석](docs/LOAD_OBSERVABILITY.md)을 참고한다.
 
 ## 운영·성능 재현
 

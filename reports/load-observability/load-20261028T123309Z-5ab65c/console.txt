@@ -1,0 +1,2125 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+     execution: local
+        script: /scripts/observability.js
+        output: Prometheus remote write (http://prometheus:9090/api/v1/write)
+
+     scenarios: (100.00%) 5 scenarios, 90 max VUs, 5m10s max duration (incl. graceful stop):
+              * baseline: 1 looping VUs for 45s (gracefulStop: 10s)
+              * medium: 10 looping VUs for 45s (startTime: 45s, gracefulStop: 10s)
+              * high: 30 looping VUs for 1m0s (startTime: 1m30s, gracefulStop: 10s)
+              * peak: 60 looping VUs for 1m0s (startTime: 2m30s, gracefulStop: 10s)
+              * recovery: 1 looping VUs for 1m30s (startTime: 3m30s, gracefulStop: 10s)
+
+
+running (0m01.0s), 01/90 VUs, 11 complete and 0 interrupted iterations
+baseline   [   2% ] 1 VUs    01.0s/45s
+medium   • [   0% ] waiting  44.0s
+high     • [   0% ] waiting  1m29.0s
+peak     • [   0% ] waiting  2m29.0s
+recovery • [   0% ] waiting  3m29.0s
+
+running (0m02.0s), 01/90 VUs, 25 complete and 0 interrupted iterations
+baseline   [   4% ] 1 VUs    02.0s/45s
+medium   • [   0% ] waiting  43.0s
+high     • [   0% ] waiting  1m28.0s
+peak     • [   0% ] waiting  2m28.0s
+recovery • [   0% ] waiting  3m28.0s
+
+running (0m03.0s), 01/90 VUs, 37 complete and 0 interrupted iterations
+baseline   [   7% ] 1 VUs    03.0s/45s
+medium   • [   0% ] waiting  42.0s
+high     • [   0% ] waiting  1m27.0s
+peak     • [   0% ] waiting  2m27.0s
+recovery • [   0% ] waiting  3m27.0s
+
+running (0m04.0s), 01/90 VUs, 51 complete and 0 interrupted iterations
+baseline   [   9% ] 1 VUs    04.0s/45s
+medium   • [   0% ] waiting  41.0s
+high     • [   0% ] waiting  1m26.0s
+peak     • [   0% ] waiting  2m26.0s
+recovery • [   0% ] waiting  3m26.0s
+
+running (0m05.0s), 01/90 VUs, 65 complete and 0 interrupted iterations
+baseline   [  11% ] 1 VUs    05.0s/45s
+medium   • [   0% ] waiting  40.0s
+high     • [   0% ] waiting  1m25.0s
+peak     • [   0% ] waiting  2m25.0s
+recovery • [   0% ] waiting  3m25.0s
+
+running (0m06.0s), 01/90 VUs, 79 complete and 0 interrupted iterations
+baseline   [  13% ] 1 VUs    06.0s/45s
+medium   • [   0% ] waiting  39.0s
+high     • [   0% ] waiting  1m24.0s
+peak     • [   0% ] waiting  2m24.0s
+recovery • [   0% ] waiting  3m24.0s
+
+running (0m07.0s), 01/90 VUs, 92 complete and 0 interrupted iterations
+baseline   [  16% ] 1 VUs    07.0s/45s
+medium   • [   0% ] waiting  38.0s
+high     • [   0% ] waiting  1m23.0s
+peak     • [   0% ] waiting  2m23.0s
+recovery • [   0% ] waiting  3m23.0s
+
+running (0m08.0s), 01/90 VUs, 106 complete and 0 interrupted iterations
+baseline   [  18% ] 1 VUs    08.0s/45s
+medium   • [   0% ] waiting  37.0s
+high     • [   0% ] waiting  1m22.0s
+peak     • [   0% ] waiting  2m22.0s
+recovery • [   0% ] waiting  3m22.0s
+
+running (0m09.0s), 01/90 VUs, 119 complete and 0 interrupted iterations
+baseline   [  20% ] 1 VUs    09.0s/45s
+medium   • [   0% ] waiting  36.0s
+high     • [   0% ] waiting  1m21.0s
+peak     • [   0% ] waiting  2m21.0s
+recovery • [   0% ] waiting  3m21.0s
+
+running (0m10.0s), 01/90 VUs, 133 complete and 0 interrupted iterations
+baseline   [  22% ] 1 VUs    10.0s/45s
+medium   • [   0% ] waiting  35.0s
+high     • [   0% ] waiting  1m20.0s
+peak     • [   0% ] waiting  2m20.0s
+recovery • [   0% ] waiting  3m20.0s
+
+running (0m11.0s), 01/90 VUs, 147 complete and 0 interrupted iterations
+baseline   [  24% ] 1 VUs    11.0s/45s
+medium   • [   0% ] waiting  34.0s
+high     • [   0% ] waiting  1m19.0s
+peak     • [   0% ] waiting  2m19.0s
+recovery • [   0% ] waiting  3m19.0s
+
+running (0m12.0s), 01/90 VUs, 161 complete and 0 interrupted iterations
+baseline   [  27% ] 1 VUs    12.0s/45s
+medium   • [   0% ] waiting  33.0s
+high     • [   0% ] waiting  1m18.0s
+peak     • [   0% ] waiting  2m18.0s
+recovery • [   0% ] waiting  3m18.0s
+
+running (0m13.0s), 01/90 VUs, 174 complete and 0 interrupted iterations
+baseline   [  29% ] 1 VUs    13.0s/45s
+medium   • [   0% ] waiting  32.0s
+high     • [   0% ] waiting  1m17.0s
+peak     • [   0% ] waiting  2m17.0s
+recovery • [   0% ] waiting  3m17.0s
+
+running (0m14.0s), 01/90 VUs, 188 complete and 0 interrupted iterations
+baseline   [  31% ] 1 VUs    14.0s/45s
+medium   • [   0% ] waiting  31.0s
+high     • [   0% ] waiting  1m16.0s
+peak     • [   0% ] waiting  2m16.0s
+recovery • [   0% ] waiting  3m16.0s
+
+running (0m15.0s), 01/90 VUs, 202 complete and 0 interrupted iterations
+baseline   [  33% ] 1 VUs    15.0s/45s
+medium   • [   0% ] waiting  30.0s
+high     • [   0% ] waiting  1m15.0s
+peak     • [   0% ] waiting  2m15.0s
+recovery • [   0% ] waiting  3m15.0s
+
+running (0m16.0s), 01/90 VUs, 216 complete and 0 interrupted iterations
+baseline   [  36% ] 1 VUs    16.0s/45s
+medium   • [   0% ] waiting  29.0s
+high     • [   0% ] waiting  1m14.0s
+peak     • [   0% ] waiting  2m14.0s
+recovery • [   0% ] waiting  3m14.0s
+
+running (0m17.0s), 01/90 VUs, 230 complete and 0 interrupted iterations
+baseline   [  38% ] 1 VUs    17.0s/45s
+medium   • [   0% ] waiting  28.0s
+high     • [   0% ] waiting  1m13.0s
+peak     • [   0% ] waiting  2m13.0s
+recovery • [   0% ] waiting  3m13.0s
+
+running (0m18.0s), 01/90 VUs, 244 complete and 0 interrupted iterations
+baseline   [  40% ] 1 VUs    18.0s/45s
+medium   • [   0% ] waiting  27.0s
+high     • [   0% ] waiting  1m12.0s
+peak     • [   0% ] waiting  2m12.0s
+recovery • [   0% ] waiting  3m12.0s
+
+running (0m19.0s), 01/90 VUs, 258 complete and 0 interrupted iterations
+baseline   [  42% ] 1 VUs    19.0s/45s
+medium   • [   0% ] waiting  26.0s
+high     • [   0% ] waiting  1m11.0s
+peak     • [   0% ] waiting  2m11.0s
+recovery • [   0% ] waiting  3m11.0s
+
+running (0m20.0s), 01/90 VUs, 273 complete and 0 interrupted iterations
+baseline   [  44% ] 1 VUs    20.0s/45s
+medium   • [   0% ] waiting  25.0s
+high     • [   0% ] waiting  1m10.0s
+peak     • [   0% ] waiting  2m10.0s
+recovery • [   0% ] waiting  3m10.0s
+
+running (0m21.0s), 01/90 VUs, 287 complete and 0 interrupted iterations
+baseline   [  47% ] 1 VUs    21.0s/45s
+medium   • [   0% ] waiting  24.0s
+high     • [   0% ] waiting  1m09.0s
+peak     • [   0% ] waiting  2m09.0s
+recovery • [   0% ] waiting  3m09.0s
+
+running (0m22.0s), 01/90 VUs, 301 complete and 0 interrupted iterations
+baseline   [  49% ] 1 VUs    22.0s/45s
+medium   • [   0% ] waiting  23.0s
+high     • [   0% ] waiting  1m08.0s
+peak     • [   0% ] waiting  2m08.0s
+recovery • [   0% ] waiting  3m08.0s
+
+running (0m23.0s), 01/90 VUs, 316 complete and 0 interrupted iterations
+baseline   [  51% ] 1 VUs    23.0s/45s
+medium   • [   0% ] waiting  22.0s
+high     • [   0% ] waiting  1m07.0s
+peak     • [   0% ] waiting  2m07.0s
+recovery • [   0% ] waiting  3m07.0s
+
+running (0m24.0s), 01/90 VUs, 330 complete and 0 interrupted iterations
+baseline   [  53% ] 1 VUs    24.0s/45s
+medium   • [   0% ] waiting  21.0s
+high     • [   0% ] waiting  1m06.0s
+peak     • [   0% ] waiting  2m06.0s
+recovery • [   0% ] waiting  3m06.0s
+
+running (0m25.0s), 01/90 VUs, 344 complete and 0 interrupted iterations
+baseline   [  56% ] 1 VUs    25.0s/45s
+medium   • [   0% ] waiting  20.0s
+high     • [   0% ] waiting  1m05.0s
+peak     • [   0% ] waiting  2m05.0s
+recovery • [   0% ] waiting  3m05.0s
+
+running (0m26.0s), 01/90 VUs, 359 complete and 0 interrupted iterations
+baseline   [  58% ] 1 VUs    26.0s/45s
+medium   • [   0% ] waiting  19.0s
+high     • [   0% ] waiting  1m04.0s
+peak     • [   0% ] waiting  2m04.0s
+recovery • [   0% ] waiting  3m04.0s
+
+running (0m27.0s), 01/90 VUs, 373 complete and 0 interrupted iterations
+baseline   [  60% ] 1 VUs    27.0s/45s
+medium   • [   0% ] waiting  18.0s
+high     • [   0% ] waiting  1m03.0s
+peak     • [   0% ] waiting  2m03.0s
+recovery • [   0% ] waiting  3m03.0s
+
+running (0m28.0s), 01/90 VUs, 388 complete and 0 interrupted iterations
+baseline   [  62% ] 1 VUs    28.0s/45s
+medium   • [   0% ] waiting  17.0s
+high     • [   0% ] waiting  1m02.0s
+peak     • [   0% ] waiting  2m02.0s
+recovery • [   0% ] waiting  3m02.0s
+
+running (0m29.0s), 01/90 VUs, 401 complete and 0 interrupted iterations
+baseline   [  64% ] 1 VUs    29.0s/45s
+medium   • [   0% ] waiting  16.0s
+high     • [   0% ] waiting  1m01.0s
+peak     • [   0% ] waiting  2m01.0s
+recovery • [   0% ] waiting  3m01.0s
+
+running (0m30.0s), 01/90 VUs, 416 complete and 0 interrupted iterations
+baseline   [  67% ] 1 VUs    30.0s/45s
+medium   • [   0% ] waiting  15.0s
+high     • [   0% ] waiting  1m00.0s
+peak     • [   0% ] waiting  2m00.0s
+recovery • [   0% ] waiting  3m00.0s
+
+running (0m31.0s), 01/90 VUs, 430 complete and 0 interrupted iterations
+baseline   [  69% ] 1 VUs    31.0s/45s
+medium   • [   0% ] waiting  14.0s
+high     • [   0% ] waiting  0m59.0s
+peak     • [   0% ] waiting  1m59.0s
+recovery • [   0% ] waiting  2m59.0s
+
+running (0m32.0s), 01/90 VUs, 445 complete and 0 interrupted iterations
+baseline   [  71% ] 1 VUs    32.0s/45s
+medium   • [   0% ] waiting  13.0s
+high     • [   0% ] waiting  0m58.0s
+peak     • [   0% ] waiting  1m58.0s
+recovery • [   0% ] waiting  2m58.0s
+
+running (0m33.0s), 01/90 VUs, 460 complete and 0 interrupted iterations
+baseline   [  73% ] 1 VUs    33.0s/45s
+medium   • [   0% ] waiting  12.0s
+high     • [   0% ] waiting  0m57.0s
+peak     • [   0% ] waiting  1m57.0s
+recovery • [   0% ] waiting  2m57.0s
+
+running (0m34.0s), 01/90 VUs, 474 complete and 0 interrupted iterations
+baseline   [  76% ] 1 VUs    34.0s/45s
+medium   • [   0% ] waiting  11.0s
+high     • [   0% ] waiting  0m56.0s
+peak     • [   0% ] waiting  1m56.0s
+recovery • [   0% ] waiting  2m56.0s
+
+running (0m35.0s), 01/90 VUs, 489 complete and 0 interrupted iterations
+baseline   [  78% ] 1 VUs    35.0s/45s
+medium   • [   0% ] waiting  10.0s
+high     • [   0% ] waiting  0m55.0s
+peak     • [   0% ] waiting  1m55.0s
+recovery • [   0% ] waiting  2m55.0s
+
+running (0m36.0s), 01/90 VUs, 504 complete and 0 interrupted iterations
+baseline   [  80% ] 1 VUs    36.0s/45s
+medium   • [   0% ] waiting  09.0s
+high     • [   0% ] waiting  0m54.0s
+peak     • [   0% ] waiting  1m54.0s
+recovery • [   0% ] waiting  2m54.0s
+
+running (0m37.0s), 01/90 VUs, 518 complete and 0 interrupted iterations
+baseline   [  82% ] 1 VUs    37.0s/45s
+medium   • [   0% ] waiting  08.0s
+high     • [   0% ] waiting  0m53.0s
+peak     • [   0% ] waiting  1m53.0s
+recovery • [   0% ] waiting  2m53.0s
+
+running (0m38.0s), 01/90 VUs, 532 complete and 0 interrupted iterations
+baseline   [  84% ] 1 VUs    38.0s/45s
+medium   • [   0% ] waiting  07.0s
+high     • [   0% ] waiting  0m52.0s
+peak     • [   0% ] waiting  1m52.0s
+recovery • [   0% ] waiting  2m52.0s
+
+running (0m39.0s), 01/90 VUs, 547 complete and 0 interrupted iterations
+baseline   [  87% ] 1 VUs    39.0s/45s
+medium   • [   0% ] waiting  06.0s
+high     • [   0% ] waiting  0m51.0s
+peak     • [   0% ] waiting  1m51.0s
+recovery • [   0% ] waiting  2m51.0s
+
+running (0m40.0s), 01/90 VUs, 561 complete and 0 interrupted iterations
+baseline   [  89% ] 1 VUs    40.0s/45s
+medium   • [   0% ] waiting  05.0s
+high     • [   0% ] waiting  0m50.0s
+peak     • [   0% ] waiting  1m50.0s
+recovery • [   0% ] waiting  2m50.0s
+
+running (0m41.0s), 01/90 VUs, 576 complete and 0 interrupted iterations
+baseline   [  91% ] 1 VUs    41.0s/45s
+medium   • [   0% ] waiting  04.0s
+high     • [   0% ] waiting  0m49.0s
+peak     • [   0% ] waiting  1m49.0s
+recovery • [   0% ] waiting  2m49.0s
+
+running (0m42.0s), 01/90 VUs, 590 complete and 0 interrupted iterations
+baseline   [  93% ] 1 VUs    42.0s/45s
+medium   • [   0% ] waiting  03.0s
+high     • [   0% ] waiting  0m48.0s
+peak     • [   0% ] waiting  1m48.0s
+recovery • [   0% ] waiting  2m48.0s
+
+running (0m43.0s), 01/90 VUs, 605 complete and 0 interrupted iterations
+baseline   [  96% ] 1 VUs    43.0s/45s
+medium   • [   0% ] waiting  02.0s
+high     • [   0% ] waiting  0m47.0s
+peak     • [   0% ] waiting  1m47.0s
+recovery • [   0% ] waiting  2m47.0s
+
+running (0m44.0s), 01/90 VUs, 619 complete and 0 interrupted iterations
+baseline   [  98% ] 1 VUs    44.0s/45s
+medium   • [   0% ] waiting  01.0s
+high     • [   0% ] waiting  0m46.0s
+peak     • [   0% ] waiting  1m46.0s
+recovery • [   0% ] waiting  2m46.0s
+
+running (0m45.0s), 01/90 VUs, 634 complete and 0 interrupted iterations
+baseline   [ 100% ] 1 VUs    45.0s/45s
+medium   • [   0% ] waiting  00.0s
+high     • [   0% ] waiting  0m45.0s
+peak     • [   0% ] waiting  1m45.0s
+recovery • [   0% ] waiting  2m45.0s
+
+running (0m46.0s), 10/90 VUs, 782 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [   2% ] 10 VUs   01.0s/45s
+high     • [   0% ] waiting  0m44.0s
+peak     • [   0% ] waiting  1m44.0s
+recovery • [   0% ] waiting  2m44.0s
+
+running (0m47.0s), 10/90 VUs, 940 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [   4% ] 10 VUs   02.0s/45s
+high     • [   0% ] waiting  0m43.0s
+peak     • [   0% ] waiting  1m43.0s
+recovery • [   0% ] waiting  2m43.0s
+
+running (0m48.0s), 10/90 VUs, 1099 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [   7% ] 10 VUs   03.0s/45s
+high     • [   0% ] waiting  0m42.0s
+peak     • [   0% ] waiting  1m42.0s
+recovery • [   0% ] waiting  2m42.0s
+
+running (0m49.0s), 10/90 VUs, 1260 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [   9% ] 10 VUs   04.0s/45s
+high     • [   0% ] waiting  0m41.0s
+peak     • [   0% ] waiting  1m41.0s
+recovery • [   0% ] waiting  2m41.0s
+
+running (0m50.0s), 10/90 VUs, 1413 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  11% ] 10 VUs   05.0s/45s
+high     • [   0% ] waiting  0m40.0s
+peak     • [   0% ] waiting  1m40.0s
+recovery • [   0% ] waiting  2m40.0s
+
+running (0m51.0s), 10/90 VUs, 1575 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  13% ] 10 VUs   06.0s/45s
+high     • [   0% ] waiting  0m39.0s
+peak     • [   0% ] waiting  1m39.0s
+recovery • [   0% ] waiting  2m39.0s
+
+running (0m52.0s), 10/90 VUs, 1741 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  16% ] 10 VUs   07.0s/45s
+high     • [   0% ] waiting  0m38.0s
+peak     • [   0% ] waiting  1m38.0s
+recovery • [   0% ] waiting  2m38.0s
+
+running (0m53.0s), 10/90 VUs, 1901 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  18% ] 10 VUs   08.0s/45s
+high     • [   0% ] waiting  0m37.0s
+peak     • [   0% ] waiting  1m37.0s
+recovery • [   0% ] waiting  2m37.0s
+
+running (0m54.0s), 10/90 VUs, 2054 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  20% ] 10 VUs   09.0s/45s
+high     • [   0% ] waiting  0m36.0s
+peak     • [   0% ] waiting  1m36.0s
+recovery • [   0% ] waiting  2m36.0s
+
+running (0m55.0s), 10/90 VUs, 2214 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  22% ] 10 VUs   10.0s/45s
+high     • [   0% ] waiting  0m35.0s
+peak     • [   0% ] waiting  1m35.0s
+recovery • [   0% ] waiting  2m35.0s
+
+running (0m56.0s), 10/90 VUs, 2371 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  24% ] 10 VUs   11.0s/45s
+high     • [   0% ] waiting  0m34.0s
+peak     • [   0% ] waiting  1m34.0s
+recovery • [   0% ] waiting  2m34.0s
+
+running (0m57.0s), 10/90 VUs, 2530 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  27% ] 10 VUs   12.0s/45s
+high     • [   0% ] waiting  0m33.0s
+peak     • [   0% ] waiting  1m33.0s
+recovery • [   0% ] waiting  2m33.0s
+
+running (0m58.0s), 10/90 VUs, 2690 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  29% ] 10 VUs   13.0s/45s
+high     • [   0% ] waiting  0m32.0s
+peak     • [   0% ] waiting  1m32.0s
+recovery • [   0% ] waiting  2m32.0s
+
+running (0m59.0s), 10/90 VUs, 2857 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  31% ] 10 VUs   14.0s/45s
+high     • [   0% ] waiting  0m31.0s
+peak     • [   0% ] waiting  1m31.0s
+recovery • [   0% ] waiting  2m31.0s
+
+running (1m00.0s), 10/90 VUs, 3017 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  33% ] 10 VUs   15.0s/45s
+high     • [   0% ] waiting  0m30.0s
+peak     • [   0% ] waiting  1m30.0s
+recovery • [   0% ] waiting  2m30.0s
+
+running (1m01.0s), 10/90 VUs, 3187 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  36% ] 10 VUs   16.0s/45s
+high     • [   0% ] waiting  0m29.0s
+peak     • [   0% ] waiting  1m29.0s
+recovery • [   0% ] waiting  2m29.0s
+
+running (1m02.0s), 10/90 VUs, 3347 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  38% ] 10 VUs   17.0s/45s
+high     • [   0% ] waiting  0m28.0s
+peak     • [   0% ] waiting  1m28.0s
+recovery • [   0% ] waiting  2m28.0s
+
+running (1m03.0s), 10/90 VUs, 3507 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  40% ] 10 VUs   18.0s/45s
+high     • [   0% ] waiting  0m27.0s
+peak     • [   0% ] waiting  1m27.0s
+recovery • [   0% ] waiting  2m27.0s
+
+running (1m04.0s), 10/90 VUs, 3677 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  42% ] 10 VUs   19.0s/45s
+high     • [   0% ] waiting  0m26.0s
+peak     • [   0% ] waiting  1m26.0s
+recovery • [   0% ] waiting  2m26.0s
+
+running (1m05.0s), 10/90 VUs, 3837 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  44% ] 10 VUs   20.0s/45s
+high     • [   0% ] waiting  0m25.0s
+peak     • [   0% ] waiting  1m25.0s
+recovery • [   0% ] waiting  2m25.0s
+
+running (1m06.0s), 10/90 VUs, 3997 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  47% ] 10 VUs   21.0s/45s
+high     • [   0% ] waiting  0m24.0s
+peak     • [   0% ] waiting  1m24.0s
+recovery • [   0% ] waiting  2m24.0s
+
+running (1m07.0s), 10/90 VUs, 4157 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  49% ] 10 VUs   22.0s/45s
+high     • [   0% ] waiting  0m23.0s
+peak     • [   0% ] waiting  1m23.0s
+recovery • [   0% ] waiting  2m23.0s
+
+running (1m08.0s), 10/90 VUs, 4317 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  51% ] 10 VUs   23.0s/45s
+high     • [   0% ] waiting  0m22.0s
+peak     • [   0% ] waiting  1m22.0s
+recovery • [   0% ] waiting  2m22.0s
+
+running (1m09.0s), 10/90 VUs, 4486 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  53% ] 10 VUs   24.0s/45s
+high     • [   0% ] waiting  0m21.0s
+peak     • [   0% ] waiting  1m21.0s
+recovery • [   0% ] waiting  2m21.0s
+
+running (1m10.0s), 10/90 VUs, 4647 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  56% ] 10 VUs   25.0s/45s
+high     • [   0% ] waiting  0m20.0s
+peak     • [   0% ] waiting  1m20.0s
+recovery • [   0% ] waiting  2m20.0s
+
+running (1m11.0s), 10/90 VUs, 4813 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  58% ] 10 VUs   26.0s/45s
+high     • [   0% ] waiting  0m19.0s
+peak     • [   0% ] waiting  1m19.0s
+recovery • [   0% ] waiting  2m19.0s
+
+running (1m12.0s), 10/90 VUs, 4977 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  60% ] 10 VUs   27.0s/45s
+high     • [   0% ] waiting  0m18.0s
+peak     • [   0% ] waiting  1m18.0s
+recovery • [   0% ] waiting  2m18.0s
+
+running (1m13.0s), 10/90 VUs, 5137 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  62% ] 10 VUs   28.0s/45s
+high     • [   0% ] waiting  0m17.0s
+peak     • [   0% ] waiting  1m17.0s
+recovery • [   0% ] waiting  2m17.0s
+
+running (1m14.0s), 10/90 VUs, 5297 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  64% ] 10 VUs   29.0s/45s
+high     • [   0% ] waiting  0m16.0s
+peak     • [   0% ] waiting  1m16.0s
+recovery • [   0% ] waiting  2m16.0s
+
+running (1m15.0s), 10/90 VUs, 5460 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  67% ] 10 VUs   30.0s/45s
+high     • [   0% ] waiting  0m15.0s
+peak     • [   0% ] waiting  1m15.0s
+recovery • [   0% ] waiting  2m15.0s
+
+running (1m16.0s), 10/90 VUs, 5627 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  69% ] 10 VUs   31.0s/45s
+high     • [   0% ] waiting  0m14.0s
+peak     • [   0% ] waiting  1m14.0s
+recovery • [   0% ] waiting  2m14.0s
+
+running (1m17.0s), 10/90 VUs, 5787 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  71% ] 10 VUs   32.0s/45s
+high     • [   0% ] waiting  0m13.0s
+peak     • [   0% ] waiting  1m13.0s
+recovery • [   0% ] waiting  2m13.0s
+
+running (1m18.0s), 10/90 VUs, 5955 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  73% ] 10 VUs   33.0s/45s
+high     • [   0% ] waiting  0m12.0s
+peak     • [   0% ] waiting  1m12.0s
+recovery • [   0% ] waiting  2m12.0s
+
+running (1m19.0s), 10/90 VUs, 6117 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  76% ] 10 VUs   34.0s/45s
+high     • [   0% ] waiting  0m11.0s
+peak     • [   0% ] waiting  1m11.0s
+recovery • [   0% ] waiting  2m11.0s
+
+running (1m20.0s), 10/90 VUs, 6281 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  78% ] 10 VUs   35.0s/45s
+high     • [   0% ] waiting  0m10.0s
+peak     • [   0% ] waiting  1m10.0s
+recovery • [   0% ] waiting  2m10.0s
+
+running (1m21.0s), 10/90 VUs, 6447 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  80% ] 10 VUs   36.0s/45s
+high     • [   0% ] waiting  0m09.0s
+peak     • [   0% ] waiting  1m09.0s
+recovery • [   0% ] waiting  2m09.0s
+
+running (1m22.0s), 10/90 VUs, 6610 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  82% ] 10 VUs   37.0s/45s
+high     • [   0% ] waiting  0m08.0s
+peak     • [   0% ] waiting  1m08.0s
+recovery • [   0% ] waiting  2m08.0s
+
+running (1m23.0s), 10/90 VUs, 6777 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  84% ] 10 VUs   38.0s/45s
+high     • [   0% ] waiting  0m07.0s
+peak     • [   0% ] waiting  1m07.0s
+recovery • [   0% ] waiting  2m07.0s
+
+running (1m24.0s), 10/90 VUs, 6937 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  87% ] 10 VUs   39.0s/45s
+high     • [   0% ] waiting  0m06.0s
+peak     • [   0% ] waiting  1m06.0s
+recovery • [   0% ] waiting  2m06.0s
+
+running (1m25.0s), 10/90 VUs, 7099 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  89% ] 10 VUs   40.0s/45s
+high     • [   0% ] waiting  0m05.0s
+peak     • [   0% ] waiting  1m05.0s
+recovery • [   0% ] waiting  2m05.0s
+
+running (1m26.0s), 10/90 VUs, 7267 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  91% ] 10 VUs   41.0s/45s
+high     • [   0% ] waiting  0m04.0s
+peak     • [   0% ] waiting  1m04.0s
+recovery • [   0% ] waiting  2m04.0s
+
+running (1m27.0s), 10/90 VUs, 7427 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  93% ] 10 VUs   42.0s/45s
+high     • [   0% ] waiting  0m03.0s
+peak     • [   0% ] waiting  1m03.0s
+recovery • [   0% ] waiting  2m03.0s
+
+running (1m28.0s), 10/90 VUs, 7588 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  96% ] 10 VUs   43.0s/45s
+high     • [   0% ] waiting  0m02.0s
+peak     • [   0% ] waiting  1m02.0s
+recovery • [   0% ] waiting  2m02.0s
+
+running (1m29.0s), 10/90 VUs, 7757 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [  98% ] 10 VUs   44.0s/45s
+high     • [   0% ] waiting  0m01.0s
+peak     • [   0% ] waiting  1m01.0s
+recovery • [   0% ] waiting  2m01.0s
+
+running (1m30.0s), 10/90 VUs, 7917 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium     [ 100% ] 10 VUs   45.0s/45s
+high     • [   0% ] waiting  0m00.0s
+peak     • [   0% ] waiting  1m00.0s
+recovery • [   0% ] waiting  2m00.0s
+
+running (1m31.0s), 30/90 VUs, 8361 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [   2% ] 30 VUs   0m01.0s/1m0s
+peak     • [   0% ] waiting  0m59.0s
+recovery • [   0% ] waiting  1m59.0s
+
+running (1m32.0s), 30/90 VUs, 8861 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [   3% ] 30 VUs   0m02.0s/1m0s
+peak     • [   0% ] waiting  0m58.0s
+recovery • [   0% ] waiting  1m58.0s
+
+running (1m33.0s), 30/90 VUs, 9306 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [   5% ] 30 VUs   0m03.0s/1m0s
+peak     • [   0% ] waiting  0m57.0s
+recovery • [   0% ] waiting  1m57.0s
+
+running (1m34.0s), 30/90 VUs, 9802 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [   7% ] 30 VUs   0m04.0s/1m0s
+peak     • [   0% ] waiting  0m56.0s
+recovery • [   0% ] waiting  1m56.0s
+
+running (1m35.0s), 30/90 VUs, 10306 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [   8% ] 30 VUs   0m05.0s/1m0s
+peak     • [   0% ] waiting  0m55.0s
+recovery • [   0% ] waiting  1m55.0s
+
+running (1m36.0s), 30/90 VUs, 10771 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  10% ] 30 VUs   0m06.0s/1m0s
+peak     • [   0% ] waiting  0m54.0s
+recovery • [   0% ] waiting  1m54.0s
+
+running (1m37.0s), 30/90 VUs, 11283 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  12% ] 30 VUs   0m07.0s/1m0s
+peak     • [   0% ] waiting  0m53.0s
+recovery • [   0% ] waiting  1m53.0s
+
+running (1m38.0s), 30/90 VUs, 11791 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  13% ] 30 VUs   0m08.0s/1m0s
+peak     • [   0% ] waiting  0m52.0s
+recovery • [   0% ] waiting  1m52.0s
+
+running (1m39.0s), 30/90 VUs, 12296 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  15% ] 30 VUs   0m09.0s/1m0s
+peak     • [   0% ] waiting  0m51.0s
+recovery • [   0% ] waiting  1m51.0s
+
+running (1m40.0s), 30/90 VUs, 12793 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  17% ] 30 VUs   0m10.0s/1m0s
+peak     • [   0% ] waiting  0m50.0s
+recovery • [   0% ] waiting  1m50.0s
+
+running (1m41.0s), 30/90 VUs, 13274 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  18% ] 30 VUs   0m11.0s/1m0s
+peak     • [   0% ] waiting  0m49.0s
+recovery • [   0% ] waiting  1m49.0s
+
+running (1m42.0s), 30/90 VUs, 13770 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  20% ] 30 VUs   0m12.0s/1m0s
+peak     • [   0% ] waiting  0m48.0s
+recovery • [   0% ] waiting  1m48.0s
+
+running (1m43.0s), 30/90 VUs, 14271 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  22% ] 30 VUs   0m13.0s/1m0s
+peak     • [   0% ] waiting  0m47.0s
+recovery • [   0% ] waiting  1m47.0s
+
+running (1m44.0s), 30/90 VUs, 14774 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  23% ] 30 VUs   0m14.0s/1m0s
+peak     • [   0% ] waiting  0m46.0s
+recovery • [   0% ] waiting  1m46.0s
+
+running (1m45.0s), 30/90 VUs, 15266 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  25% ] 30 VUs   0m15.0s/1m0s
+peak     • [   0% ] waiting  0m45.0s
+recovery • [   0% ] waiting  1m45.0s
+
+running (1m46.0s), 30/90 VUs, 15725 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  27% ] 30 VUs   0m16.0s/1m0s
+peak     • [   0% ] waiting  0m44.0s
+recovery • [   0% ] waiting  1m44.0s
+
+running (1m47.0s), 30/90 VUs, 16225 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  28% ] 30 VUs   0m17.0s/1m0s
+peak     • [   0% ] waiting  0m43.0s
+recovery • [   0% ] waiting  1m43.0s
+
+running (1m48.0s), 30/90 VUs, 16723 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  30% ] 30 VUs   0m18.0s/1m0s
+peak     • [   0% ] waiting  0m42.0s
+recovery • [   0% ] waiting  1m42.0s
+
+running (1m49.0s), 30/90 VUs, 17230 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  32% ] 30 VUs   0m19.0s/1m0s
+peak     • [   0% ] waiting  0m41.0s
+recovery • [   0% ] waiting  1m41.0s
+
+running (1m50.0s), 30/90 VUs, 17736 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  33% ] 30 VUs   0m20.0s/1m0s
+peak     • [   0% ] waiting  0m40.0s
+recovery • [   0% ] waiting  1m40.0s
+
+running (1m51.0s), 30/90 VUs, 18223 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  35% ] 30 VUs   0m21.0s/1m0s
+peak     • [   0% ] waiting  0m39.0s
+recovery • [   0% ] waiting  1m39.0s
+
+running (1m52.0s), 30/90 VUs, 18733 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  37% ] 30 VUs   0m22.0s/1m0s
+peak     • [   0% ] waiting  0m38.0s
+recovery • [   0% ] waiting  1m38.0s
+
+running (1m53.0s), 30/90 VUs, 19247 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  38% ] 30 VUs   0m23.0s/1m0s
+peak     • [   0% ] waiting  0m37.0s
+recovery • [   0% ] waiting  1m37.0s
+
+running (1m54.0s), 30/90 VUs, 19758 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  40% ] 30 VUs   0m24.0s/1m0s
+peak     • [   0% ] waiting  0m36.0s
+recovery • [   0% ] waiting  1m36.0s
+
+running (1m55.0s), 30/90 VUs, 20228 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  42% ] 30 VUs   0m25.0s/1m0s
+peak     • [   0% ] waiting  0m35.0s
+recovery • [   0% ] waiting  1m35.0s
+
+running (1m56.0s), 30/90 VUs, 20711 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  43% ] 30 VUs   0m26.0s/1m0s
+peak     • [   0% ] waiting  0m34.0s
+recovery • [   0% ] waiting  1m34.0s
+
+running (1m57.0s), 30/90 VUs, 21218 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  45% ] 30 VUs   0m27.0s/1m0s
+peak     • [   0% ] waiting  0m33.0s
+recovery • [   0% ] waiting  1m33.0s
+
+running (1m58.0s), 30/90 VUs, 21723 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  47% ] 30 VUs   0m28.0s/1m0s
+peak     • [   0% ] waiting  0m32.0s
+recovery • [   0% ] waiting  1m32.0s
+
+running (1m59.0s), 30/90 VUs, 22222 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  48% ] 30 VUs   0m29.0s/1m0s
+peak     • [   0% ] waiting  0m31.0s
+recovery • [   0% ] waiting  1m31.0s
+
+running (2m00.0s), 30/90 VUs, 22729 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  50% ] 30 VUs   0m30.0s/1m0s
+peak     • [   0% ] waiting  0m30.0s
+recovery • [   0% ] waiting  1m30.0s
+
+running (2m01.0s), 30/90 VUs, 23232 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  52% ] 30 VUs   0m31.0s/1m0s
+peak     • [   0% ] waiting  0m29.0s
+recovery • [   0% ] waiting  1m29.0s
+
+running (2m02.0s), 30/90 VUs, 23724 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  53% ] 30 VUs   0m32.0s/1m0s
+peak     • [   0% ] waiting  0m28.0s
+recovery • [   0% ] waiting  1m28.0s
+
+running (2m03.0s), 30/90 VUs, 24211 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  55% ] 30 VUs   0m33.0s/1m0s
+peak     • [   0% ] waiting  0m27.0s
+recovery • [   0% ] waiting  1m27.0s
+
+running (2m04.0s), 30/90 VUs, 24714 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  57% ] 30 VUs   0m34.0s/1m0s
+peak     • [   0% ] waiting  0m26.0s
+recovery • [   0% ] waiting  1m26.0s
+
+running (2m05.0s), 30/90 VUs, 25223 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  58% ] 30 VUs   0m35.0s/1m0s
+peak     • [   0% ] waiting  0m25.0s
+recovery • [   0% ] waiting  1m25.0s
+
+running (2m06.0s), 30/90 VUs, 25728 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  60% ] 30 VUs   0m36.0s/1m0s
+peak     • [   0% ] waiting  0m24.0s
+recovery • [   0% ] waiting  1m24.0s
+
+running (2m07.0s), 30/90 VUs, 26228 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  62% ] 30 VUs   0m37.0s/1m0s
+peak     • [   0% ] waiting  0m23.0s
+recovery • [   0% ] waiting  1m23.0s
+
+running (2m08.0s), 30/90 VUs, 26734 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  63% ] 30 VUs   0m38.0s/1m0s
+peak     • [   0% ] waiting  0m22.0s
+recovery • [   0% ] waiting  1m22.0s
+
+running (2m09.0s), 30/90 VUs, 27240 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  65% ] 30 VUs   0m39.0s/1m0s
+peak     • [   0% ] waiting  0m21.0s
+recovery • [   0% ] waiting  1m21.0s
+
+running (2m10.0s), 30/90 VUs, 27742 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  67% ] 30 VUs   0m40.0s/1m0s
+peak     • [   0% ] waiting  0m20.0s
+recovery • [   0% ] waiting  1m20.0s
+
+running (2m11.0s), 30/90 VUs, 28241 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  68% ] 30 VUs   0m41.0s/1m0s
+peak     • [   0% ] waiting  0m19.0s
+recovery • [   0% ] waiting  1m19.0s
+
+running (2m12.0s), 30/90 VUs, 28736 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  70% ] 30 VUs   0m42.0s/1m0s
+peak     • [   0% ] waiting  0m18.0s
+recovery • [   0% ] waiting  1m18.0s
+
+running (2m13.0s), 30/90 VUs, 29236 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  72% ] 30 VUs   0m43.0s/1m0s
+peak     • [   0% ] waiting  0m17.0s
+recovery • [   0% ] waiting  1m17.0s
+
+running (2m14.0s), 30/90 VUs, 29738 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  73% ] 30 VUs   0m44.0s/1m0s
+peak     • [   0% ] waiting  0m16.0s
+recovery • [   0% ] waiting  1m16.0s
+
+running (2m15.0s), 30/90 VUs, 30238 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  75% ] 30 VUs   0m45.0s/1m0s
+peak     • [   0% ] waiting  0m15.0s
+recovery • [   0% ] waiting  1m15.0s
+
+running (2m16.0s), 30/90 VUs, 30739 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  77% ] 30 VUs   0m46.0s/1m0s
+peak     • [   0% ] waiting  0m14.0s
+recovery • [   0% ] waiting  1m14.0s
+
+running (2m17.0s), 30/90 VUs, 31232 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  78% ] 30 VUs   0m47.0s/1m0s
+peak     • [   0% ] waiting  0m13.0s
+recovery • [   0% ] waiting  1m13.0s
+
+running (2m18.0s), 30/90 VUs, 31728 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  80% ] 30 VUs   0m48.0s/1m0s
+peak     • [   0% ] waiting  0m12.0s
+recovery • [   0% ] waiting  1m12.0s
+
+running (2m19.0s), 30/90 VUs, 32224 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  82% ] 30 VUs   0m49.0s/1m0s
+peak     • [   0% ] waiting  0m11.0s
+recovery • [   0% ] waiting  1m11.0s
+
+running (2m20.0s), 30/90 VUs, 32726 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  83% ] 30 VUs   0m50.0s/1m0s
+peak     • [   0% ] waiting  0m10.0s
+recovery • [   0% ] waiting  1m10.0s
+
+running (2m21.0s), 30/90 VUs, 33226 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  85% ] 30 VUs   0m51.0s/1m0s
+peak     • [   0% ] waiting  0m09.0s
+recovery • [   0% ] waiting  1m09.0s
+
+running (2m22.0s), 30/90 VUs, 33719 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  87% ] 30 VUs   0m52.0s/1m0s
+peak     • [   0% ] waiting  0m08.0s
+recovery • [   0% ] waiting  1m08.0s
+
+running (2m23.0s), 30/90 VUs, 34219 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  88% ] 30 VUs   0m53.0s/1m0s
+peak     • [   0% ] waiting  0m07.0s
+recovery • [   0% ] waiting  1m07.0s
+
+running (2m24.0s), 30/90 VUs, 34714 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  90% ] 30 VUs   0m54.0s/1m0s
+peak     • [   0% ] waiting  0m06.0s
+recovery • [   0% ] waiting  1m06.0s
+
+running (2m25.0s), 30/90 VUs, 35212 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  92% ] 30 VUs   0m55.0s/1m0s
+peak     • [   0% ] waiting  0m05.0s
+recovery • [   0% ] waiting  1m05.0s
+
+running (2m26.0s), 30/90 VUs, 35691 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  93% ] 30 VUs   0m56.0s/1m0s
+peak     • [   0% ] waiting  0m04.0s
+recovery • [   0% ] waiting  1m04.0s
+
+running (2m27.0s), 30/90 VUs, 36177 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  95% ] 30 VUs   0m57.0s/1m0s
+peak     • [   0% ] waiting  0m03.0s
+recovery • [   0% ] waiting  1m03.0s
+
+running (2m28.0s), 30/90 VUs, 36666 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  97% ] 30 VUs   0m58.0s/1m0s
+peak     • [   0% ] waiting  0m02.0s
+recovery • [   0% ] waiting  1m02.0s
+
+running (2m29.0s), 30/90 VUs, 37164 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [  98% ] 30 VUs   0m59.0s/1m0s
+peak     • [   0% ] waiting  0m01.0s
+recovery • [   0% ] waiting  1m01.0s
+
+running (2m30.0s), 30/90 VUs, 37664 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high       [ 100% ] 30 VUs   1m00.0s/1m0s
+peak     • [   0% ] waiting  0m00.0s
+recovery • [   0% ] waiting  1m00.0s
+
+running (2m31.0s), 60/90 VUs, 38269 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [   2% ] 60 VUs   0m01.0s/1m0s
+recovery • [   0% ] waiting  0m59.0s
+
+running (2m32.0s), 60/90 VUs, 38807 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [   3% ] 60 VUs   0m02.0s/1m0s
+recovery • [   0% ] waiting  0m58.0s
+
+running (2m33.0s), 60/90 VUs, 39392 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [   5% ] 60 VUs   0m03.0s/1m0s
+recovery • [   0% ] waiting  0m57.0s
+
+running (2m34.0s), 60/90 VUs, 40005 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [   7% ] 60 VUs   0m04.0s/1m0s
+recovery • [   0% ] waiting  0m56.0s
+
+running (2m35.0s), 60/90 VUs, 40571 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [   8% ] 60 VUs   0m05.0s/1m0s
+recovery • [   0% ] waiting  0m55.0s
+
+running (2m36.0s), 60/90 VUs, 41179 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  10% ] 60 VUs   0m06.0s/1m0s
+recovery • [   0% ] waiting  0m54.0s
+
+running (2m37.0s), 60/90 VUs, 41760 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  12% ] 60 VUs   0m07.0s/1m0s
+recovery • [   0% ] waiting  0m53.0s
+
+running (2m38.0s), 60/90 VUs, 42364 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  13% ] 60 VUs   0m08.0s/1m0s
+recovery • [   0% ] waiting  0m52.0s
+
+running (2m39.0s), 60/90 VUs, 42974 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  15% ] 60 VUs   0m09.0s/1m0s
+recovery • [   0% ] waiting  0m51.0s
+
+running (2m40.0s), 60/90 VUs, 43573 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  17% ] 60 VUs   0m10.0s/1m0s
+recovery • [   0% ] waiting  0m50.0s
+
+running (2m41.0s), 60/90 VUs, 44193 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  18% ] 60 VUs   0m11.0s/1m0s
+recovery • [   0% ] waiting  0m49.0s
+
+running (2m42.0s), 60/90 VUs, 44781 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  20% ] 60 VUs   0m12.0s/1m0s
+recovery • [   0% ] waiting  0m48.0s
+
+running (2m43.0s), 60/90 VUs, 45354 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  22% ] 60 VUs   0m13.0s/1m0s
+recovery • [   0% ] waiting  0m47.0s
+
+running (2m44.0s), 60/90 VUs, 45980 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  23% ] 60 VUs   0m14.0s/1m0s
+recovery • [   0% ] waiting  0m46.0s
+
+running (2m45.0s), 60/90 VUs, 46618 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  25% ] 60 VUs   0m15.0s/1m0s
+recovery • [   0% ] waiting  0m45.0s
+
+running (2m46.0s), 60/90 VUs, 47251 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  27% ] 60 VUs   0m16.0s/1m0s
+recovery • [   0% ] waiting  0m44.0s
+
+running (2m47.0s), 60/90 VUs, 47855 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  28% ] 60 VUs   0m17.0s/1m0s
+recovery • [   0% ] waiting  0m43.0s
+
+running (2m48.0s), 60/90 VUs, 48439 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  30% ] 60 VUs   0m18.0s/1m0s
+recovery • [   0% ] waiting  0m42.0s
+
+running (2m49.0s), 60/90 VUs, 48964 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  32% ] 60 VUs   0m19.0s/1m0s
+recovery • [   0% ] waiting  0m41.0s
+
+running (2m50.0s), 60/90 VUs, 49528 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  33% ] 60 VUs   0m20.0s/1m0s
+recovery • [   0% ] waiting  0m40.0s
+
+running (2m51.0s), 60/90 VUs, 50101 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  35% ] 60 VUs   0m21.0s/1m0s
+recovery • [   0% ] waiting  0m39.0s
+
+running (2m52.0s), 60/90 VUs, 50703 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  37% ] 60 VUs   0m22.0s/1m0s
+recovery • [   0% ] waiting  0m38.0s
+
+running (2m53.0s), 60/90 VUs, 51185 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  38% ] 60 VUs   0m23.0s/1m0s
+recovery • [   0% ] waiting  0m37.0s
+
+running (2m54.0s), 60/90 VUs, 51789 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  40% ] 60 VUs   0m24.0s/1m0s
+recovery • [   0% ] waiting  0m36.0s
+
+running (2m55.0s), 60/90 VUs, 52396 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  42% ] 60 VUs   0m25.0s/1m0s
+recovery • [   0% ] waiting  0m35.0s
+
+running (2m56.0s), 60/90 VUs, 52720 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  43% ] 60 VUs   0m26.0s/1m0s
+recovery • [   0% ] waiting  0m34.0s
+
+running (2m57.0s), 60/90 VUs, 53272 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  45% ] 60 VUs   0m27.0s/1m0s
+recovery • [   0% ] waiting  0m33.0s
+
+running (2m58.0s), 60/90 VUs, 53836 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  47% ] 60 VUs   0m28.0s/1m0s
+recovery • [   0% ] waiting  0m32.0s
+
+running (2m59.0s), 60/90 VUs, 54339 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  48% ] 60 VUs   0m29.0s/1m0s
+recovery • [   0% ] waiting  0m31.0s
+
+running (3m00.0s), 60/90 VUs, 54943 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  50% ] 60 VUs   0m30.0s/1m0s
+recovery • [   0% ] waiting  0m30.0s
+
+running (3m01.0s), 60/90 VUs, 55505 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  52% ] 60 VUs   0m31.0s/1m0s
+recovery • [   0% ] waiting  0m29.0s
+
+running (3m02.0s), 60/90 VUs, 56039 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  53% ] 60 VUs   0m32.0s/1m0s
+recovery • [   0% ] waiting  0m28.0s
+
+running (3m03.0s), 60/90 VUs, 56498 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  55% ] 60 VUs   0m33.0s/1m0s
+recovery • [   0% ] waiting  0m27.0s
+
+running (3m04.0s), 60/90 VUs, 57071 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  57% ] 60 VUs   0m34.0s/1m0s
+recovery • [   0% ] waiting  0m26.0s
+
+running (3m05.0s), 60/90 VUs, 57627 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  58% ] 60 VUs   0m35.0s/1m0s
+recovery • [   0% ] waiting  0m25.0s
+
+running (3m06.0s), 60/90 VUs, 58173 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  60% ] 60 VUs   0m36.0s/1m0s
+recovery • [   0% ] waiting  0m24.0s
+
+running (3m07.0s), 60/90 VUs, 58738 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  62% ] 60 VUs   0m37.0s/1m0s
+recovery • [   0% ] waiting  0m23.0s
+
+running (3m08.0s), 60/90 VUs, 59323 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  63% ] 60 VUs   0m38.0s/1m0s
+recovery • [   0% ] waiting  0m22.0s
+
+running (3m09.0s), 60/90 VUs, 59935 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  65% ] 60 VUs   0m39.0s/1m0s
+recovery • [   0% ] waiting  0m21.0s
+
+running (3m10.0s), 60/90 VUs, 60465 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  67% ] 60 VUs   0m40.0s/1m0s
+recovery • [   0% ] waiting  0m20.0s
+
+running (3m11.0s), 60/90 VUs, 61069 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  68% ] 60 VUs   0m41.0s/1m0s
+recovery • [   0% ] waiting  0m19.0s
+
+running (3m12.0s), 60/90 VUs, 61671 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  70% ] 60 VUs   0m42.0s/1m0s
+recovery • [   0% ] waiting  0m18.0s
+
+running (3m13.0s), 60/90 VUs, 62157 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  72% ] 60 VUs   0m43.0s/1m0s
+recovery • [   0% ] waiting  0m17.0s
+
+running (3m14.0s), 60/90 VUs, 62747 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  73% ] 60 VUs   0m44.0s/1m0s
+recovery • [   0% ] waiting  0m16.0s
+
+running (3m15.0s), 60/90 VUs, 63348 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  75% ] 60 VUs   0m45.0s/1m0s
+recovery • [   0% ] waiting  0m15.0s
+
+running (3m16.0s), 60/90 VUs, 63958 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  77% ] 60 VUs   0m46.0s/1m0s
+recovery • [   0% ] waiting  0m14.0s
+
+running (3m17.0s), 60/90 VUs, 64543 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  78% ] 60 VUs   0m47.0s/1m0s
+recovery • [   0% ] waiting  0m13.0s
+
+running (3m18.0s), 60/90 VUs, 65102 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  80% ] 60 VUs   0m48.0s/1m0s
+recovery • [   0% ] waiting  0m12.0s
+
+running (3m19.0s), 60/90 VUs, 65643 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  82% ] 60 VUs   0m49.0s/1m0s
+recovery • [   0% ] waiting  0m11.0s
+
+running (3m20.0s), 60/90 VUs, 66222 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  83% ] 60 VUs   0m50.0s/1m0s
+recovery • [   0% ] waiting  0m10.0s
+
+running (3m21.0s), 60/90 VUs, 66804 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  85% ] 60 VUs   0m51.0s/1m0s
+recovery • [   0% ] waiting  0m09.0s
+
+running (3m22.0s), 60/90 VUs, 67390 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  87% ] 60 VUs   0m52.0s/1m0s
+recovery • [   0% ] waiting  0m08.0s
+
+running (3m23.0s), 60/90 VUs, 67982 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  88% ] 60 VUs   0m53.0s/1m0s
+recovery • [   0% ] waiting  0m07.0s
+
+running (3m24.0s), 60/90 VUs, 68552 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  90% ] 60 VUs   0m54.0s/1m0s
+recovery • [   0% ] waiting  0m06.0s
+
+running (3m25.0s), 60/90 VUs, 69141 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  92% ] 60 VUs   0m55.0s/1m0s
+recovery • [   0% ] waiting  0m05.0s
+
+running (3m26.0s), 60/90 VUs, 69634 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  93% ] 60 VUs   0m56.0s/1m0s
+recovery • [   0% ] waiting  0m04.0s
+
+running (3m27.0s), 60/90 VUs, 70217 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  95% ] 60 VUs   0m57.0s/1m0s
+recovery • [   0% ] waiting  0m03.0s
+
+running (3m28.0s), 60/90 VUs, 70808 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  97% ] 60 VUs   0m58.0s/1m0s
+recovery • [   0% ] waiting  0m02.0s
+
+running (3m29.0s), 60/90 VUs, 71335 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [  98% ] 60 VUs   0m59.0s/1m0s
+recovery • [   0% ] waiting  0m01.0s
+
+running (3m30.0s), 60/90 VUs, 71877 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs    45s
+medium   ✓ [ 100% ] 10 VUs   45s
+high     ✓ [ 100% ] 30 VUs   1m0s
+peak       [ 100% ] 60 VUs   1m00.0s/1m0s
+recovery • [   0% ] waiting  0m00.0s
+
+running (3m31.0s), 01/90 VUs, 71958 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [   1% ] 1 VUs   0m01.0s/1m30s
+
+running (3m32.0s), 01/90 VUs, 71971 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [   2% ] 1 VUs   0m02.0s/1m30s
+
+running (3m33.0s), 01/90 VUs, 71986 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [   3% ] 1 VUs   0m03.0s/1m30s
+
+running (3m34.0s), 01/90 VUs, 72001 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [   4% ] 1 VUs   0m04.0s/1m30s
+
+running (3m35.0s), 01/90 VUs, 72016 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [   6% ] 1 VUs   0m05.0s/1m30s
+
+running (3m36.0s), 01/90 VUs, 72030 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [   7% ] 1 VUs   0m06.0s/1m30s
+
+running (3m37.0s), 01/90 VUs, 72044 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [   8% ] 1 VUs   0m07.0s/1m30s
+
+running (3m38.0s), 01/90 VUs, 72058 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [   9% ] 1 VUs   0m08.0s/1m30s
+
+running (3m39.0s), 01/90 VUs, 72072 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  10% ] 1 VUs   0m09.0s/1m30s
+
+running (3m40.0s), 01/90 VUs, 72086 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  11% ] 1 VUs   0m10.0s/1m30s
+
+running (3m41.0s), 01/90 VUs, 72100 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  12% ] 1 VUs   0m11.0s/1m30s
+
+running (3m42.0s), 01/90 VUs, 72113 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  13% ] 1 VUs   0m12.0s/1m30s
+
+running (3m43.0s), 01/90 VUs, 72127 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  14% ] 1 VUs   0m13.0s/1m30s
+
+running (3m44.0s), 01/90 VUs, 72142 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  16% ] 1 VUs   0m14.0s/1m30s
+
+running (3m45.0s), 01/90 VUs, 72156 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  17% ] 1 VUs   0m15.0s/1m30s
+
+running (3m46.0s), 01/90 VUs, 72170 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  18% ] 1 VUs   0m16.0s/1m30s
+
+running (3m47.0s), 01/90 VUs, 72184 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  19% ] 1 VUs   0m17.0s/1m30s
+
+running (3m48.0s), 01/90 VUs, 72198 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  20% ] 1 VUs   0m18.0s/1m30s
+
+running (3m49.0s), 01/90 VUs, 72213 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  21% ] 1 VUs   0m19.0s/1m30s
+
+running (3m50.0s), 01/90 VUs, 72227 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  22% ] 1 VUs   0m20.0s/1m30s
+
+running (3m51.0s), 01/90 VUs, 72240 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  23% ] 1 VUs   0m21.0s/1m30s
+
+running (3m52.0s), 01/90 VUs, 72254 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  24% ] 1 VUs   0m22.0s/1m30s
+
+running (3m53.0s), 01/90 VUs, 72267 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  26% ] 1 VUs   0m23.0s/1m30s
+
+running (3m54.0s), 01/90 VUs, 72282 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  27% ] 1 VUs   0m24.0s/1m30s
+
+running (3m55.0s), 01/90 VUs, 72296 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  28% ] 1 VUs   0m25.0s/1m30s
+
+running (3m56.0s), 01/90 VUs, 72309 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  29% ] 1 VUs   0m26.0s/1m30s
+
+running (3m57.0s), 01/90 VUs, 72323 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  30% ] 1 VUs   0m27.0s/1m30s
+
+running (3m58.0s), 01/90 VUs, 72336 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  31% ] 1 VUs   0m28.0s/1m30s
+
+running (3m59.0s), 01/90 VUs, 72351 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  32% ] 1 VUs   0m29.0s/1m30s
+
+running (4m00.0s), 01/90 VUs, 72366 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  33% ] 1 VUs   0m30.0s/1m30s
+
+running (4m01.0s), 01/90 VUs, 72379 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  34% ] 1 VUs   0m31.0s/1m30s
+
+running (4m02.0s), 01/90 VUs, 72393 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  36% ] 1 VUs   0m32.0s/1m30s
+
+running (4m03.0s), 01/90 VUs, 72408 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  37% ] 1 VUs   0m33.0s/1m30s
+
+running (4m04.0s), 01/90 VUs, 72422 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  38% ] 1 VUs   0m34.0s/1m30s
+
+running (4m05.0s), 01/90 VUs, 72436 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  39% ] 1 VUs   0m35.0s/1m30s
+
+running (4m06.0s), 01/90 VUs, 72450 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  40% ] 1 VUs   0m36.0s/1m30s
+
+running (4m07.0s), 01/90 VUs, 72464 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  41% ] 1 VUs   0m37.0s/1m30s
+
+running (4m08.0s), 01/90 VUs, 72478 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  42% ] 1 VUs   0m38.0s/1m30s
+
+running (4m09.0s), 01/90 VUs, 72492 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  43% ] 1 VUs   0m39.0s/1m30s
+
+running (4m10.0s), 01/90 VUs, 72506 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  44% ] 1 VUs   0m40.0s/1m30s
+
+running (4m11.0s), 01/90 VUs, 72520 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  46% ] 1 VUs   0m41.0s/1m30s
+
+running (4m12.0s), 01/90 VUs, 72526 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  47% ] 1 VUs   0m42.0s/1m30s
+
+running (4m13.0s), 01/90 VUs, 72532 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  48% ] 1 VUs   0m43.0s/1m30s
+
+running (4m14.0s), 01/90 VUs, 72546 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  49% ] 1 VUs   0m44.0s/1m30s
+
+running (4m15.0s), 01/90 VUs, 72561 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  50% ] 1 VUs   0m45.0s/1m30s
+
+running (4m16.0s), 01/90 VUs, 72576 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  51% ] 1 VUs   0m46.0s/1m30s
+
+running (4m17.0s), 01/90 VUs, 72590 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  52% ] 1 VUs   0m47.0s/1m30s
+
+running (4m18.0s), 01/90 VUs, 72606 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  53% ] 1 VUs   0m48.0s/1m30s
+
+running (4m19.0s), 01/90 VUs, 72620 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  54% ] 1 VUs   0m49.0s/1m30s
+
+running (4m20.0s), 01/90 VUs, 72635 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  56% ] 1 VUs   0m50.0s/1m30s
+
+running (4m21.0s), 01/90 VUs, 72650 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  57% ] 1 VUs   0m51.0s/1m30s
+
+running (4m22.0s), 01/90 VUs, 72664 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  58% ] 1 VUs   0m52.0s/1m30s
+
+running (4m23.0s), 01/90 VUs, 72679 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  59% ] 1 VUs   0m53.0s/1m30s
+
+running (4m24.0s), 01/90 VUs, 72694 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  60% ] 1 VUs   0m54.0s/1m30s
+
+running (4m25.0s), 01/90 VUs, 72710 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  61% ] 1 VUs   0m55.0s/1m30s
+
+running (4m26.0s), 01/90 VUs, 72724 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  62% ] 1 VUs   0m56.0s/1m30s
+
+running (4m27.0s), 01/90 VUs, 72740 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  63% ] 1 VUs   0m57.0s/1m30s
+
+running (4m28.0s), 01/90 VUs, 72754 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  64% ] 1 VUs   0m58.0s/1m30s
+
+running (4m29.0s), 01/90 VUs, 72769 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  66% ] 1 VUs   0m59.0s/1m30s
+
+running (4m30.0s), 01/90 VUs, 72784 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  67% ] 1 VUs   1m00.0s/1m30s
+
+running (4m31.0s), 01/90 VUs, 72798 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  68% ] 1 VUs   1m01.0s/1m30s
+
+running (4m32.0s), 01/90 VUs, 72805 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  69% ] 1 VUs   1m02.0s/1m30s
+
+running (4m33.0s), 01/90 VUs, 72820 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  70% ] 1 VUs   1m03.0s/1m30s
+
+running (4m34.0s), 01/90 VUs, 72835 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  71% ] 1 VUs   1m04.0s/1m30s
+
+running (4m35.3s), 01/90 VUs, 72845 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  73% ] 1 VUs   1m05.3s/1m30s
+
+running (4m36.0s), 01/90 VUs, 72849 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  73% ] 1 VUs   1m06.0s/1m30s
+
+running (4m37.0s), 01/90 VUs, 72863 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  74% ] 1 VUs   1m07.0s/1m30s
+
+running (4m38.0s), 01/90 VUs, 72873 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  76% ] 1 VUs   1m08.0s/1m30s
+
+running (4m39.0s), 01/90 VUs, 72884 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  77% ] 1 VUs   1m09.0s/1m30s
+
+running (4m40.0s), 01/90 VUs, 72900 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  78% ] 1 VUs   1m10.0s/1m30s
+
+running (4m41.0s), 01/90 VUs, 72915 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  79% ] 1 VUs   1m11.0s/1m30s
+
+running (4m42.0s), 01/90 VUs, 72929 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  80% ] 1 VUs   1m12.0s/1m30s
+
+running (4m43.0s), 01/90 VUs, 72944 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  81% ] 1 VUs   1m13.0s/1m30s
+
+running (4m44.0s), 01/90 VUs, 72959 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  82% ] 1 VUs   1m14.0s/1m30s
+
+running (4m45.0s), 01/90 VUs, 72973 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  83% ] 1 VUs   1m15.0s/1m30s
+
+running (4m46.0s), 01/90 VUs, 72987 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  84% ] 1 VUs   1m16.0s/1m30s
+
+running (4m47.0s), 01/90 VUs, 73002 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  86% ] 1 VUs   1m17.0s/1m30s
+
+running (4m48.0s), 01/90 VUs, 73017 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  87% ] 1 VUs   1m18.0s/1m30s
+
+running (4m49.0s), 01/90 VUs, 73031 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  88% ] 1 VUs   1m19.0s/1m30s
+
+running (4m50.0s), 01/90 VUs, 73045 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  89% ] 1 VUs   1m20.0s/1m30s
+
+running (4m51.0s), 01/90 VUs, 73059 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  90% ] 1 VUs   1m21.0s/1m30s
+
+running (4m52.0s), 01/90 VUs, 73074 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  91% ] 1 VUs   1m22.0s/1m30s
+
+running (4m53.0s), 01/90 VUs, 73088 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  92% ] 1 VUs   1m23.0s/1m30s
+
+running (4m54.0s), 01/90 VUs, 73104 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  93% ] 1 VUs   1m24.0s/1m30s
+
+running (4m55.0s), 01/90 VUs, 73118 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  94% ] 1 VUs   1m25.0s/1m30s
+
+running (4m56.0s), 01/90 VUs, 73133 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  96% ] 1 VUs   1m26.0s/1m30s
+
+running (4m57.0s), 01/90 VUs, 73147 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  97% ] 1 VUs   1m27.0s/1m30s
+
+running (4m58.0s), 01/90 VUs, 73162 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  98% ] 1 VUs   1m28.0s/1m30s
+
+running (4m59.0s), 01/90 VUs, 73176 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [  99% ] 1 VUs   1m29.0s/1m30s
+
+running (5m00.0s), 01/90 VUs, 73191 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery   [ 100% ] 1 VUs   1m30.0s/1m30s
+
+running (5m00.0s), 00/90 VUs, 73192 complete and 0 interrupted iterations
+baseline ✓ [ 100% ] 1 VUs   45s
+medium   ✓ [ 100% ] 10 VUs  45s
+high     ✓ [ 100% ] 30 VUs  1m0s
+peak     ✓ [ 100% ] 60 VUs  1m0s
+recovery ✓ [ 100% ] 1 VUs   1m30s

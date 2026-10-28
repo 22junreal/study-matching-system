@@ -167,6 +167,88 @@
           ]
         }
       ]
+    },
+    {
+      "name": "database failure fires without API traffic and resolves after recovery",
+      "interval": "15s",
+      "input_series": [
+        {
+          "series": "study_database_available{job=\"study-backend\",instance=\"backend:8080\"}",
+          "values": "1x2 0x6 1x8"
+        }
+      ],
+      "alert_rule_test": [
+        {
+          "eval_time": "1m",
+          "alertname": "StudyDatabaseUnavailable",
+          "exp_alerts": []
+        },
+        {
+          "eval_time": "1m15s",
+          "alertname": "StudyDatabaseUnavailable",
+          "exp_alerts": [
+            {
+              "exp_labels": {
+                "severity": "critical",
+                "job": "study-backend",
+                "instance": "backend:8080"
+              },
+              "exp_annotations": {
+                "summary": "Database connectivity probe failed",
+                "description": "The application cannot borrow and validate a database connection. Check PostgreSQL and the connection pool."
+              }
+            }
+          ]
+        },
+        {
+          "eval_time": "3m",
+          "alertname": "StudyDatabaseUnavailable",
+          "exp_alerts": []
+        }
+      ]
+    },
+    {
+      "name": "stale probe fires only while scrape is available",
+      "interval": "15s",
+      "input_series": [
+        {
+          "series": "study_database_probe_timestamp_seconds{job=\"study-backend\",instance=\"backend:8080\"}",
+          "values": "0x20"
+        },
+        {
+          "series": "up{job=\"study-backend\",instance=\"backend:8080\"}",
+          "values": "1x10 0x10"
+        }
+      ],
+      "alert_rule_test": [
+        {
+          "eval_time": "1m30s",
+          "alertname": "StudyDatabaseProbeStale",
+          "exp_alerts": []
+        },
+        {
+          "eval_time": "1m45s",
+          "alertname": "StudyDatabaseProbeStale",
+          "exp_alerts": [
+            {
+              "exp_labels": {
+                "severity": "warning",
+                "job": "study-backend",
+                "instance": "backend:8080"
+              },
+              "exp_annotations": {
+                "summary": "Database connectivity probe is stale",
+                "description": "Metrics are reachable but the scheduled database check has not completed recently."
+              }
+            }
+          ]
+        },
+        {
+          "eval_time": "3m",
+          "alertname": "StudyDatabaseProbeStale",
+          "exp_alerts": []
+        }
+      ]
     }
   ]
 }

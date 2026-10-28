@@ -59,6 +59,8 @@ Grafana의 `Study Matching` 폴더에 `Study Matching · Backend` 대시보드�
 | Database connections | HikariCP active/idle/max |
 | Database waiting / timeouts | 커넥션 대기 수 / 조회 구간 내 timeout 증가량 |
 | Backend uptime | 프로세스 실행 시간 |
+| Database reachable | DB 연결 검사 결과 1/0 |
+| Database probe age | 마지막 DB 검사 이후 경과 시간 |
 | Prometheus alerts | firing 경보. 없으면 No data가 정상 |
 
 처음에는 요청이나 GC 이벤트가 없어 일부 패널이 비어 있을 수 있다. 특히 p95/p99는 트래픽 없이 0으로 해석하면 안 된다. API를 호출하고 최소 2회 이상 수집될 때까지 기다린다. CPU는 전체 호스트나 모든 컨테이너의 사용량이 아니다. DB query latency/slow query를 직접 수집하는 exporter는 포함하지 않는다.
@@ -78,6 +80,8 @@ histogram_quantile(0.95, sum by (le) (
 - `StudyBackendDown`: scrape 실패 1분 지속. 프로세스 중단 외에도 잘못된 인증 정보/네트워크 오류로 발생할 수 있다.
 - `StudyHigh5xxRate`: 5분 구간 오류율 >5%, 트래픽 ≥1 req/s 상태가 2분 지속.
 - `StudyHighLatency`: 5분 구간 p95 >1초, 트래픽 ≥1 req/s 상태가 5분 지속.
+- `StudyDatabaseUnavailable`: DB 연결 검사 실패가 30초 지속. 요청량과 무관하게 평가.
+- `StudyDatabaseProbeStale`: DB 검사 결과가 30초 이상 갱신되지 않은 상태가 1분 지속(앱 수집은 정상).
 - `StudyDatabasePoolWaiting`: DB connection 대기 >0 상태가 2분 지속.
 
 Prometheus Alerts 화면에서 pending/firing을 확인한다. **Alertmanager·Slack·메일 등의 외부 통지는 아직 연결하지 않았다.** 위 임계값은 초기 기준이며 운영 트래픽에 맞춰 조정해야 한다.
@@ -100,3 +104,11 @@ docker run --rm --entrypoint /bin/promtool \
 `verify-monitoring.py`는 `study-monitoring` 프로젝트만 대상으로 하며 backend를 중단했다가 finally에서 재시작한다. 실행 중 해당 데모 API가 잠시 중단된다. 기존 개발/운영 스택에는 실행하지 않는다. 결과는 [검증 원자료](../reports/verification/monitoring.json)에 기록한다. 보안 통합 테스트는 `MonitoringSecurityTest`다.
 
 참고: [Spring Boot metrics](https://docs.spring.io/spring-boot/reference/actuator/metrics.html), [Prometheus configuration](https://prometheus.io/docs/prometheus/latest/configuration/configuration/), [Grafana provisioning](https://grafana.com/docs/grafana/latest/administration/provisioning/).
+
+## PostgreSQL 강제 종료 시나리오
+
+[PostgreSQL 장애·복구 가이드](POSTGRES_RECOVERY.md)의 `scripts/verify-postgres-recovery.py`로 DB SIGKILL, API/health 실패, Grafana 지표, DB 예외 로그, DB 전용 경보와 앱 재시작 없는 재연결을 검증한다. DB 연결 대기 기본 5초 설정은 monitoring 프로필에만 적용한다.
+
+## k6 지표와 연결 풀 부하 관측
+
+[k6·Grafana 검증](LOAD_OBSERVABILITY.md)은 k6 remote-write 지표와 앱 지표를 전용 대시보드에 함께 표시한다. Prometheus remote-write 수신은 로컬/Docker 내부용이며 공개 엔드포인트로 노출하지 않는다.

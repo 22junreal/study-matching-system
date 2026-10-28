@@ -38,3 +38,19 @@ groups:
         annotations:
           summary: Requests are waiting for database connections
           description: Check active/max connections and long-running transactions.
+      - alert: StudyDatabaseUnavailable
+        expr: study_database_available{job="study-backend"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: Database connectivity probe failed
+          description: The application cannot borrow and validate a database connection. Check PostgreSQL and the connection pool.
+      - alert: StudyDatabaseProbeStale
+        expr: (time() - study_database_probe_timestamp_seconds{job="study-backend"} > 30) and on(job, instance) (up{job="study-backend"} == 1)
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Database connectivity probe is stale
+          description: Metrics are reachable but the scheduled database check has not completed recently.

@@ -68,3 +68,7 @@ Nginx 인증 요청 제한은 login/register/refresh/logout에 공통 적용된�
 `RefreshTokenE2ETest`는 실제 HTTP 서버와 PostgreSQL에서 로그인 쌍 발급/해시 저장, 회전, 절대 만료 유지, 이전 토큰 재사용 후 후속 토큰 폐기, 기기별 격리, 로그아웃 반복, 만료 Access 갱신, Refresh의 Access 사용 거부, 잘못된 요청, 동시 갱신, 갱신/로그아웃 경쟁, 서명 실패 롤백, DB 오류 경계를 확인한다. `RefreshTokenMigrationTest`는 V9→V10 적용과 FK cascade를 검증한다.
 
 기존 `reports/verification/operations.json`과 성능 보고서는 V9 시점의 로컬 운영/성능 자료다. V10 Refresh/Logout을 해당 프록시 환경에서 재측정한 자료가 아니다. 현재 인증 변경은 위 통합 테스트 결과를 기준으로 한다.
+
+## Backend 재시작 검증
+
+[Backend 재시작 시나리오](BACKEND_RESTART.md)는 실제 Docker stop/start 전후 DB 유지와 기존 Refresh Token의 갱신을 검증한다. 실행 결과는 [원자료](../reports/verification/backend-restart.json)에 별도로 기록한다.

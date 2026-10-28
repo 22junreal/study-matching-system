@@ -1,0 +1,130 @@
+{
+  "runId": "load-20261028T123309Z-5ab65c",
+  "status": "passed",
+  "environment": "local Docker Desktop, isolated study-monitoring; direct API, TLS/rate-limit gateway excluded",
+  "fixtureStudies": 120000,
+  "pageSize": 100,
+  "thinkTimeSeconds": 0.05,
+  "k6Image": "grafana/k6:1.3.0",
+  "artificialDelayInjected": false,
+  "poolSizeChanged": false,
+  "plan": [
+    {
+      "phase": "baseline",
+      "vus": 1,
+      "startSeconds": 0,
+      "durationSeconds": 45
+    },
+    {
+      "phase": "medium",
+      "vus": 10,
+      "startSeconds": 45,
+      "durationSeconds": 45
+    },
+    {
+      "phase": "high",
+      "vus": 30,
+      "startSeconds": 90,
+      "durationSeconds": 60
+    },
+    {
+      "phase": "peak",
+      "vus": 60,
+      "startSeconds": 150,
+      "durationSeconds": 60
+    },
+    {
+      "phase": "recovery",
+      "vus": 1,
+      "startSeconds": 210,
+      "durationSeconds": 90
+    }
+  ],
+  "backendImage": "sha256:fcc2a56c963f9edb483208c6797776ba746082ac337a933a248dd4c65d8642e5",
+  "baseCommit": "01c2166717964ab6c666ced35f64e4bbf5e098de",
+  "uncommittedChangesIncluded": true,
+  "dockerResources": {
+    "cpus": 8,
+    "memoryBytes": 4106604544
+  },
+  "startedAt": "2026-10-28T12:33:26.926000+00:00",
+  "completedAt": "2026-10-28T12:38:47.922042+00:00",
+  "stages": {
+    "baseline": {
+      "vus": 1,
+      "clientP95Ms": 24.590724799999997,
+      "clientP99Ms": 42.83799294,
+      "serverP95MedianMs": 40.16055750159374,
+      "activeMax": 0.0,
+      "activeMedian": 0.0,
+      "poolMaximum": 10.0,
+      "pendingMax": 0.0,
+      "acquisitionMeanMedianMs": 0.036936058620689584,
+      "connectionHoldMeanMedianMs": 16.184683333333332,
+      "processCpuMax": 0.03662698743028386,
+      "measuredVusMax": 1.0
+    },
+    "medium": {
+      "vus": 10,
+      "clientP95Ms": 15.787166999999997,
+      "clientP99Ms": 25.1339045,
+      "serverP95MedianMs": 21.130012608797934,
+      "activeMax": 0.0,
+      "activeMedian": 0.0,
+      "poolMaximum": 10.0,
+      "pendingMax": 0.0,
+      "acquisitionMeanMedianMs": 0.02043652559726962,
+      "connectionHoldMeanMedianMs": 9.33556430239239,
+      "processCpuMax": 0.12268921495482052,
+      "measuredVusMax": 10.0
+    },
+    "high": {
+      "vus": 30,
+      "clientP95Ms": 15.932887199999996,
+      "clientP99Ms": 33.25733647999998,
+      "serverP95MedianMs": 16.145861667368425,
+      "activeMax": 7.0,
+      "activeMedian": 6.0,
+      "poolMaximum": 10.0,
+      "pendingMax": 0.0,
+      "acquisitionMeanMedianMs": 0.20721291383646137,
+      "connectionHoldMeanMedianMs": 7.950914499779637,
+      "processCpuMax": 0.12655066189326453,
+      "measuredVusMax": 30.0
+    },
+    "peak": {
+      "vus": 60,
+      "clientP95Ms": 105.06854605,
+      "clientP99Ms": 156.43983566999998,
+      "serverP95MedianMs": 94.60062210799131,
+      "activeMax": 10.0,
+      "activeMedian": 10.0,
+      "poolMaximum": 10.0,
+      "pendingMax": 33.0,
+      "acquisitionMeanMedianMs": 23.510688998503774,
+      "connectionHoldMeanMedianMs": 14.534222831344726,
+      "processCpuMax": 0.16558815707827318,
+      "measuredVusMax": 60.0
+    },
+    "recovery": {
+      "vus": 1,
+      "clientP95Ms": 23.35296295,
+      "clientP99Ms": 60.99978122999998,
+      "serverP95MedianMs": 23.581308750000005,
+      "activeMax": 1.0,
+      "activeMedian": 0.0,
+      "poolMaximum": 10.0,
+      "pendingMax": 0.0,
+      "acquisitionMeanMedianMs": 0.195965331240472,
+      "connectionHoldMeanMedianMs": 15.029827315541532,
+      "processCpuMax": 0.021219001047851904,
+      "measuredVusMax": 1.0
+    }
+  },
+  "requests": 73192,
+  "failedRate": 0,
+  "idleActiveConnections": 0.0,
+  "backendRestarted": false,
+  "requestedPatternObserved": true,
+  "grafanaUrl": "http://localhost:13000/d/study-load-correlation?from=1793190796926&to=1793191126926&var-run_id=load-20261028T123309Z-5ab65c"
+}

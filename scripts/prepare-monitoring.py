@@ -36,6 +36,8 @@ compose = ['docker', 'compose', '--env-file', str(env), '-p', 'study-monitoring'
            '-f', str(ROOT/'infra/compose.edge.yml')]
 subprocess.run(compose + ['config', '-q'], check=True)
 subprocess.run(compose + ['up', '-d', '--build', '--wait', '--wait-timeout', '240'], check=True)
+subprocess.run(compose + ['exec', '-T', 'prometheus', 'promtool', 'check', 'config', '/tmp/prometheus.yml'], check=True)
+subprocess.run(compose + ['kill', '--signal', 'SIGHUP', 'prometheus'], check=True)
 subprocess.run(compose + ['cp', 'caddy:/data/caddy/pki/authorities/local/root.crt', str(STATE/'ca.crt')], check=True)
 print('Grafana: http://localhost:13000/d/study-backend (user: admin)')
 print('Grafana password file:', secret_dir/'grafana.password')
